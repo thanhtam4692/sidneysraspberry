@@ -6,4 +6,8 @@ router.get('/', function(req, res, next) {
   res.render('index.ejs', { title: 'Tam Thanh Tran' });
 });
 
+router.get('/wakeitup', function(req, res, next) {
+  res.render('wake.ejs', { title: 'It is on' });
+});
+
 module.exports = router;
