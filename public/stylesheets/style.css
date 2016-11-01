@@ -1,13 +1,469 @@
+/*© Tam Thanh Tran 2015*/
+@import url('https://fonts.googleapis.com/css?family=Dosis:600');
+@import url('https://fonts.googleapis.com/css?family=Julius+Sans+One&subset=latin-ext');
+html {
+  /*height: 100%;*/
+  box-sizing: border-box;
+  /*Prevent contetn from resizinf when the scrollbar appears*/
+  width: 100vw;
+  overflow-x:hidden;
+}
 body {
+  position: relative;
   margin: 0;
-  font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding-bottom: 52px;
+  min-height: 100vh;
+  font-family: 'Dosis', sans-serif;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 
 a {
-  color: #00B7FF;
+  color: #000000;
+  text-decoration: none;
 }
 
 h1 {
-  padding: 15px 300px;
+  padding: 20px 50px 20px 100px;
+  text-align: left;
   font-size: 40px;
+}
+
+.navigator-top {
+  display: block;
+  width: 100%;
+  /*height: 19vh;*/
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.title-navigator-top {
+  display: inline-block;
+  text-transform: uppercase;
+  width: 30%;
+  padding: 4% 0%;
+  font-size: 40px;
+  text-align: center;
+  font-family: 'Julius Sans One', sans-serif;
+  color: RGBA(255, 255, 255, 1);
+  vertical-align: top;
+  margin-left: 3vw;
+}
+.menu-holder-top {
+  display: inline-block;
+  width: 65%;
+  /*height: 100%;*/
+}
+
+
+/*----Hovering effect------------------------------------------------------------*/
+/*Initiate*/
+.ch-grid {
+	/*margin: 0 0 0 0;*/
+	/*padding: 0;*/
+	list-style: none;
+	display: inline-block;
+	text-align: center;
+	width: 100%;
+  /*height: 100%;*/
+}
+
+/*.ch-grid:after,
+.ch-item:before {
+	content: '';
+    display: table;
+}*/
+
+/*.ch-grid:after {
+	clear: both;
+}*/
+
+.ch-grid li {
+  position: relative;
+	width: 23%;
+  min-width: 100px;
+  min-height: 60px;
+	height: 11vh;
+	display: inline-block;
+	margin: 20px 5px;
+}
+
+/*the box shadow that has one more value line*/
+.ch-item {
+  position: relative;
+  display: table;
+	width: 100%;
+	height: 100%;
+	border-radius: 2px;
+	box-shadow:
+		inset 0 0 0 0 rgba(200,95,66, 0.4),
+		inset 0 0 0 1px rgba(255,255,255,0.6),
+		0 1px 2px rgba(0,0,0,0.1);
+  background-color: rgba(0,0,0,0.3);
+	transition: all 0.4s ease-in-out;
+  cursor: pointer;
+}
+
+.ch-item:hover .ch-ori {
+	opacity: 0;
+	transform: scale(0);
+}
+
+.ch-ori {
+  display: table-cell;
+  vertical-align: middle;
+	width: 100%;
+	height: 100%;
+	border-radius: 2px;
+	overflow: hidden;
+	opacity: 1;
+	transition: all 0.4s ease-in-out;
+	transform: scale(1);
+	/*backface-visibility: hidden;*/
+  color: #fff;
+	text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 2vw;
+  text-align: center;
+  /*text-shadow:
+    0 0 1px #fff,
+    0 1px 2px rgba(0,0,0,0.3);*/
+}
+
+/*The description will be scaled down again*/
+.ch-info {
+  position: absolute;
+  display: table;
+  top: 0;
+  left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 2px;
+	overflow: hidden;
+	opacity: 0;
+	transition: all 0.4s ease-in-out;
+	transform: scale(0);
+	backface-visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/*let’s style the typographical elements*/
+.ch-info h3 {
+	color: #fff;
+	text-transform: uppercase;
+	position: relative;
+	letter-spacing: 2px;
+	font-size: 22px;
+	margin: 0 30px;
+	padding: 40px 0 0 0;
+	height: 50%;
+	text-shadow:
+		0 0 1px #fff,
+		0 1px 2px rgba(0,0,0,0.3);
+}
+
+.ch-info p {
+  display: table-cell;
+  vertical-align: middle;
+	color: #fff;
+	/*padding: 25px 5px;*/
+	font-style: italic;
+	margin: 0 30px;
+	font-size: 20px;
+	/*border-top: 1px solid rgba(255,255,255,0.5);*/
+}
+
+.ch-info p a {
+	display: block;
+	color: rgba(255,255,255,0.7);
+	font-style: normal;
+	font-weight: 700;
+	text-transform: uppercase;
+	font-size: 9px;
+	letter-spacing: 1px;
+	padding-top: 4px;
+}
+
+.ch-info p a:hover {
+	color: rgba(255,242,34, 0.8);
+}
+
+/*animate the inset box shadow (the reddish one) */
+/*to 110px spread radius. This will cover all the circle*/
+.ch-item:hover {
+	box-shadow:
+		inset 0 0 0 0px rgba(200,95,66, 0.4),
+		inset 0 0 0 1px rgba(255,255,255,0.8),
+		0 1px 2px rgba(0,0,0,0.1);
+}
+
+/*we’ll scale up the description and fade it in:*/
+.ch-item:hover .ch-info {
+	opacity: 1;
+	transform: scale(1);
+}
+
+/*----End hovering effect--------------------------------------------------------*/
+
+.banner-holder {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  z-index: -1;
+  background-repeat: no-repeat;
+}
+
+.banner-holder span.hover {
+  float: left;
+  background-repeat: no-repeat;
+}
+
+.content-container {
+  display: block;
+  position: absolute;
+  background-color: rgba(215,218,219, 1);
+  border: 1px solid RGBA(45,62,79, 0.6);
+  border-radius: 2px;
+  padding-bottom: 50px;
+}
+
+.main-container {
+  display: block;
+  width: 100%;
+}
+
+.content-text {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.content-image {
+  display: inline-block;
+  text-align: center;
+}
+
+.button {
+  border: 1px solid RGBA(45,62,79, 0.6);
+  border-radius: 3px;
+  padding: 5px 0px;
+  text-align: center;
+  cursor: pointer;
+}
+
+/*Close button*/
+.button-close-wrapper {
+  display: table;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 3px;
+  text-align: center;
+  vertical-align: middle;
+}
+.button-close-wrapper:hover {
+  background-color: #FFF;
+}
+.button-close {
+  display: table-cell;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+}
+.button-close:before, .button-close:after {
+  position: absolute;
+  left: 18px;
+  content: ' ';
+  height: 40px;
+  width: 4px;
+  background-color: RGB(45,62,79);
+}
+.button-close:before {
+  transform: rotate(45deg);
+}
+.button-close:after {
+  transform: rotate(-45deg);
+}
+/*----*/
+
+.popupContent {
+  opacity: 0;
+  background-color: RGB(112,188,217);
+  border: 1px solid RGBA(223,225,226, 0.6);
+  border-radius: 3px;
+  z-index: 4;
+}
+.main-container {
+  display: block;
+  padding-left: 50px;
+}
+
+/*About page*/
+.content-text-about {
+  padding: 0px 100px;
+  width: 70%;
+}
+#cv-image-container {
+  width: 25%;
+}
+#cv-image {
+  width: 80%;
+}
+#cv-image-container .image-description {
+  display: inline-block;
+  width: 45%;
+}
+#button-cv  {
+  display: inline-block;
+  width: 30%;
+}
+#button-cv-pdf  {
+  display: inline-block;
+  width: 30%;
+}
+
+/*Portfolio page*/
+.portfolio-entries {
+  display: block;
+  width: 80%;
+  margin: 0 auto;
+}
+.portfolio-entry {
+  display: inline-block;
+  vertical-align: top;
+  text-align: left;
+  width: 47%;
+  margin-left: 1%;
+  margin-right: 1%;
+  background-color: RGB(112,188,217);
+  cursor: pointer;
+}
+.content-image-portfolio {
+  display: inline-block;
+  width: 40%;
+  vertical-align: middle;
+}
+.content-text-portfolio {
+  color: RGB(255,255,255);
+  text-align: left;
+  padding: 10px 30px;
+  width: 55%;
+}
+.event-avatar {
+  display: block;
+  width: 100%;
+}
+/*portfolio entry page*/
+#portfolio-main-container {
+  color: rgb(255, 255, 255);
+}
+.portfolio-container {
+  display: inline-block;
+  height: 100%;
+  vertical-align: top;
+}
+#portfolio-1-left {
+  width: 30%;
+}
+#portfolio-1-right {
+  width: 68%;
+}
+#portfolio-1-title {
+  text-transform: uppercase;
+  font-size: 50px;
+}
+#portfolio-1-upper-subtitle {
+  font-size: 15px;
+}
+#portfolio-1-lower-subtitle {
+  /*font-size: 10px;*/
+}
+#portfolio-1-description {
+  display: inline-block;
+  vertical-align: top;
+  width: 98%;
+  margin-top: 60%;
+}
+
+/*Title and subtitle of each section*/
+.text-title {
+  padding: 20px 0 0 0;
+  font-size: 30px;
+  font-weight: bold;
+}
+.text-subtitle {
+  padding: 0 0 0 0;
+  font-size: 20px;
+  font-weight: normal;
+}
+
+/*Section 1*/
+#portfolio-1-section-1 {
+  display: inline-block;
+  margin: 20px;
+  width: 45%;
+}
+.portfolio-1-section-text {
+  display: inline-block;
+  vertical-align: top;
+  padding-top: 15%;
+  margin-left: 5%;
+  width: 50%;
+}
+.portfolio-1-section-image {
+  display: inline-block;
+  width: 40%;
+  margin: 10px 10px;
+}
+.portfolio-1-section-image img {
+  display: block;
+  width: 100%;
+}
+
+/*Section 2*/
+#portfolio-1-section-2 {
+  display: inline-block;
+  margin-top: 15%;
+  width: 45%;
+  vertical-align: top;
+}
+
+/*Section 3*/
+.portfolio-1-minithumbnail {
+  width: 20% !important;
+}
+
+#fullscreen-blur {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 4;
+}
+
+.error-title {
+  font-size: 30px;
+  padding-left: 150px;
+}
+.error-message {
+  padding-left: 200px;
+}
+
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: rgba(215,218,219,0.5);
+  text-align: center;
+  z-index: 1;
 }

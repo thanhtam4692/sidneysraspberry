@@ -1,16 +1,12 @@
+<!-- © Tam Thanh Tran 2015 -->
 <!DOCTYPE html>
 <html>
-  <head>
-    <link href="stylesheets/style.css" rel="stylesheet">
-    <script type="text/javascript" src="javascripts/jquery-2.2.0.min.js"></script>
-    <script type="text/javascript">
-      $( document ).ready(function() {
-        $(".banner").css("width", $(document).width());
-      });
-    </script>
-  </head>
-  <body>
-    <h1><%=title %></h1>
-    <img class="banner" src="https://s3-us-west-2.amazonaws.com/sidneysservices/webbanners/IMG_0652.jpg"/>
-  </body>
+<% include ./partials/head %>
+<body>
+  <script>
+  </script>
+  <% include ./partials/header %>
+  <div class="banner-holder" id="banner1"></div>
+  <% include ./partials/footer %>
+</body>
 </html>
