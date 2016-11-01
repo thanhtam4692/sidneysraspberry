@@ -7,6 +7,7 @@ router.post('/', function(req, res, next) {
 });
 
 router.post('/entries', function(req, res, next) {
+  console.log("Getting: " + req.body.entryId);
   res.render('./portfolio/' + req.body.entryId + '.ejs');
 });
 

@@ -77,7 +77,17 @@ function getPortfolio(portfolioId){
     if (portfolioId == "portfolio-entry-1") {
       textEffectResizingDown("#portfolio-1-lower-subtitle");
     }
-    $(".popupContent img").load(function(){
+    if ($(".popupContent img").length > 0){
+      $(".popupContent img").load(function(){
+        $(".popupContent").animate({
+          "opacity": 1,
+          "top": 0,
+          "left": 0,
+          "min-height": height,
+          "width": width
+        }, 500);
+      });
+    } else {
       $(".popupContent").animate({
         "opacity": 1,
         "top": 0,
@@ -85,7 +95,7 @@ function getPortfolio(portfolioId){
         "min-height": height,
         "width": width
       }, 500);
-    });
+    }
   })
   .fail(function() {
     // alert( "error" );
