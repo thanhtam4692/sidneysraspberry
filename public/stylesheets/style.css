@@ -439,6 +439,35 @@ h1 {
   width: 20% !important;
 }
 
+/*Contact page*/
+#main-container-contact {
+  display: block;
+}
+.content-text-contact {
+  padding-left: 100px;
+}
+.contact-holder-sections {
+  display: block;
+  width: 70%;
+  margin: 0 auto;
+}
+.contact-section {
+  display: inline-block;
+  width: 19%;
+  margin: 10px 0px;
+  min-width: 150px;
+}
+.contact-miniicon {
+  display: block;
+  margin: 0 auto;
+  width: 70%;
+}
+.contact-description {
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+}
+
 #fullscreen-blur {
   position: fixed;
   width: 100%;
