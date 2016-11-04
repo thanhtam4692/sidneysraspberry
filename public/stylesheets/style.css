@@ -465,7 +465,7 @@ h1 {
 .contact-description {
   display: block;
   text-align: center;
-  margin: 0 auto;
+  margin: 10px auto;
 }
 
 #fullscreen-blur {
