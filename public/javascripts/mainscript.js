@@ -15,7 +15,14 @@ $(document).ready(function() {
 
   pagesArray = new Array();
 
+  //Get the hashtag from url and perform the animation as if it was clicked on
+  if (window.location.hash != ""){
+    getPages(window.location.hash.split('#')[1]);
+  }
+
+  //Click on a menu item
   $(".ch-item").click(function(){
+    window.location.hash = this.id;
     getPages(this.id);
   });
 
@@ -51,6 +58,54 @@ $(document).ready(function() {
   });
 
 });
+
+function doOnOrientationChange()
+{
+  location.reload();
+  switch(window.orientation)
+  {
+    case -90:
+      break;
+    case 90:
+      break;
+    default:
+      break;
+  }
+}
+
+window.addEventListener('orientationchange', doOnOrientationChange);
+
+function getImageSize(img, callback){
+    img = $(img);
+
+    var wait = setInterval(function(){
+        var w = img.width(),
+            h = img.height();
+
+        if(w && h){
+            done(w, h);
+        }
+    }, 0);
+
+    var onLoad;
+    img.on('load', onLoad = function(){
+        done(img.width(), img.height());
+    });
+
+
+    var isDone = false;
+    function done(){
+        if(isDone){
+            return;
+        }
+        isDone = true;
+
+        clearInterval(wait);
+        img.off('load', onLoad);
+
+        callback.apply(this, arguments);
+    }
+}
 
 function textNormalise(textId){
   $(textId + " span").css("font-size", "20px");
@@ -103,7 +158,7 @@ function getPortfolio(portfolioId){
 }
 
 function popupFullScreenContent(portfolioId){
-  $("body").append("<div class=\"popupContent\"><div class=\"button-close-wrapper\"><div class=\"button-close\" id=\"button-close-portfolio-entry\"></div></div></div>");
+  $("#innerBody").append("<div class=\"popupContent\"><div class=\"button-close-wrapper\"><div class=\"button-close\" id=\"button-close-portfolio-entry\"></div></div></div>");
   $(".popupContent").css({
     "position": "absolute",
     "display": "block",
@@ -195,6 +250,12 @@ function setHeaderButtonsHighlight(clkedBtn){
 }
 
 function getPages(pageId){
+  for (var i = 0; i < $("img").length; i++) {
+    getImageSize($("img")[i], function(iwidth, iheight){
+      $($("img")[i]).height(iheight);
+      $($("img")[i]).width(iwidth);
+    });
+  }
   clearInterval(bannerSwitchingInterval);
   setHeaderButtonsHighlight(pageId);
   $.ajax({
@@ -212,7 +273,7 @@ function getPages(pageId){
 
 function pageTransform(pageContent, currentPageId){
   if (!checkExistedPage(currentPageId)){
-    $("body").append("<div class=\"content-container\" id=\"content-container-" + currentPageId + "\"></div>")
+    $("#innerBody").append("<div class=\"content-container\" id=\"content-container-" + currentPageId + "\"></div>")
     pagesArray.push(currentPageId);
     $("#content-container-" + currentPageId).css({
       "width": "100vw",
@@ -227,9 +288,9 @@ function pageTransform(pageContent, currentPageId){
   }
   $("#content-container-" + currentPageId).html(pageContent);
   if ($("#content-container-" + currentPageId + " img").length > 0){
-    $("#content-container-" + currentPageId + " img").load(function(){
+    // $("#content-container-" + currentPageId + " img").load(function(){
       resetPagesPosition(currentPageId);
-    });
+    // });
   } else {
     resetPagesPosition(currentPageId);
   }
