@@ -171,7 +171,7 @@ function popupFullScreenContent(portfolioId){
 
 function zoomImageFullScreen(selectedImage){
   if (selectedImage == "cv-image"){
-    var biggerImageUrl = "https://s3-us-west-2.amazonaws.com/sidneysservices/personaldocuments/My+CV.jpg";
+    var biggerImageUrl = "https://s3-us-west-2.amazonaws.com/sidneysservices/personaldocuments/TamTran-CV.jpg";
   }
   if($("#fullscreen-blur").length == 0){
     $("#" + selectedImage).parent().append("<div id=\"fullscreen-blur\"></div>");
