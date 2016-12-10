@@ -251,7 +251,7 @@ and (max-device-width : 480px) {
 
 .main-container {
   display: block;
-  width: 100%;
+  padding-left: 50px;
 }
 
 .content-text {
@@ -272,6 +272,31 @@ and (max-device-width : 480px) {
   cursor: pointer;
 }
 
+/*About page*/
+.content-text-about {
+  padding: 0px 100px;
+  width: 70%;
+}
+#cv-image-container {
+  width: 25%;
+}
+#cv-image {
+  width: 80%;
+}
+#cv-image-container .image-description {
+  display: inline-block;
+  width: 45%;
+}
+#button-cv  {
+  display: inline-block;
+  width: 30%;
+}
+#button-cv-pdf  {
+  display: inline-block;
+  width: 30%;
+}
+
+/*Portfolio page*/
 /*Close button*/
 .button-close-wrapper {
   display: table;
@@ -307,45 +332,20 @@ and (max-device-width : 480px) {
 .button-close:after {
   transform: rotate(-45deg);
 }
-/*----*/
 
 .popupContent {
   opacity: 0;
-  background-color: RGB(112,188,217);
-  border: 1px solid RGBA(223,225,226, 0.6);
+  /*background-color: RGB(112,188,217);*/
+  /*border: 1px solid RGBA(223,225,226, 0.6);*/
   border-radius: 3px;
   z-index: 4;
 }
-.main-container {
-  display: block;
-  padding-left: 50px;
+
+#portfolio-main-container {
+  width: 100%;
+  height: 100%;
 }
 
-/*About page*/
-.content-text-about {
-  padding: 0px 100px;
-  width: 70%;
-}
-#cv-image-container {
-  width: 25%;
-}
-#cv-image {
-  width: 80%;
-}
-#cv-image-container .image-description {
-  display: inline-block;
-  width: 45%;
-}
-#button-cv  {
-  display: inline-block;
-  width: 30%;
-}
-#button-cv-pdf  {
-  display: inline-block;
-  width: 30%;
-}
-
-/*Portfolio page*/
 .portfolio-entries {
   display: block;
   width: 80%;
@@ -376,15 +376,25 @@ and (max-device-width : 480px) {
   display: block;
   width: 100%;
 }
-/*portfolio entry page*/
-#portfolio-main-container {
-  color: rgb(255, 255, 255);
-}
+
+/*Portfolio entries*/
 .portfolio-container {
   display: inline-block;
+}
+
+/*Portfolio 1*/
+#popupContent-portfolio-entry-1 .portfolio-container {
   height: 100%;
   vertical-align: top;
 }
+#popupContent-portfolio-entry-1 #portfolio-main-container {
+  color: rgb(255, 255, 255);
+}
+
+#popupContent-portfolio-entry-1 {
+  background-color: RGB(112,188,217);
+}
+
 #portfolio-1-left {
   width: 30%;
 }
@@ -479,6 +489,61 @@ and (max-device-width : 480px) {
   width: 50%;
 }
 
+/*Portfolio entry 2*/
+#popupContent-portfolio-entry-2 {
+  background-color: RGB(0,0,0);
+}
+
+#popupContent-portfolio-entry-2 .portfolio-container {
+  height: 100%;
+  vertical-align: top;
+}
+
+#popupContent-portfolio-entry-2 #portfolio-main-container {
+  color: white;
+}
+
+#portfolio-2-upper {
+  display: block;
+  height: 30%;
+  width: 100%;
+  text-align: center;
+}
+
+#portfolio-2-description {
+  display: inline-block;
+  margin-top: 20px;
+  text-align: center;
+}
+
+#portfolio-2-upper .text-subtitle {
+  display: inline-block;
+  width: 60%;
+  margin-bottom: 20px;
+}
+
+#portfolio-2-lower {
+  display: block;
+  width: 100%;
+}
+
+#portfolio-2-lower-left, #portfolio-2-lower-right {
+  display: inline-block;
+  width: 49%;
+  text-align: center;
+  padding: 10px;
+}
+
+#portfolio-2-lower .portfolio-container .portfolio-1-mediumthumbnail {
+  display: inline-block;
+  width: 60%;
+  margin: 20px auto;
+}
+
+#portfolio-2-lower .text-subtitle {
+  font-size: 15px;
+}
+
 /*Contact page*/
 #main-container-contact {
   display: block;
@@ -539,20 +604,20 @@ and (max-device-width : 480px) {
 }
 
 /*CSS Loading*/
-#loading {
+/*.loading {
   position: absolute;
   width: 32px;
   height: 32px;
   top: 50%;
   left: 50%;
   margin: -16px 0px 0px -16px;
-}
+}*/
 
-#loadingCon {
+.loadingCon {
   position: absolute;
   width: 300px;
   height: 300px;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.0);
   border-radius: 20px;
   top: 50%;
   left: 50%;

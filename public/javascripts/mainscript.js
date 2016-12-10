@@ -1,9 +1,3 @@
-function windowHeight(){
-  return $(window).height();
-}
-function windowWidth(){
-   return $(window).width();
-}
 $(document).ready(function() {
 
   height = $(window).height();
@@ -158,7 +152,7 @@ function getPortfolio(portfolioId){
 }
 
 function popupFullScreenContent(portfolioId){
-  $("#innerBody").append("<div class=\"popupContent\"><div class=\"button-close-wrapper\"><div class=\"button-close\" id=\"button-close-portfolio-entry\"></div></div></div>");
+  $("#innerBody").append("<div id=\"popupContent-" + portfolioId + "\" class=\"popupContent\"><div class=\"button-close-wrapper\"><div class=\"button-close\" id=\"button-close-portfolio-entry\"></div></div></div>");
   $(".popupContent").css({
     "position": "absolute",
     "display": "block",
@@ -174,7 +168,7 @@ function zoomImageFullScreen(selectedImage){
     var biggerImageUrl = "https://s3-us-west-2.amazonaws.com/sidneysservices/personaldocuments/TamTran-CV.jpg";
   }
   if($("#fullscreen-blur").length == 0){
-    $("#" + selectedImage).parent().append("<div id=\"fullscreen-blur\"></div>");
+    $("#" + selectedImage).parent().append("<div id=\"fullscreen-blur\"><img id=\"enlargened-image\"></div>");
     var selectedImageRatio = $("#" + selectedImage)[0].naturalWidth / $("#" + selectedImage)[0].naturalHeight;
     if (selectedImageRatio > (windowWidth()/ windowHeight())){
       // Go full width
@@ -363,6 +357,18 @@ function checkExistedPageAndDelete(givenPage){
   }
   return false;
 }
+function box_width() {
+  return fnWindowWidth() / horizontal_pieces;
+}
+function box_height() {
+  return fnWindowHeight() / vertical_pieces;
+}
+function fnWindowHeight(){
+  return (window.innerHeight > 0) ? window.innerHeight : screen.height;
+}
+function fnWindowWidth(){
+   return (window.innerWidth > 0) ? window.innerWidth : screen.width;
+}
 
 function switchBanners(){
   bannerHovers = new Array();
@@ -374,42 +380,41 @@ function switchBanners(){
   ];
 
   var el = $('#banner1');
-  el.width(width).height(height);
+  el.width(fnWindowWidth()).height(fnWindowHeight());
 
   horizontal_pieces = 5;
   vertical_pieces = 5;
   total_pieces = horizontal_pieces * vertical_pieces;
 
-  box_width =width/ horizontal_pieces;
-  box_height = height / vertical_pieces;
 
-  for (i=0; i<total_pieces; i++)
+  for (i = 0; i < total_pieces; i++)
   {
     var tempEl = $('<span class="hover" id="hover-' + i + '"></span>');
 
     el.append(tempEl);
     bannerHovers.push(tempEl);
   }
-  $('#banner1 .hover').width(box_width).height(box_height);
+  $('#banner1 .hover').width(box_width()).height(box_height());
 
   getBanner("#banner1");
 
-  // var marked = 0;
+  var marked = 0;
   bannerSwitchingInterval = setInterval(function(){
     if (bannerHovers[0].css('opacity') == 0) {
       getBanner("#banner1 span.hover");
     } else {
       getBanner("#banner1");
     }
-    // if (marked == 0){
-    //   // clearInterval(theInterval);
-    // }
-    //
-    // marked++;
   }, 5000);
 }
 
 function getBanner(bannerId){
+  // Refresh banner size and banner hovers size when window resized
+  $("#banner1").width(fnWindowWidth()).height(fnWindowHeight());
+  console.log("Box: " + box_width() + " " + box_width());
+  $("#banner1 .hover").width(box_width()).height(box_height());
+
+  $(bannerId).append("<div class=\"loadingCon\" id=\"loadingCon-banner\"><div id=\"cssload-loader\"><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div></div></div>");
   $.ajax({
     method: "POST",
     url: "/banners",
@@ -418,10 +423,12 @@ function getBanner(bannerId){
   .done(function(msg) {
     pic = new Image();
     pic.onload = function(){
+      console.log("BackNatural: " + pic.naturalHeight + " " + pic.naturalWidth);
       setBannerHoversPosition(pic.naturalHeight, pic.naturalWidth, bannerId);
       $(bannerId).css("background-image", "url(\"" + pic.src + "\")");
       var randomNumber = Math.floor((Math.random() * arrayOfAnimation.length) + 1);
       arrayOfAnimation[randomNumber % arrayOfAnimation.length]();
+      $(bannerId + " #loadingCon-banner").remove();
     };
     pic.src = msg.url;
 
@@ -432,43 +439,37 @@ function getBanner(bannerId){
 };
 
 function setBannerHoversPosition(picHeight, picWidth, bannerId){
-  var imageRatio = picWidth/picHeight;
-  var windowRatio = width/height;
-
+  var imageRatio = picWidth / picHeight;
+  var windowRatio = fnWindowWidth() / fnWindowHeight();
   if (imageRatio > windowRatio){
     // Go full height
-    if (bannerId != "#banner1") {
-      var zoomProperty = picWidth /width* vertical_pieces * 100;
-      $(bannerId).css("background-size", zoomProperty + "% " + vertical_pieces * 100 + "%" );
-    } else {
-      var zoomProperty = picWidth /width* 100;
-      $(bannerId).css("background-size", zoomProperty + "% 100%" );
-    }
+    // if (bannerId != "#banner1") {
+    //   var zoomProperty = picWidth / width* vertical_pieces * 100;
+    //   $(bannerId).css("background-size", zoomProperty + "% " + vertical_pieces * 100 + "%" );
+    // } else {
+      var zoomProperty = fnWindowHeight() / picHeight;
+      $(bannerId).css("background-size", zoomProperty * picWidth + "px " + fnWindowHeight() + "px");
+    // }
 
     var vertical_position = 0;
-    var beginningHoriPos = (picWidth - box_width * horizontal_pieces)/2;
+    var beginningHoriPos = (picWidth * fnWindowHeight() / picHeight - box_width() * horizontal_pieces)/2;
   } else {
     // Go full width
-    if (bannerId != "#banner1") {
-      var zoomProperty = picHeight / height * horizontal_pieces * 100;
-      $(bannerId).css("background-size", horizontal_pieces * 100 + "% " + zoomProperty + "%" );
-    } else {
-      var zoomProperty = picHeight / height * 100;
-    $(bannerId).css("background-size", "100% " + zoomProperty + "%" );
-    }
+      var zoomProperty = fnWindowWidth() / picWidth;
+      $(bannerId).css("background-size", fnWindowWidth() + "px " + zoomProperty * picHeight + "px");
 
     var beginningHoriPos = 0;
-    var vertical_position = (picHeight - box_height * vertical_pieces)/2;
+    var vertical_position = (picHeight * fnWindowWidth() / picWidth - box_height() * vertical_pieces)/2;
   }
 
   if (bannerId != "#banner1") {
     for (i=0; i<total_pieces; i++)
     {
-      var horizontal_position = beginningHoriPos + (i % horizontal_pieces) * box_width;
+      var horizontal_position = beginningHoriPos + (i % horizontal_pieces) * box_width();
 
       if(i > 0 && i % horizontal_pieces == 0)
       {
-        vertical_position += box_height;
+        vertical_position += box_height();
       }
 
       bannerHovers[i].css('background-position', '-' + horizontal_position + 'px -' + vertical_position + 'px');
