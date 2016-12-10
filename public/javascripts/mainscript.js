@@ -170,18 +170,18 @@ function zoomImageFullScreen(selectedImage){
   if($("#fullscreen-blur").length == 0){
     $("#" + selectedImage).parent().append("<div id=\"fullscreen-blur\"><img id=\"enlargened-image\"></div>");
     var selectedImageRatio = $("#" + selectedImage)[0].naturalWidth / $("#" + selectedImage)[0].naturalHeight;
-    if (selectedImageRatio > (windowWidth()/ windowHeight())){
+    if (selectedImageRatio > (fnWindowWidth()/ fnWindowHeight())){
       // Go full width
-      var selectedImageWidth = windowWidth();
+      var selectedImageWidth = fnWindowWidth();
       var selectedImageHeight = selectedImageWidth / selectedImageRatio;
-      var selectedImageStartingPositionVertical = (windowHeight() - selectedImageHeight) / 2;
+      var selectedImageStartingPositionVertical = (fnWindowHeight() - selectedImageHeight) / 2;
       var selectedImageStartingPositionHorizontal = 0
     } else {
       // Go full height
-      var selectedImageHeight = windowHeight();
+      var selectedImageHeight = fnWindowHeight();
       var selectedImageWidth = selectedImageHeight * selectedImageRatio;
       var selectedImageStartingPositionVertical = 0;
-      var selectedImageStartingPositionHorizontal = (windowWidth() - selectedImageWidth) / 2;
+      var selectedImageStartingPositionHorizontal = (fnWindowWidth() - selectedImageWidth) / 2;
     }
     var selectedImageCurrentTop = $("#" + selectedImage).offset().top;
     var selectedImageCurrentLeft = $("#" + selectedImage).offset().left;
@@ -271,13 +271,13 @@ function pageTransform(pageContent, currentPageId){
     pagesArray.push(currentPageId);
     $("#content-container-" + currentPageId).css({
       "width": "100vw",
-      "top": windowHeight(),
-      "min-height" : windowHeight() - $(".navigator-top").height()
+      "top": fnWindowHeight(),
+      "min-height" : fnWindowHeight() - $(".navigator-top").height()
     });
   } else {
     $("#content-container-" + currentPageId).css({
       "width": "100vw",
-      "min-height" : windowHeight() - $(".navigator-top").height()
+      "min-height" : fnWindowHeight() - $(".navigator-top").height()
     });
   }
   $("#content-container-" + currentPageId).html(pageContent);
