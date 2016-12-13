@@ -265,20 +265,21 @@ function getPages(pageId){
     });
   }
   clearInterval(bannerSwitchingInterval);
+  pageTransform(pageId);
   $.ajax({
     method: "POST",
     url: "/" + pageId,
     data: {}
   })
-  .done(function(msg) {
-    pageTransform(msg, pageId);
+  .done(function(pageContent) {
+    $("#content-container-" + pageId).html(pageContent);
   })
   .fail(function() {
     // alert( "error" );
   });
 }
 
-function pageTransform(pageContent, currentPageId){
+function pageTransform(currentPageId){
   // Check if the page is existed. If not, add the page with its content. Otherwise, refrest the content.
   if (!checkExistedPage(currentPageId)){
     $("#innerBody").append("<div class=\"content-container\" id=\"content-container-" + currentPageId + "\"></div>")
@@ -295,7 +296,7 @@ function pageTransform(pageContent, currentPageId){
   //   //   "min-height" : fnWindowHeight() - $(".navigator-top").height()
   //   // });
   // }
-  $("#content-container-" + currentPageId).html(pageContent);
+  // $("#content-container-" + currentPageId).html(pageContent);
   setMenuHightlights(currentPageId);
 }
 
