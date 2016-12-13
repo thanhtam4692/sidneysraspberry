@@ -9,14 +9,33 @@ $(document).ready(function() {
 
   pagesArray = new Array();
 
+  // Selective menu for either desktop or mobile
+  if ($("html").hasClass("desktop")){
+    $("#mobile-menu").remove();
+  } else {
+    $("#desktop-menu").remove();
+    $("body").on("click", "#menu-expanding", function(){
+      collapsingMenu("menu");
+    });
+  }
+
   //Get the hashtag from url and perform the animation as if it was clicked on
+  isMenuCollapsed = true;
   if (window.location.hash != ""){
     getPages(window.location.hash.split('#')[1]);
+  } else {
+    $("#mobile-menu .ch-grid .ch-item-li").slideUp("fast");
   }
 
   //Click on a menu item
   $(".ch-item").click(function(){
-    window.location.hash = this.id;
+    // window.location.hash = this.id;
+    if(history.pushState) {
+      history.pushState(null, null, "#" + this.id);
+    }
+    else {
+      window.location.hash = this.id;
+    }
     getPages(this.id);
   });
 
@@ -123,7 +142,7 @@ function getPortfolio(portfolioId){
   })
   .done(function(msg) {
     $(".popupContent").append(msg);
-    if (portfolioId == "portfolio-entry-1") {
+    if (portfolioId === "portfolio-entry-1") {
       textEffectResizingDown("#portfolio-1-lower-subtitle");
     }
     if ($(".popupContent img").length > 0){
@@ -164,10 +183,10 @@ function popupFullScreenContent(portfolioId){
 }
 
 function zoomImageFullScreen(selectedImage){
-  if (selectedImage == "cv-image"){
+  if (selectedImage === "cv-image"){
     var biggerImageUrl = "https://s3-us-west-2.amazonaws.com/sidneysservices/personaldocuments/TamTran-CV.jpg";
   }
-  if($("#fullscreen-blur").length == 0){
+  if($("#fullscreen-blur").length === 0){
     $("#" + selectedImage).parent().append("<div id=\"fullscreen-blur\"><img id=\"enlargened-image\"></div>");
     var selectedImageRatio = $("#" + selectedImage)[0].naturalWidth / $("#" + selectedImage)[0].naturalHeight;
     if (selectedImageRatio > (fnWindowWidth()/ fnWindowHeight())){
@@ -238,9 +257,71 @@ function dismissFullscreenImage(){
   });
 }
 
-function setHeaderButtonsHighlight(clkedBtn){
+function setMenuHightlights(clkedBtn){
+  // When a menu entry is clicked, the menu is un-collapsed
+  // This function also runs when the page with hashtag loaded, that means in that case, the menu should be un-collapsed, so we can run the collapsingMenu function, to collapse and hightlight the button
+  isMenuCollapsed = false;
   $(".ch-item").css("background-color", "rgba(0,0,0,0)");
-  $("#" + clkedBtn).css("background-color", "rgba(112,188,217, 0.5)");
+  $("#mobile-menu #" + clkedBtn).css("background-color", "rgba(112,188,217, 0.5)");
+  $(".ch-item-li").removeClass("clicked");
+  $("#ch-item-li-" + clkedBtn).addClass("clicked");
+  collapsingMenu(clkedBtn);
+}
+
+function collapsingMenu(currentSelectedPageId){
+  // Check is mobile menu exists. If not, don't do anything
+  if ($("#mobile-menu").length > 0) {
+    // Check if the menu is collapsed.
+    if (isMenuCollapsed) {
+      // The menu is collapsed, now un-collapse it
+      $("#mobile-menu .ch-grid .ch-item-li").slideDown();
+      isMenuCollapsed = false; // Now the menu is un-collapsed, set isMenuCollapsed to false
+    } else {
+      // Go through all of the .ch-item-li array A - the menu entries
+      // How it works: If the A[i] is NOT the clicked, slide it UP (hide it)
+      //  If the A[i] is the second to last, check if the last (the i+1) is the clicked. If it is, A[i] is the last one to be slided UP, then add the callback and fire the repositioning. If it is not, then move on.
+      //  After checking if A[i] is the second to last, check if the A[i] is the last entry. Since the previous checkup has proven that the last one is NOT clicked, add the callback to the last entry after slide it up
+      // Check if currentSelectedPageId is equal to menu. If it is, meaning that the trigger is the menu indicator itself. If it is not, the trigger was user clicked on a menu entry, hence execute as expected.
+      for (var i = 0; i < ($(".ch-item-li").length); i++) {
+        // If this is the previous to the last menu entry, check if the next is the clicked
+        if (i === ($(".ch-item-li").length-2)) {
+          // Check if the next (i+1) is the clicked
+          if ($("#" + $(".ch-item-li")[i+1].id).hasClass("clicked")) {
+            $("#" + $(".ch-item-li")[i].id).slideUp("fast", function(){
+              // If the clicked entry is not the menu indicator
+              if (currentSelectedPageId != "menu"){
+                resetPagesPosition(currentSelectedPageId);
+              }
+            });
+            i++;
+          } else {
+            // Check if the current A[i] is  the clicked
+            if (!$("#" + $(".ch-item-li")[i].id).hasClass("clicked")) {
+                $("#" + $(".ch-item-li")[i].id).slideUp("fast");
+            }
+          }
+        } else {
+          // Check if the current A[i] is the last menu entry
+          if (i === ($(".ch-item-li").length-1)) {
+            // Since it passed the previous IF, the last menu entry is not clicked. Slide it up following with the callback.
+            $("#" + $(".ch-item-li")[i].id).slideUp("fast", function(){
+              // If the clicked entry is not the menu indicator
+              if (currentSelectedPageId != "menu"){
+                resetPagesPosition(currentSelectedPageId);
+              }
+            });
+          }
+
+          // Check if the current A[i] is not the clicked
+          if (!$("#" + $(".ch-item-li")[i].id).hasClass("clicked")) {
+              $("#" + $(".ch-item-li")[i].id).slideUp("fast");
+          }
+
+        }
+      }
+      isMenuCollapsed = true;
+    }
+  }
 }
 
 function getPages(pageId){
@@ -251,7 +332,7 @@ function getPages(pageId){
     });
   }
   clearInterval(bannerSwitchingInterval);
-  setHeaderButtonsHighlight(pageId);
+  setMenuHightlights(pageId);
   $.ajax({
     method: "POST",
     url: "/" + pageId,
@@ -266,6 +347,7 @@ function getPages(pageId){
 }
 
 function pageTransform(pageContent, currentPageId){
+  // Check if the page is existed. If not, add the page with its content. Otherwise, refrest the content.
   if (!checkExistedPage(currentPageId)){
     $("#innerBody").append("<div class=\"content-container\" id=\"content-container-" + currentPageId + "\"></div>")
     pagesArray.push(currentPageId);
@@ -274,60 +356,76 @@ function pageTransform(pageContent, currentPageId){
       "top": fnWindowHeight(),
       "min-height" : fnWindowHeight() - $(".navigator-top").height()
     });
-  } else {
-    $("#content-container-" + currentPageId).css({
-      "width": "100vw",
-      "min-height" : fnWindowHeight() - $(".navigator-top").height()
-    });
+
   }
+  // else {
+  //   // $("#content-container-" + currentPageId).css({
+  //   //   "min-height" : fnWindowHeight() - $(".navigator-top").height()
+  //   // });
+  // }
   $("#content-container-" + currentPageId).html(pageContent);
-  if ($("#content-container-" + currentPageId + " img").length > 0){
-    // $("#content-container-" + currentPageId + " img").load(function(){
-      resetPagesPosition(currentPageId);
-    // });
-  } else {
-    resetPagesPosition(currentPageId);
-  }
 
 }
 
-function resetPagesPosition(currentPageId){
+function resetPagesPosition(currentSelectedPageId){
   var isPassed = false;
   for (var i = 0; i < pagesArray.length; i++) {
     if (!isPassed) {
       // Scroll pages that come before the selected
-      resetPagesComeBeforeTheSelected(pagesArray[i], currentPageId)
+      resetPagesComeBeforeTheSelected(pagesArray[i], currentSelectedPageId)
     } else {
       // Scroll and slide down pages that come after the selected
+      $("#content-container-" + pagesArray[i]).css({
+        "position": "absolute",
+        "top": $(".navigator-top").height()
+      })
       $("#content-container-" + pagesArray[i]).animate({
-        "top": $("#content-container-" + pagesArray[i - 1]).height(),
-        "opacity": 0
+        "top": fnWindowHeight()
       }, 500, function(){
-        $(this).remove();
+        $(this).hide();
       });
-      checkExistedPageAndDelete(pagesArray[i]);
-      i--;
     }
-    if (pagesArray[i] == currentPageId) {
+    if (pagesArray[i] === currentSelectedPageId) {
       isPassed = true;
     }
   }
 }
 
-function resetPagesComeBeforeTheSelected(pagei, currentPageId){
-  readjustFooter(currentPageId);
-  $("#content-container-" + pagei).animate({
-    "top": $(".navigator-top").height(),
-    "opacity": 1
-  }, 500, function(){
-    if (pagei != currentPageId) {
-      $("#content-container-" + pagei).html("");
-    }
-  });
+function resetPagesComeBeforeTheSelected(pagei, currentSelectedPageId){
+  readjustFooter(currentSelectedPageId);
+  // Check if the pagei is NOT the current page that are selecting.
+  if (pagei != currentSelectedPageId) {
+    $("#content-container-" + pagei).css({
+      "position": "absolute",
+      "top": $(".navigator-top").height()
+    })
+    $("#content-container-" + pagei).animate({
+      // "top": $(".navigator-top").height(),
+      "top": fnWindowHeight()/2,
+      // "top": 0,
+      // "min-height": 0,
+    }, 500, function(){
+      $("#content-container-" + pagei).hide(10, function(){
+        // $("#content-container-" + pagei).css({
+        //   // "position": "relative"
+        // });
+      });
+    });
+  } else {
+    $("#content-container-" + pagei).css({
+      "position": "relative"
+    });
+    $("#content-container-" + pagei).show();
+    $("#content-container-" + pagei).animate({
+      "top": 0,
+      "min-height": fnWindowHeight() - $(".navigator-top").height()
+    }, 500, function(){
+    });
+  }
 }
 
 function readjustFooter(currentPage, loaded){
-  if (loaded == "loaded"){
+  if (loaded === "loaded"){
     $("body").css("height", $("#content-container-" + currentPage).outerHeight() + $("#content-container-" + currentPage).offset().top);
     $("body").css({
       "height": $("#content-container-" + currentPage).outerHeight() + $(".navigator-top").height()
@@ -342,7 +440,7 @@ function readjustFooter(currentPage, loaded){
 
 function checkExistedPage(givenPage){
   for (var i = 0; i < pagesArray.length; i++) {
-    if (pagesArray[i] == givenPage) {
+    if (pagesArray[i] === givenPage) {
       return true;
     }
   }
@@ -351,7 +449,7 @@ function checkExistedPage(givenPage){
 
 function checkExistedPageAndDelete(givenPage){
   for (var i = 0; i < pagesArray.length; i++) {
-    if (pagesArray[i] == givenPage) {
+    if (pagesArray[i] === givenPage) {
       pagesArray.splice(i, 1);
     }
   }
@@ -400,7 +498,7 @@ function switchBanners(){
 
   var marked = 0;
   bannerSwitchingInterval = setInterval(function(){
-    if (bannerHovers[0].css('opacity') == 0) {
+    if (bannerHovers[0].css('opacity') === 0) {
       getBanner("#banner1 span.hover");
     } else {
       getBanner("#banner1");
@@ -411,7 +509,7 @@ function switchBanners(){
 function getBanner(bannerId){
   // Refresh banner size and banner hovers size when window resized
   $("#banner1").width(fnWindowWidth()).height(fnWindowHeight());
-  console.log("Box: " + box_width() + " " + box_width());
+  // console.log("Box: " + box_width() + " " + box_width());
   $("#banner1 .hover").width(box_width()).height(box_height());
 
   $(bannerId).append("<div class=\"loadingCon\" id=\"loadingCon-banner\"><div id=\"cssload-loader\"><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div></div></div>");
@@ -423,7 +521,7 @@ function getBanner(bannerId){
   .done(function(msg) {
     pic = new Image();
     pic.onload = function(){
-      console.log("BackNatural: " + pic.naturalHeight + " " + pic.naturalWidth);
+      // console.log("BackNatural: " + pic.naturalHeight + " " + pic.naturalWidth);
       setBannerHoversPosition(pic.naturalHeight, pic.naturalWidth, bannerId);
       $(bannerId).css("background-image", "url(\"" + pic.src + "\")");
       var randomNumber = Math.floor((Math.random() * arrayOfAnimation.length) + 1);
@@ -467,7 +565,7 @@ function setBannerHoversPosition(picHeight, picWidth, bannerId){
     {
       var horizontal_position = beginningHoriPos + (i % horizontal_pieces) * box_width();
 
-      if(i > 0 && i % horizontal_pieces == 0)
+      if(i > 0 && i % horizontal_pieces === 0)
       {
         vertical_position += box_height();
       }
@@ -483,9 +581,9 @@ function toggleDisplayMosaicDissolve()
 {
   var tempEl = bannerHovers[currentHoverCount];
 
-  if (currentHoverCount == 0) {
+  if (currentHoverCount === 0) {
     var opacity = tempEl.css("opacity");
-    if(opacity == 0)
+    if(opacity === 0)
     {
       isBannerHoverTransparent = true;
     }
@@ -517,9 +615,9 @@ function toggleDisplayMosaicFlip()
 {
   var tempEl = bannerHovers[currentHoverCount];
 
-  if (currentHoverCount == 0) {
+  if (currentHoverCount === 0) {
     var opacity = tempEl.css('opacity');
-    if(opacity == 0)
+    if(opacity === 0)
     {
       isBannerHoverTransparent = true;
     }
@@ -558,9 +656,9 @@ function toggleDisplayFlip()
 {
   var tempEl = bannerHovers[currentHoverCount];
 
-  if (currentHoverCount == 0) {
+  if (currentHoverCount === 0) {
     var opacity = tempEl.css('opacity');
-    if(opacity == 0)
+    if(opacity === 0)
     {
       isBannerHoverTransparent = true;
     }
@@ -594,9 +692,9 @@ function toggleDisplayDissolve()
 {
   var tempEl = bannerHovers[currentHoverCount];
 
-  if (currentHoverCount == 0) {
+  if (currentHoverCount === 0) {
     var opacity = tempEl.css("opacity");
-    if(opacity == 0)
+    if(opacity === 0)
     {
       isBannerHoverTransparent = true;
     }
