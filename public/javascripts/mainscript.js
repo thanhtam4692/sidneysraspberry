@@ -305,14 +305,14 @@ function setMenuHightlights(clkedBtn){
   // This function also runs when the page with hashtag loaded, that means in that case, the menu should be un-collapsed, so we can run the collapsingMenu function, to collapse and hightlight the button
   isMenuCollapsed = false;
   $(".ch-item").css("background-color", "rgba(0,0,0,0)");
-  $("#mobile-menu #" + clkedBtn).css("background-color", "rgba(112,188,217, 0.5)");
+  $("#" + clkedBtn).css("background-color", "rgba(112,188,217, 0.5)");
   $(".ch-item-li").removeClass("clicked");
   $("#ch-item-li-" + clkedBtn).addClass("clicked");
   collapsingMenu(clkedBtn);
 }
 
 function collapsingMenu(currentSelectedPageId){
-  // Check is mobile menu exists. If not, don't do anything
+  // Check is mobile menu exists. If not, re-positioning the pages
   if ($("#mobile-menu").length > 0) {
     // Check if the menu is collapsed.
     if (isMenuCollapsed) {
@@ -364,6 +364,8 @@ function collapsingMenu(currentSelectedPageId){
       }
       isMenuCollapsed = true;
     }
+  } else { // On desktop
+    resetPagesPosition(currentSelectedPageId);
   }
 }
 
