@@ -257,6 +257,48 @@ function dismissFullscreenImage(){
   });
 }
 
+function getPages(pageId){
+  for (var i = 0; i < $("img").length; i++) {
+    getImageSize($("img")[i], function(iwidth, iheight){
+      $($("img")[i]).height(iheight);
+      $($("img")[i]).width(iwidth);
+    });
+  }
+  clearInterval(bannerSwitchingInterval);
+  $.ajax({
+    method: "POST",
+    url: "/" + pageId,
+    data: {}
+  })
+  .done(function(msg) {
+    pageTransform(msg, pageId);
+  })
+  .fail(function() {
+    // alert( "error" );
+  });
+}
+
+function pageTransform(pageContent, currentPageId){
+  // Check if the page is existed. If not, add the page with its content. Otherwise, refrest the content.
+  if (!checkExistedPage(currentPageId)){
+    $("#innerBody").append("<div class=\"content-container\" id=\"content-container-" + currentPageId + "\"></div>")
+    pagesArray.push(currentPageId);
+    $("#content-container-" + currentPageId).css({
+      "width": "100vw",
+      "top": fnWindowHeight(),
+      "min-height" : fnWindowHeight() - $(".navigator-top").height()
+    });
+
+  }
+  // else {
+  //   // $("#content-container-" + currentPageId).css({
+  //   //   "min-height" : fnWindowHeight() - $(".navigator-top").height()
+  //   // });
+  // }
+  $("#content-container-" + currentPageId).html(pageContent);
+  setMenuHightlights(currentPageId);
+}
+
 function setMenuHightlights(clkedBtn){
   // When a menu entry is clicked, the menu is un-collapsed
   // This function also runs when the page with hashtag loaded, that means in that case, the menu should be un-collapsed, so we can run the collapsingMenu function, to collapse and hightlight the button
@@ -322,49 +364,6 @@ function collapsingMenu(currentSelectedPageId){
       isMenuCollapsed = true;
     }
   }
-}
-
-function getPages(pageId){
-  for (var i = 0; i < $("img").length; i++) {
-    getImageSize($("img")[i], function(iwidth, iheight){
-      $($("img")[i]).height(iheight);
-      $($("img")[i]).width(iwidth);
-    });
-  }
-  clearInterval(bannerSwitchingInterval);
-  setMenuHightlights(pageId);
-  $.ajax({
-    method: "POST",
-    url: "/" + pageId,
-    data: {}
-  })
-  .done(function(msg) {
-    pageTransform(msg, pageId);
-  })
-  .fail(function() {
-    // alert( "error" );
-  });
-}
-
-function pageTransform(pageContent, currentPageId){
-  // Check if the page is existed. If not, add the page with its content. Otherwise, refrest the content.
-  if (!checkExistedPage(currentPageId)){
-    $("#innerBody").append("<div class=\"content-container\" id=\"content-container-" + currentPageId + "\"></div>")
-    pagesArray.push(currentPageId);
-    $("#content-container-" + currentPageId).css({
-      "width": "100vw",
-      "top": fnWindowHeight(),
-      "min-height" : fnWindowHeight() - $(".navigator-top").height()
-    });
-
-  }
-  // else {
-  //   // $("#content-container-" + currentPageId).css({
-  //   //   "min-height" : fnWindowHeight() - $(".navigator-top").height()
-  //   // });
-  // }
-  $("#content-container-" + currentPageId).html(pageContent);
-
 }
 
 function resetPagesPosition(currentSelectedPageId){
