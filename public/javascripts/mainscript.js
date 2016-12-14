@@ -1,7 +1,12 @@
 $(document).ready(function() {
 
-  height = $(window).height();
-  width = $(window).width();
+  height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
+  width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+  if ($("html").hasClass("ios")){
+    $("body").css({
+      "min-height": height
+    });
+  }
 
   isBannerHoverTransparent = true;
 
@@ -287,7 +292,7 @@ function pageTransform(currentPageId){
     $("#content-container-" + currentPageId).css({
       "width": "100vw",
       "top": fnWindowHeight(),
-      "min-height" : fnWindowHeight() - $(".navigator-top").height()
+      // "min-height" : fnWindowHeight() - $(".navigator-top").height() - $(".footer").height()
     });
 
   }
@@ -394,7 +399,6 @@ function resetPagesPosition(currentSelectedPageId){
 }
 
 function resetPagesComeBeforeTheSelected(pagei, currentSelectedPageId){
-  readjustFooter(currentSelectedPageId);
   // Check if the pagei is NOT the current page that are selecting.
   if (pagei != currentSelectedPageId) {
     $("#content-container-" + pagei).css({
@@ -407,11 +411,7 @@ function resetPagesComeBeforeTheSelected(pagei, currentSelectedPageId){
       // "top": 0,
       // "min-height": 0,
     }, 500, function(){
-      $("#content-container-" + pagei).hide(10, function(){
-        // $("#content-container-" + pagei).css({
-        //   // "position": "relative"
-        // });
-      });
+      $("#content-container-" + pagei).hide(10);
     });
   } else {
     $("#content-container-" + pagei).css({
@@ -420,25 +420,25 @@ function resetPagesComeBeforeTheSelected(pagei, currentSelectedPageId){
     $("#content-container-" + pagei).show();
     $("#content-container-" + pagei).animate({
       "top": 0,
-      "min-height": fnWindowHeight() - $(".navigator-top").height()
+      "min-height" : fnWindowHeight() - $(".navigator-top").height()
     }, 500, function(){
     });
   }
 }
 
-function readjustFooter(currentPage, loaded){
-  if (loaded === "loaded"){
-    $("body").css("height", $("#content-container-" + currentPage).outerHeight() + $("#content-container-" + currentPage).offset().top);
-    $("body").css({
-      "height": $("#content-container-" + currentPage).outerHeight() + $(".navigator-top").height()
-    });
-  } else {
-    $("body").css("height", $("#content-container-" + currentPage).outerHeight() + $("#content-container-" + currentPage).offset().top);
-    $("body").animate({
-      "height": $("#content-container-" + currentPage).outerHeight() + $(".navigator-top").height()
-    }, 500);
-  }
-}
+// function readjustFooter(currentPage, loaded){
+  // if (loaded === "loaded"){
+  //   $("body").css("height", $("#content-container-" + currentPage).outerHeight() + $("#content-container-" + currentPage).offset().top);
+  //   $("body").css({
+  //     "height": $("#content-container-" + currentPage).outerHeight() + $(".navigator-top").height()
+  //   });
+  // } else {
+  //   $("body").css("height", $("#content-container-" + currentPage).outerHeight() + $("#content-container-" + currentPage).offset().top);
+  //   $("body").animate({
+  //     "height": $("#content-container-" + currentPage).outerHeight() + $(".navigator-top").height()
+  //   }, 500);
+  // }
+// }
 
 function checkExistedPage(givenPage){
   for (var i = 0; i < pagesArray.length; i++) {

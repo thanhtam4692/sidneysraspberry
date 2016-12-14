@@ -12,7 +12,7 @@ body {
   display: table;
   position: relative;
   margin: 0;
-  padding-bottom: 52px;
+  /*padding-bottom: 52px;*/
   min-height: 100vh;
   min-width: 100vw;
   font-family: 'Dosis', sans-serif;
@@ -48,44 +48,43 @@ h1 {
   height: 100%;
 }
 
-/*Desktop Nav*/
-#desktop-menu .title-navigator-top {
+.title-navigator-top {
   display: table-cell;
   text-transform: uppercase;
-  width: 30%;
-  /*padding: 4% 0%;*/
-  font-size: 40px;
+  padding: 0 20px;
   text-align: center;
   font-family: 'Julius Sans One', sans-serif;
   color: RGBA(255, 255, 255, 1);
   vertical-align: middle;
-  margin-left: 3vw;
+  /*margin-left: 10px;*/
 }
-#desktop-menu .menu-holder-top {
+
+.menu-holder-top {
   display: table-cell;
   vertical-align: middle;
+  /*height: 100%;*/
+}
+
+/*Desktop Nav*/
+#desktop-menu .title-navigator-top {
+  width: 30%;
+  /*padding: 4% 0%;*/
+  font-size: 40px;
+}
+#desktop-menu .menu-holder-top {
   width: 65%;
   /*height: 100%;*/
 }
 
 /*Mobile Nav*/
 #mobile-menu .title-navigator-top {
-  display: table-cell;
-  text-transform: uppercase;
-  width: 70%;
+  width: 55%;
   /*padding: 4% 0%;*/
-  font-size: 40px;
-  text-align: center;
-  font-family: 'Julius Sans One', sans-serif;
-  color: RGBA(255, 255, 255, 1);
-  vertical-align: middle;
-  margin-left: 3vw;
+  font-size: 60px;
 }
 
 #mobile-menu .menu-holder-top {
-  display: table-cell;
-  vertical-align: middle;
-  width: 25%;
+  width: 50%;
   /*height: 100%;*/
 }
 
@@ -132,26 +131,25 @@ h1 {
   width: 48%;
 }
 
-#desktop-menu .ch-grid li {
+.ch-grid li {
   position: relative;
-	width: 23%;
-  min-width: 150px;
-  /*min-height: 40px;*/
-	height: 100px;
 	display: inline-block;
 	margin: 0px 5px;
   padding: 0px 2px;
 }
 
-#mobile-menu .ch-grid li {
-  position: relative;
-	width: 55%;
-  min-width: 200px;
+#desktop-menu .ch-grid li {
+	width: 23%;
+  min-width: 150px;
   /*min-height: 40px;*/
 	height: 100px;
-	display: block;
-	margin: 5px 5px;
-  padding: 0px 2px;
+}
+
+#mobile-menu .ch-grid li {
+	width: 80%;
+  min-width: 200px;
+  /*min-height: 40px;*/
+	height: 150px;
 }
 @media only screen
 and (min-device-width : 320px)
@@ -200,10 +198,15 @@ and (max-device-width : 480px) {
 	text-transform: uppercase;
   letter-spacing: 2px;
   font-size: 2vw;
+  padding: 0 5px;
   text-align: center;
   /*text-shadow:
     0 0 1px #fff,
     0 1px 2px rgba(0,0,0,0.3);*/
+}
+
+#mobile-menu .ch-ori {
+  font-size: 50px;
 }
 
 /*The description will be scaled down again*/
@@ -242,11 +245,15 @@ and (max-device-width : 480px) {
   display: table-cell;
   vertical-align: middle;
 	color: #fff;
-	/*padding: 25px 5px;*/
+	padding: 0 20px;
 	font-style: italic;
 	margin: 0 30px;
 	font-size: 1.3vw;
 	/*border-top: 1px solid rgba(255,255,255,0.5);*/
+}
+
+#mobile-menu .ch-info p {
+  font-size: 30px;
 }
 
 .ch-info p a {
@@ -304,7 +311,7 @@ and (max-device-width : 480px) {
   background-color: rgba(215,218,219, 1);
   border-top: 1px solid RGBA(255, 255, 255, 0.6);
   /*border-radius: 2px;*/
-  padding-bottom: 50px;
+  padding-bottom: 52px;
 }
 
 .main-container {
