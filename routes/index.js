@@ -6,6 +6,10 @@ router.get('/', function(req, res, next) {
   res.render('index.ejs', { title: 'Homepage' });
 });
 
+router.get('/CV-pdf', function(req, res, next) {
+  res.redirect("https://s3-us-west-2.amazonaws.com/sidneysservices/personaldocuments/TamTran-CV.pdf");
+});
+
 router.post('/banners', function(req, res, next) {
   var photosetid = "72157664159506139";
   var userId = "thanhtam4692";
