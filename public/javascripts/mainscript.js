@@ -13,6 +13,7 @@ $(document).ready(function() {
   switchBanners();
 
   pagesArray = new Array();
+  arrayOfPagesContent = new Array()
 
   // Selective menu for either desktop or mobile
   if ($("html").hasClass("desktop")){
@@ -280,7 +281,10 @@ function getPages(pageId){
     data: {}
   })
   .done(function(pageContent) {
-    $("#content-container-" + pageId).html(pageContent);
+    if (pageContent !== arrayOfPagesContent[pageId]) {
+      arrayOfPagesContent[pageId] = pageContent
+      $("#content-container-" + pageId).html(pageContent);
+    }
   })
   .fail(function() {
     // alert( "error" );
