@@ -47,7 +47,7 @@ $(document).ready(function() {
   // Use delegate event for new added class (after Ajax)
   $("body").on("click", ".thumbnail-image", function(){
     currentZoommingImage = this.id;
-    currentZoommingImageWidthCss = $("#" + this.id).css("width");
+    // currentZoommingImageWidthCss = $("#" + this.id).css("width");
     zoomImageFullScreen(this.id);
   });
 
@@ -146,7 +146,8 @@ function getPortfolio(portfolioId){
     data: {"entryId": portfolioId}
   })
   .done(function(msg) {
-    $(".popupContent").append(msg);
+    $(".popupContent").html(msg);
+    $("#portfolio-main-container").append("<div class=\"button-close-wrapper\"><div class=\"button-close\" id=\"button-close-portfolio-entry\"></div></div>")
     if (portfolioId === "portfolio-entry-1") {
       textEffectResizingDown("#portfolio-1-lower-subtitle");
     }
@@ -176,7 +177,7 @@ function getPortfolio(portfolioId){
 }
 
 function popupFullScreenContent(portfolioId){
-  $("#innerBody").append("<div id=\"popupContent-" + portfolioId + "\" class=\"popupContent\"><div class=\"button-close-wrapper\"><div class=\"button-close\" id=\"button-close-portfolio-entry\"></div></div></div>");
+  $("#innerBody").append("<div id=\"popupContent-" + portfolioId + "\" class=\"popupContent\"></div>");
   $(".popupContent").css({
     "position": "absolute",
     "display": "block",
@@ -192,7 +193,9 @@ function zoomImageFullScreen(selectedImage){
     var biggerImageUrl = "https://s3-us-west-2.amazonaws.com/sidneysservices/personaldocuments/TamTran-CV.jpg";
   }
   if($("#fullscreen-blur").length === 0){
-    $("#" + selectedImage).parent().append("<div id=\"fullscreen-blur\"><img id=\"enlargened-image\"></div>");
+    $("#innerBody").append("<div id=\"fullscreen-blur\"></div>");
+    var img = $("#" + selectedImage).clone().attr("id", "enlargened-image");
+    $("#fullscreen-blur").html(img);
     var selectedImageRatio = $("#" + selectedImage)[0].naturalWidth / $("#" + selectedImage)[0].naturalHeight;
     if (selectedImageRatio > (fnWindowWidth()/ fnWindowHeight())){
       // Go full width
@@ -212,7 +215,7 @@ function zoomImageFullScreen(selectedImage){
     var selectedImageCurrentHeight = $("#" + selectedImage).height();
     var selectedImageCurrentWidth = $("#" + selectedImage).width();
 
-    $("#" + selectedImage).css({
+    $("#enlargened-image").css({
       "position": "fixed",
       "height": selectedImageCurrentHeight,
       "width": selectedImageCurrentWidth,
@@ -221,7 +224,7 @@ function zoomImageFullScreen(selectedImage){
       "z-index": "5"
     });
 
-    $("#" + selectedImage).animate({
+    $("#enlargened-image").animate({
       "height": selectedImageHeight,
       "width": selectedImageWidth,
       "top": selectedImageStartingPositionVertical,
@@ -231,7 +234,7 @@ function zoomImageFullScreen(selectedImage){
         var biggerImage = new Image();
         biggerImage.src = biggerImageUrl;
         biggerImage.onload = function(){
-          $("#" + selectedImage).attr("src", biggerImageUrl);
+          $("#enlargened-image").attr("src", biggerImageUrl);
         };
       }
     });
@@ -252,14 +255,14 @@ function dismissFullscreenImage(){
   }, 300, function(){
     $("#fullscreen-blur").remove();
   });
-  $("#" + currentZoommingImage).css({
-    "position": "relative",
-    "top": "auto",
-    "left": "auto",
-    "height": "auto",
-    "width": currentZoommingImageWidthCss,
-    "z-index": "1"
-  });
+  // $("#" + currentZoommingImage).css({
+  //   "position": "relative",
+  //   "top": "auto",
+  //   "left": "auto",
+  //   "height": "auto",
+  //   "width": currentZoommingImageWidthCss,
+  //   "z-index": "1"
+  // });
 }
 
 function getPages(pageId){
@@ -500,43 +503,69 @@ function switchBanners(){
 
   var marked = 0;
   bannerSwitchingInterval = setInterval(function(){
-    if (bannerHovers[0].css('opacity') === 0) {
+    if (bannerHovers[0].css('opacity') === "0") {
       getBanner("#banner1 span.hover");
     } else {
       getBanner("#banner1");
     }
+
   }, 5000);
 }
+
+function spinning(){
+  $("#spinning-container").append("<div class=\"spinner\"><div class=\"double-bounce1\"></div><div class=\"double-bounce2\"></div></div>");
+  addSpinningInterval = setInterval(function(){
+    $("#spinning-container").append("<div class=\"spinner\"><div class=\"double-bounce1\"></div><div class=\"double-bounce2\"></div></div>");
+  }, 1000);
+};
+
+function removeSpinning(){
+  if (typeof addSpinningInterval !== 'undefined'){
+    clearInterval(addSpinningInterval);
+  }
+  $("#spinning-container").html("");
+};
 
 function getBanner(bannerId){
   // Refresh banner size and banner hovers size when window resized
   $("#banner1").width(fnWindowWidth()).height(fnWindowHeight());
-  // console.log("Box: " + box_width() + " " + box_width());
   $("#banner1 .hover").width(box_width()).height(box_height());
 
-  $(bannerId).append("<div class=\"loadingCon\" id=\"loadingCon-banner\"><div id=\"cssload-loader\"><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div></div></div>");
+  // loadingWarning(bannerId);
   $.ajax({
     method: "POST",
     url: "/banners",
     data: {}
   })
   .done(function(msg) {
-    pic = new Image();
-    pic.onload = function(){
-      // console.log("BackNatural: " + pic.naturalHeight + " " + pic.naturalWidth);
-      setBannerHoversPosition(pic.naturalHeight, pic.naturalWidth, bannerId);
-      $(bannerId).css("background-image", "url(\"" + pic.src + "\")");
-      var randomNumber = Math.floor((Math.random() * arrayOfAnimation.length) + 1);
-      arrayOfAnimation[randomNumber % arrayOfAnimation.length]();
-      $(bannerId + " #loadingCon-banner").remove();
-    };
-    pic.src = msg.url;
-
+    if (msg.error === "0") {
+      pic = new Image();
+      pic.onload = function(){
+        // console.log("BackNatural: " + pic.naturalHeight + " " + pic.naturalWidth);
+        setBannerHoversPosition(pic.naturalHeight, pic.naturalWidth, bannerId);
+        $(bannerId).css("background-image", "url(\"" + pic.src + "\")");
+        var randomNumber = Math.floor((Math.random() * arrayOfAnimation.length) + 1);
+        arrayOfAnimation[randomNumber % arrayOfAnimation.length]();
+        removeSpinning()
+        spinning()
+        // loadingWarning(bannerId);
+      };
+      pic.src = msg.url;
+    }
   })
   .fail(function() {
     // alert( "error" );
   });
 };
+
+function loadingWarning(elID){
+  if ($(elID + " .loadingCon").length > 0){
+    $(elID + " .loadingCon").remove();
+  } else {
+    $(elID).append("<div class=\"loadingCon\" id=\"loadingCon-banner\"><div id=\"cssload-loader\"><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div></div></div>");
+  }
+
+}
 
 function setBannerHoversPosition(picHeight, picWidth, bannerId){
   var imageRatio = picWidth / picHeight;
@@ -585,7 +614,7 @@ function toggleDisplayMosaicDissolve()
 
   if (currentHoverCount === 0) {
     var opacity = tempEl.css("opacity");
-    if(opacity === 0)
+    if(opacity === "0")
     {
       isBannerHoverTransparent = true;
     }
@@ -597,11 +626,17 @@ function toggleDisplayMosaicDissolve()
 
   if(isBannerHoverTransparent)
   {
-    tempEl.animate({ opacity: 1 })
+    tempEl.css({
+      "box-shadow": "10px 10px 10px rgba(0,0,0,0.5)"
+    })
+    tempEl.animate({ "opacity": "1" })
   }
   else
   {
-    tempEl.animate({ opacity: 0 })
+    tempEl.css({
+      "box-shadow": ""
+    })
+    tempEl.animate({ "opacity": "0" })
   }
 
   if ((currentHoverCount + 1) < total_pieces) {
@@ -619,7 +654,7 @@ function toggleDisplayMosaicFlip()
 
   if (currentHoverCount === 0) {
     var opacity = tempEl.css('opacity');
-    if(opacity === 0)
+    if(opacity === "0")
     {
       isBannerHoverTransparent = true;
     }
@@ -631,6 +666,9 @@ function toggleDisplayMosaicFlip()
 
   if(isBannerHoverTransparent)
   {
+    tempEl.css({
+      "box-shadow": "10px 10px 10px rgba(0,0,0,1)"
+    })
     tempEl.animate({ opacity: 1 }, 150);
     tempEl.animateRotate(360, 300, "linear", function(){
           // console.log(this); //this is supposed to be the DOM node, but it isn't
@@ -639,6 +677,9 @@ function toggleDisplayMosaicFlip()
   }
   else
   {
+    tempEl.css({
+      "box-shadow": ""
+    })
     tempEl.animate({ opacity: 0 }, 150);
     tempEl.animateRotate(360, 300, "linear", function(){
           // console.log(this); //this is supposed to be the DOM node, but it isn't
@@ -660,7 +701,7 @@ function toggleDisplayFlip()
 
   if (currentHoverCount === 0) {
     var opacity = tempEl.css('opacity');
-    if(opacity === 0)
+    if(opacity === "0")
     {
       isBannerHoverTransparent = true;
     }
@@ -696,7 +737,7 @@ function toggleDisplayDissolve()
 
   if (currentHoverCount === 0) {
     var opacity = tempEl.css("opacity");
-    if(opacity === 0)
+    if(opacity === "0")
     {
       isBannerHoverTransparent = true;
     }

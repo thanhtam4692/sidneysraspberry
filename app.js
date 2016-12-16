@@ -4,10 +4,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
 var mongojs = require('mongojs')
 // var db = mongojs('cloudcontrolDB', ['users', 'devices', 'handshake'])
-var db = mongojs('thanhtam4692:thanhtam4692@ds013848.mlab.com:13848/sidneysservices', ['bannersdata'])
+var db = mongojs('tamtt4692:Xitrum4692@ds013848.mlab.com:13848/sidneysservices', ['bannersdata'])
 
 var Flickr = require("node-flickr");
 var keys = {"api_key": "6a3312c8a63160eb8762ec0275079f5f"}
@@ -30,8 +32,17 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+    secret: 'tamtt4692',
+    store: new MongoStore({
+        url: 'mongodb://tamtt4692:Xitrum4692@ds013848.mlab.com:13848/sidneysservices',
+        ttl: 10 * 24 * 60 * 60
+      }),
+    resave: false,
+    saveUninitialized: false
+}));
 
 app.use('/', routes);
 app.use('/users', users);
