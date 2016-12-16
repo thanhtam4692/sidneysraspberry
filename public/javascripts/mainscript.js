@@ -516,6 +516,10 @@ function spinning(){
   $("#spinning-container").append("<div class=\"spinner\"><div class=\"double-bounce1\"></div><div class=\"double-bounce2\"></div></div>");
   addSpinningInterval = setInterval(function(){
     $("#spinning-container").append("<div class=\"spinner\"><div class=\"double-bounce1\"></div><div class=\"double-bounce2\"></div></div>");
+
+    if ($(".spinner").length > 10) {
+      clearInterval(addSpinningInterval);
+    }
   }, 1000);
 };
 
