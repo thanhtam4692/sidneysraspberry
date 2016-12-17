@@ -738,6 +738,7 @@ and (max-device-width : 480px) {
   width: 19%;
   margin: 10px 0px;
   min-width: 150px;
+  max-height: 152px;
 }
 .contact-miniicon {
   display: block;
