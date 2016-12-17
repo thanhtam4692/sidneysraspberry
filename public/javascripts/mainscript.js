@@ -9,6 +9,7 @@ $(document).ready(function() {
   }
 
   $(".lazy").unveil();
+  isGettingNewContent = true;
   $( document ).ajaxStop(function() {
     if (isGettingNewContent) {
       unveil()
