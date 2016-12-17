@@ -8,6 +8,12 @@ $(document).ready(function() {
     });
   }
 
+  $(".lazy").unveil();
+  $( document ).ajaxStop(function() {
+    if (isGettingNewContent) {
+      unveil()
+    }
+  })
   isBannerHoverTransparent = true;
 
   switchBanners();
@@ -78,6 +84,17 @@ $(document).ready(function() {
 
 });
 
+function unveil(){
+  $(".lazy").unveil(0,function(){
+    loadingWarning($(this))
+    $(this).load(function(){
+      this.style.opacity = 1;
+      loadingWarning($(this))
+      $(this).removeClass("lazy")
+    })
+  })
+}
+
 function doOnOrientationChange()
 {
   location.reload();
@@ -137,10 +154,11 @@ function textEffectResizingDown(textId){
   }
 }
 function closePopup(){
+  $("#content-container-portfolio").show();
   $(".popupContent").remove();
 }
 function getPortfolio(portfolioId){
-  popupFullScreenContent(portfolioId);
+  addFullscreenPopup(portfolioId);
   $.ajax({
     method: "POST",
     url: "/portfolio/entries",
@@ -152,39 +170,29 @@ function getPortfolio(portfolioId){
     if (portfolioId === "portfolio-entry-1") {
       textEffectResizingDown("#portfolio-1-lower-subtitle");
     }
-    if ($(".popupContent img").length > 0){
-      $(".popupContent img").load(function(){
-        $(".popupContent").animate({
-          "opacity": 1,
-          "top": 0,
-          "left": 0,
-          "min-height": height,
-          "width": width
-        }, 500);
-      });
-    } else {
-      $(".popupContent").animate({
-        "opacity": 1,
-        "top": 0,
-        "left": 0,
-        "min-height": height,
-        "width": width
-      }, 500);
-    }
+
+    $(".popupContent").animate({
+      "opacity": 1,
+      "top": 0,
+      "left": 0,
+      "min-height": height,
+      "width": width
+    }, 500, function(){
+      $("#content-container-portfolio").hide();
+    });
+
   })
   .fail(function() {
     // alert( "error" );
   });
 }
 
-function popupFullScreenContent(portfolioId){
-  $("#innerBody").append("<div id=\"popupContent-" + portfolioId + "\" class=\"popupContent\"></div>");
+function addFullscreenPopup(portfolioId){
+  $("#innerBody").append("<div id=\"popupContent-" + portfolioId + "\" class=\"popupContent\"></div>")
   $(".popupContent").css({
     "position": "absolute",
-    "display": "block",
     "top": $("#" + portfolioId).offset().top,
     "left": $("#" + portfolioId).offset().left,
-    // "height": "0px",
     "width": "0px",
   });
 }
@@ -195,7 +203,12 @@ function zoomImageFullScreen(selectedImage){
   }
   if($("#fullscreen-blur").length === 0){
     $("#innerBody").append("<div id=\"fullscreen-blur\"></div>");
-    var img = $("#" + selectedImage).clone().attr("id", "enlargened-image");
+    var img = $("#" + selectedImage).clone().attr({
+      "id": "enlargened-image"
+      // "data-src": $("#" + selectedImage).attr("src"),
+      // "src": ""
+    });
+    // img.addClass("lazy")
     $("#fullscreen-blur").html(img);
     var selectedImageRatio = $("#" + selectedImage)[0].naturalWidth / $("#" + selectedImage)[0].naturalHeight;
     if (selectedImageRatio > (fnWindowWidth()/ fnWindowHeight())){
@@ -234,12 +247,9 @@ function zoomImageFullScreen(selectedImage){
       if (biggerImageUrl != undefined && biggerImageUrl != "" && biggerImage != $("#" + selectedImage).attr("src")){
         var biggerImage = new Image();
         biggerImage.src = biggerImageUrl;
-        biggerImage.onload = function(){
-          $("#enlargened-image").attr("src", biggerImageUrl);
-        };
+        $("#enlargened-image").attr("src", biggerImageUrl);
       }
     });
-
   } else {
     // Haven't worked yet
     manualZoomming("#cv-image");
@@ -267,6 +277,7 @@ function dismissFullscreenImage(){
 }
 
 function getPages(pageId){
+  isGettingNewContent = true;
   for (var i = 0; i < $("img").length; i++) {
     getImageSize($("img")[i], function(iwidth, iheight){
       $($("img")[i]).height(iheight);
@@ -283,7 +294,9 @@ function getPages(pageId){
   .done(function(pageContent) {
     if (pageContent !== arrayOfPagesContent[pageId]) {
       arrayOfPagesContent[pageId] = pageContent
-      $("#content-container-" + pageId).html(pageContent);
+      $("#content-container-" + pageId).html(pageContent)
+    } else {
+      isGettingNewContent = false;
     }
   })
   .fail(function() {
@@ -292,7 +305,7 @@ function getPages(pageId){
 }
 
 function pageTransform(currentPageId){
-  // Check if the page is existed. If not, add the page with its content. Otherwise, refrest the content.
+  // Check if the page is existed. If not, add the page with its content. Otherwise, refresh the content.
   if (!checkExistedPage(currentPageId)){
     $("#innerBody").append("<div class=\"content-container\" id=\"content-container-" + currentPageId + "\"></div>")
     pagesArray.push(currentPageId);
@@ -309,10 +322,10 @@ function pageTransform(currentPageId){
   //   // });
   // }
   // $("#content-container-" + currentPageId).html(pageContent);
-  setMenuHightlights(currentPageId);
+  settleUpIndexPage(currentPageId);
 }
 
-function setMenuHightlights(clkedBtn){
+function settleUpIndexPage(clkedBtn){
   // When a menu entry is clicked, the menu is un-collapsed
   // This function also runs when the page with hashtag loaded, that means in that case, the menu should be un-collapsed, so we can run the collapsingMenu function, to collapse and hightlight the button
   isMenuCollapsed = false;
@@ -523,6 +536,7 @@ function spinning(){
 
     if ($(".spinner").length > 10) {
       clearInterval(addSpinningInterval);
+      $("#spinning-container").html("");
     }
   }, 1000);
 };
@@ -548,17 +562,14 @@ function getBanner(bannerId){
   .done(function(msg) {
     if (msg.error === "0") {
       pic = new Image();
-      pic.onload = function(){
-        // console.log("BackNatural: " + pic.naturalHeight + " " + pic.naturalWidth);
-        setBannerHoversPosition(pic.naturalHeight, pic.naturalWidth, bannerId);
-        $(bannerId).css("background-image", "url(\"" + pic.src + "\")");
-        var randomNumber = Math.floor((Math.random() * arrayOfAnimation.length) + 1);
-        arrayOfAnimation[randomNumber % arrayOfAnimation.length]();
-        removeSpinning()
-        spinning()
-        // loadingWarning(bannerId);
-      };
       pic.src = msg.url;
+      // console.log("BackNatural: " + pic.naturalHeight + " " + pic.naturalWidth);
+      setBannerHoversPosition(pic.naturalHeight, pic.naturalWidth, bannerId);
+      $(bannerId).css("background-image", "url(\"" + pic.src + "\")");
+      var randomNumber = Math.floor((Math.random() * arrayOfAnimation.length) + 1);
+      arrayOfAnimation[randomNumber % arrayOfAnimation.length]();
+      removeSpinning()
+      spinning()
     }
   })
   .fail(function() {
@@ -567,10 +578,14 @@ function getBanner(bannerId){
 };
 
 function loadingWarning(elID){
-  if ($(elID + " .loadingCon").length > 0){
-    $(elID + " .loadingCon").remove();
+  if (elID.siblings(".loadingCon").length > 0){
+    elID.siblings(".loadingCon").remove();
   } else {
-    $(elID).append("<div class=\"loadingCon\" id=\"loadingCon-banner\"><div id=\"cssload-loader\"><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div></div></div>");
+    elID.parent().append("<div class=\"loadingCon\"><div class=\"cssload-loader\"><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div><div class=\"cssload-dot\"></div></div></div>");
+    // elID.children(".loadingCon").css({
+    //   height: elID.height(),
+    //   width: elID.width(),
+    // })
   }
 
 }

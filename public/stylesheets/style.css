@@ -1,6 +1,13 @@
 /*© Tam Thanh Tran 2015*/
 @import url('https://fonts.googleapis.com/css?family=Dosis:600');
+/*font-family: 'Dosis', sans-serif;*/
 @import url('https://fonts.googleapis.com/css?family=Julius+Sans+One&subset=latin-ext');
+/*font-family: 'Julius Sans One', sans-serif;*/
+@import url('https://fonts.googleapis.com/css?family=PT+Sans:400,700,700i');
+/*font-family: 'PT Sans', sans-serif;*/
+@import url('https://fonts.googleapis.com/css?family=Bungee');
+/*font-family: 'Bungee', cursive;*/
+/*General classes declaration*/
 html {
   /*height: 100%;*/
   box-sizing: border-box;
@@ -36,11 +43,59 @@ h1 {
   font-size: 40px;
 }
 
+.lazy {
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+}
+
+.content-container {
+  display: block;
+  position: relative;
+  /*position: absolute;*/
+  background-color: rgba(215,218,219, 1);
+  border-top: 1px solid RGBA(255, 255, 255, 0.6);
+  /*border-radius: 2px;*/
+  padding-bottom: 52px;
+}
+
+.main-container {
+  display: block;
+  padding-left: 50px;
+}
+
+.content-text {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.content-image {
+  display: inline-block;
+  text-align: center;
+}
+
+.image-wrapper {
+  position: relative;
+  display: table;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.button {
+  border: 1px solid RGBA(45,62,79, 0.6);
+  border-radius: 3px;
+  padding: 5px 0px;
+  text-align: center;
+  cursor: pointer;
+}
+/*End general classes declaration*/
+
+/*Menu classes*/
 .navigator-top {
   display: table;
   width: 100%;
   height: 150px;
   background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 5px 5px 2px RGBA(0,0,0,.5);
 }
 .top-menu-for-devices {
   display: table;
@@ -304,51 +359,23 @@ and (max-device-width : 480px) {
   background-repeat: no-repeat;
 }
 
-.content-container {
-  display: block;
-  position: relative;
-  /*position: absolute;*/
-  background-color: rgba(215,218,219, 1);
-  border-top: 1px solid RGBA(255, 255, 255, 0.6);
-  /*border-radius: 2px;*/
-  padding-bottom: 52px;
-}
-
-.main-container {
-  display: block;
-  padding-left: 50px;
-}
-
-.content-text {
-  display: inline-block;
-  vertical-align: top;
-}
-
-.content-image {
-  display: inline-block;
-  text-align: center;
-}
-
-.button {
-  border: 1px solid RGBA(45,62,79, 0.6);
-  border-radius: 3px;
-  padding: 5px 0px;
-  text-align: center;
-  cursor: pointer;
-}
-
 /*About page*/
 .content-text-about {
   padding: 0px 100px;
   width: 70%;
 }
-#cv-image-container {
+#cv-container {
+  display: inline-block;
+  text-align: center;
   width: 25%;
+}
+#cv-image-container {
+  width: 100%;
 }
 #cv-image {
   width: 80%;
 }
-#cv-image-container .image-description {
+#cv-container .image-description {
   display: inline-block;
   width: 45%;
 }
@@ -408,7 +435,7 @@ and (max-device-width : 480px) {
 
 #portfolio-main-container {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
 }
 
 .portfolio-entries {
@@ -416,54 +443,139 @@ and (max-device-width : 480px) {
   width: 80%;
   margin: 0 auto;
 }
-.portfolio-entry {
-  display: inline-block;
-  vertical-align: top;
-  text-align: left;
-  width: 47%;
-  margin-left: 1%;
-  margin-right: 1%;
-  background-color: RGB(112,188,217);
-  cursor: pointer;
-}
-.content-image-portfolio {
-  display: inline-block;
-  width: 40%;
-  vertical-align: middle;
-}
-.content-text-portfolio {
-  color: RGB(255,255,255);
-  text-align: left;
-  padding: 10px 30px;
-  width: 55%;
-}
-.event-avatar {
+.portfolio-entry-wrapper {
+  position: relative;
   display: block;
   width: 100%;
+  height: 300px;
+  margin: 0 auto;
+  cursor: pointer;
+  margin-bottom: 250px;
 }
+.portfolio-entry-background {
+  display: inline-block;
+  position: absolute;
+  background-color: RGBA(112,188,217,1.00);
+  width: 70%;
+  min-width: 500px;
+  height: 60%;
+  top: 50px;
+  left: 50px;
+  box-shadow: 20px 20px 40px RGBA(0,0,0,.5);
+}
+.portfolio-entry-image-holder, .portfolio-entry-image-holder .image-wrapper {
+  width: 300px;
+  height: 300px;
+}
+.event-avatar {
+  position: absolute;
+  display: block;
+  max-height: 100%;
+  max-width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  box-shadow: 10px 10px 20px RGBA(0,0,0,.4);
+}
+.portfolio-entry-description-holder {
+  display: inline-block;
+  position: absolute;
+  background-color: RGBA(255,255,255,1.00);
+  width: 65%;
+  min-width: 500px;
+  height: 80%;
+  top: 100px;
+  left: 280px;
+  box-shadow: 20px 20px 40px RGBA(0,0,0,.5);
+  padding: 20px 20px;
+  text-align: center;
+}
+.portfolio-entry-date {
+  text-transform: capitalize;
+  font-weight: 400;
+  font-family: 'PT Sans', sans-serif;
+}
+.portfolio-entry-title {
+  text-transform: capitalize;
+  font-weight: bold;
+  font-family: 'Bungee', cursive;
+  color: RGBA(45,62,79,1.00);
+}
+.portfolio-entry-subtitle {
+  /*font-weight: lighter;*/
+  color: RGBA(92,75,81,1.00);
+}
+.portfolio-entry-corner {
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  background-image: url("../images/cornerLT.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.corner-lt {
+  top: 5px;
+  left: 5px;
+}
+.corner-rt {
+  /*Flip horizontally*/
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+  /**/
+  top: 5px;
+  right: 5px;
+}
+.corner-lb {
+  /*Flip vertically*/
+  -moz-transform: scaleY(-1);
+  -o-transform: scaleY(-1);
+  -webkit-transform: scaleY(-1);
+  transform: scaleY(-1);
+  filter: FlipV;
+  -ms-filter: "FlipV";
+  /**/
+  bottom: 5px;
+  left: 5px
+}
+.corner-rb {
+  /*Flip horizontally and vertically at the same time*/
+  -moz-transform: scaleX(-1) scaleY(-1);
+  -o-transform: scaleX(-1) scaleY(-1);
+  -webkit-transform: scaleX(-1) scaleY(-1);
+  transform: scaleX(-1) scaleY(-1);
+  filter: FlipH FlipV;
+  -ms-filter: "FlipH" "FlipV";
+  /**/
+  bottom: 5px;
+  right: 5px;
+}
+
 
 /*Portfolio entries*/
-.portfolio-container {
-  display: inline-block;
-}
-
 /*Portfolio 1*/
-#popupContent-portfolio-entry-1 .portfolio-container {
-  height: 100%;
-  vertical-align: top;
-}
 #popupContent-portfolio-entry-1 #portfolio-main-container {
   color: rgb(255, 255, 255);
 }
-
+#popupContent-portfolio-entry-1 .portfolio-container {
+  vertical-align: top;
+  min-height: 100%;
+}
 #popupContent-portfolio-entry-1 {
-  background-color: RGB(112,188,217);
+  background-color: RGBA(112,188,217,1.00);
 }
 
 #portfolio-1-left {
+  display: inline-block;
   width: 30%;
 }
 #portfolio-1-right {
+  display: inline-block;
   width: 68%;
 }
 #portfolio-1-title {
@@ -669,52 +781,44 @@ and (max-device-width : 480px) {
 }
 
 /*CSS Loading*/
-/*.loading {
-  position: absolute;
-  width: 32px;
-  height: 32px;
-  top: 50%;
-  left: 50%;
-  margin: -16px 0px 0px -16px;
-}*/
-
 .loadingCon {
   position: absolute;
-  width: 300px;
-  height: 300px;
   background-color: rgba(255, 255, 255, 0.0);
-  border-radius: 20px;
-  top: 50%;
-  left: 50%;
-  margin: -150px 0px 0px -150px;
+  top: 0;
+  left: 0px;
+  right: 0;
+  bottom: 0;
+  margin: auto;
 }
 
-#cssload-loader {
+.cssload-loader {
 	position: absolute;
-  width: 144px;
-  height: 144px;
-  top: 50%;
-  left: 50%;
-  margin: -72px 0px 0px -72px;
+  width: 30px;
+  height: 30px;
+  top: 0;
+  left: -15px;
+  right: 0;
+  bottom: 0;
+  margin: auto;
 }
-#cssload-loader .cssload-dot {
+.cssload-loader .cssload-dot {
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
-	width: 72.5px;
-	height: 100%;
+	width: 30px;
+	height: 30px;
 	margin: auto;
 }
-#cssload-loader .cssload-dot:before {
+.cssload-loader .cssload-dot:before {
 	content: '';
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
-	width: 72.5px;
-	height: 72.5px;
+	width: 30px;
+	height: 60px;
 	border-radius: 100%;
 	transform: scale(0);
 		-o-transform: scale(0);
@@ -722,14 +826,14 @@ and (max-device-width : 480px) {
 		-webkit-transform: scale(0);
 		-moz-transform: scale(0);
 }
-#cssload-loader .cssload-dot:nth-child(7n+1) {
+.cssload-loader .cssload-dot:nth-child(7n+1) {
 	transform: rotate(45deg);
 		-o-transform: rotate(45deg);
 		-ms-transform: rotate(45deg);
 		-webkit-transform: rotate(45deg);
 		-moz-transform: rotate(45deg);
 }
-#cssload-loader .cssload-dot:nth-child(7n+1):before {
+.cssload-loader .cssload-dot:nth-child(7n+1):before {
 	background: rgb(0,255,128);
 	animation: cssload-load 0.92s linear 0.12s infinite;
 		-o-animation: cssload-load 0.92s linear 0.12s infinite;
@@ -737,14 +841,14 @@ and (max-device-width : 480px) {
 		-webkit-animation: cssload-load 0.92s linear 0.12s infinite;
 		-moz-animation: cssload-load 0.92s linear 0.12s infinite;
 }
-#cssload-loader .cssload-dot:nth-child(7n+2) {
+.cssload-loader .cssload-dot:nth-child(7n+2) {
 	transform: rotate(90deg);
 		-o-transform: rotate(90deg);
 		-ms-transform: rotate(90deg);
 		-webkit-transform: rotate(90deg);
 		-moz-transform: rotate(90deg);
 }
-#cssload-loader .cssload-dot:nth-child(7n+2):before {
+.cssload-loader .cssload-dot:nth-child(7n+2):before {
 	background: rgb(0,255,234);
 	animation: cssload-load 0.92s linear 0.23s infinite;
 		-o-animation: cssload-load 0.92s linear 0.23s infinite;
@@ -752,14 +856,14 @@ and (max-device-width : 480px) {
 		-webkit-animation: cssload-load 0.92s linear 0.23s infinite;
 		-moz-animation: cssload-load 0.92s linear 0.23s infinite;
 }
-#cssload-loader .cssload-dot:nth-child(7n+3) {
+.cssload-loader .cssload-dot:nth-child(7n+3) {
 	transform: rotate(135deg);
 		-o-transform: rotate(135deg);
 		-ms-transform: rotate(135deg);
 		-webkit-transform: rotate(135deg);
 		-moz-transform: rotate(135deg);
 }
-#cssload-loader .cssload-dot:nth-child(7n+3):before {
+.cssload-loader .cssload-dot:nth-child(7n+3):before {
 	background: rgb(0,170,255);
 	animation: cssload-load 0.92s linear 0.35s infinite;
 		-o-animation: cssload-load 0.92s linear 0.35s infinite;
@@ -767,14 +871,14 @@ and (max-device-width : 480px) {
 		-webkit-animation: cssload-load 0.92s linear 0.35s infinite;
 		-moz-animation: cssload-load 0.92s linear 0.35s infinite;
 }
-#cssload-loader .cssload-dot:nth-child(7n+4) {
+.cssload-loader .cssload-dot:nth-child(7n+4) {
 	transform: rotate(180deg);
 		-o-transform: rotate(180deg);
 		-ms-transform: rotate(180deg);
 		-webkit-transform: rotate(180deg);
 		-moz-transform: rotate(180deg);
 }
-#cssload-loader .cssload-dot:nth-child(7n+4):before {
+.cssload-loader .cssload-dot:nth-child(7n+4):before {
 	background: rgb(0,64,255);
 	animation: cssload-load 0.92s linear 0.46s infinite;
 		-o-animation: cssload-load 0.92s linear 0.46s infinite;
@@ -782,14 +886,14 @@ and (max-device-width : 480px) {
 		-webkit-animation: cssload-load 0.92s linear 0.46s infinite;
 		-moz-animation: cssload-load 0.92s linear 0.46s infinite;
 }
-#cssload-loader .cssload-dot:nth-child(7n+5) {
+.cssload-loader .cssload-dot:nth-child(7n+5) {
 	transform: rotate(225deg);
 		-o-transform: rotate(225deg);
 		-ms-transform: rotate(225deg);
 		-webkit-transform: rotate(225deg);
 		-moz-transform: rotate(225deg);
 }
-#cssload-loader .cssload-dot:nth-child(7n+5):before {
+.cssload-loader .cssload-dot:nth-child(7n+5):before {
 	background: rgb(42,0,255);
 	animation: cssload-load 0.92s linear 0.58s infinite;
 		-o-animation: cssload-load 0.92s linear 0.58s infinite;
@@ -797,14 +901,14 @@ and (max-device-width : 480px) {
 		-webkit-animation: cssload-load 0.92s linear 0.58s infinite;
 		-moz-animation: cssload-load 0.92s linear 0.58s infinite;
 }
-#cssload-loader .cssload-dot:nth-child(7n+6) {
+.cssload-loader .cssload-dot:nth-child(7n+6) {
 	transform: rotate(270deg);
 		-o-transform: rotate(270deg);
 		-ms-transform: rotate(270deg);
 		-webkit-transform: rotate(270deg);
 		-moz-transform: rotate(270deg);
 }
-#cssload-loader .cssload-dot:nth-child(7n+6):before {
+.cssload-loader .cssload-dot:nth-child(7n+6):before {
 	background: rgb(149,0,255);
 	animation: cssload-load 0.92s linear 0.69s infinite;
 		-o-animation: cssload-load 0.92s linear 0.69s infinite;
@@ -812,10 +916,10 @@ and (max-device-width : 480px) {
 		-webkit-animation: cssload-load 0.92s linear 0.69s infinite;
 		-moz-animation: cssload-load 0.92s linear 0.69s infinite;
 }
-#cssload-loader .cssload-dot:nth-child(7n+7) {
+.cssload-loader .cssload-dot:nth-child(7n+7) {
 	transform: rotate(315deg);
 }
-#cssload-loader .cssload-dot:nth-child(7n+7):before {
+.cssload-loader .cssload-dot:nth-child(7n+7):before {
 	background: magenta;
 	animation: cssload-load 0.92s linear 0.81s infinite;
 		-o-animation: cssload-load 0.92s linear 0.81s infinite;
@@ -823,14 +927,14 @@ and (max-device-width : 480px) {
 		-webkit-animation: cssload-load 0.92s linear 0.81s infinite;
 		-moz-animation: cssload-load 0.92s linear 0.81s infinite;
 }
-#cssload-loader .cssload-dot:nth-child(7n+8) {
+.cssload-loader .cssload-dot:nth-child(7n+8) {
 	transform: rotate(360deg);
 		-o-transform: rotate(360deg);
 		-ms-transform: rotate(360deg);
 		-webkit-transform: rotate(360deg);
 		-moz-transform: rotate(360deg);
 }
-#cssload-loader .cssload-dot:nth-child(7n+8):before {
+.cssload-loader .cssload-dot:nth-child(7n+8):before {
 	background: rgb(255,0,149);
 	animation: cssload-load 0.92s linear 0.92s infinite;
 		-o-animation: cssload-load 0.92s linear 0.92s infinite;
@@ -838,8 +942,6 @@ and (max-device-width : 480px) {
 		-webkit-animation: cssload-load 0.92s linear 0.92s infinite;
 		-moz-animation: cssload-load 0.92s linear 0.92s infinite;
 }
-
-
 
 @keyframes cssload-load {
 	100% {
