@@ -1,3 +1,2 @@
-tamthanhtran.me
-0.6.6.3 Testing committing automation
 tamthanhtran.me 0.6.6.3 Testing committing automation
+tamthanhtran.me 0.6.6.4 Testing committing automation - add read/write file
