@@ -40,7 +40,48 @@ a {
 h1 {
   padding: 20px 50px 20px 100px;
   text-align: left;
+}
+
+.txt60{
+  font-size: 60px;
+}
+.txt50 {
+  font-size: 50px;
+}
+.txt40 {
   font-size: 40px;
+}
+.txt30 {
+  font-size: 30px;
+}
+.txt25 {
+  font-size: 25px;
+}
+.txt20 {
+  font-size: 20px;
+}
+.txt15 {
+  font-size: 15px;
+}
+.txt10 {
+  font-size: 10px;
+}
+@media only screen and (max-width: 1250px) {
+  .txt50 {
+    font-size: 40px;
+  }
+  .txt30 {
+    font-size: 25px;
+  }
+}
+
+@media only screen and (max-width: 1010px) {
+  #desktop .txt50 {
+    font-size: 35px;
+  }
+  #desktop .txt20 {
+    font-size: 15px;
+  }
 }
 
 .lazy {
@@ -59,13 +100,13 @@ h1 {
 }
 
 .main-container {
-  display: block;
+  display: table;
   padding-left: 50px;
+  width: 100%;
 }
 
 .content-text {
   display: inline-block;
-  vertical-align: top;
 }
 
 .content-image {
@@ -123,8 +164,6 @@ h1 {
 /*Desktop Nav*/
 #desktop-menu .title-navigator-top {
   width: 30%;
-  /*padding: 4% 0%;*/
-  font-size: 40px;
 }
 #desktop-menu .menu-holder-top {
   width: 65%;
@@ -135,7 +174,6 @@ h1 {
 #mobile-menu .title-navigator-top {
   width: 55%;
   /*padding: 4% 0%;*/
-  font-size: 60px;
 }
 
 #mobile-menu .menu-holder-top {
@@ -148,7 +186,6 @@ h1 {
   display: table;
 	width: 100%;
 	height: 100%;
-  font-size: 45px;
   cursor: pointer;
   text-align: center;
 }
@@ -252,16 +289,11 @@ and (max-device-width : 480px) {
   color: #fff;
 	text-transform: uppercase;
   letter-spacing: 2px;
-  font-size: 2vw;
   padding: 0 5px;
   text-align: center;
   /*text-shadow:
     0 0 1px #fff,
     0 1px 2px rgba(0,0,0,0.3);*/
-}
-
-#mobile-menu .ch-ori {
-  font-size: 50px;
 }
 
 /*The description will be scaled down again*/
@@ -287,7 +319,6 @@ and (max-device-width : 480px) {
 	text-transform: uppercase;
 	position: relative;
 	letter-spacing: 2px;
-	font-size: 22px;
 	margin: 0 30px;
 	padding: 40px 0 0 0;
 	height: 50%;
@@ -303,14 +334,9 @@ and (max-device-width : 480px) {
 	padding: 0 20px;
 	font-style: italic;
 	margin: 0 30px;
-	font-size: 1.3vw;
 	/*border-top: 1px solid rgba(255,255,255,0.5);*/
 }
-
-#mobile-menu .ch-info p {
-  font-size: 30px;
-}
-
+/*
 .ch-info p a {
 	display: block;
 	color: rgba(255,255,255,0.7);
@@ -320,7 +346,7 @@ and (max-device-width : 480px) {
 	font-size: 9px;
 	letter-spacing: 1px;
 	padding-top: 4px;
-}
+}*/
 
 .ch-info p a:hover {
 	color: rgba(255,242,34, 0.8);
@@ -391,31 +417,35 @@ and (max-device-width : 480px) {
 /*Portfolio page*/
 /*Close button*/
 .button-close-wrapper {
-  display: table;
+  display: inline-block;
   position: absolute;
-  left: 10px;
-  top: 10px;
+  left: 20px;
+  top: 20px;
   width: 40px;
   height: 40px;
   border-radius: 3px;
   text-align: center;
   vertical-align: middle;
+  z-index: 5;
 }
 .button-close-wrapper:hover {
   background-color: #FFF;
 }
 .button-close {
-  display: table-cell;
+  display: table;
   width: 100%;
   height: 100%;
   opacity: 1;
 }
 .button-close:before, .button-close:after {
   position: absolute;
-  left: 18px;
+  display: table-cell;
+  left: 15px;
   content: ' ';
   height: 40px;
-  width: 4px;
+  width: 10px;
+  border: 2px RGBA(223,225,226,1.00) solid;
+  border-radius: 2px;
   background-color: RGB(45,62,79);
 }
 .button-close:before {
@@ -425,17 +455,54 @@ and (max-device-width : 480px) {
   transform: rotate(-45deg);
 }
 
-.popupContent {
-  opacity: 0;
-  /*background-color: RGB(112,188,217);*/
-  /*border: 1px solid RGBA(223,225,226, 0.6);*/
-  border-radius: 3px;
-  z-index: 4;
+.arrow {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  text-align: center;
+  /*padding: 12px;*/
+  /*margin-bottom: 6px;*/
+  height: 60px;
+  width: 100px;
 }
-
+.arrow:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25%;
+  width: 50%;
+  background-color: RGBA(45,62,79,1.00);
+  -webkit-transform: skew(0deg, 20deg);
+  -moz-transform: skew(0deg, 20deg);
+  -ms-transform: skew(0deg, 20deg);
+  -o-transform: skew(0deg, 20deg);
+  transform: skew(0deg, 20deg);
+}
+.arrow:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 25%;
+  width: 51%;
+  background-color: RGBA(45,62,79,1.00);
+  -webkit-transform: skew(0deg, -20deg);
+  -moz-transform: skew(0deg, -20deg);
+  -ms-transform: skew(0deg, -20deg);
+  -o-transform: skew(0deg, -20deg);
+  transform: skew(0deg, -20deg);
+}​
 #portfolio-main-container {
   width: 100%;
   min-height: 100%;
+}
+.popupContent {
+  opacity: 0;
+  padding-bottom: 52px;
 }
 
 .portfolio-entries {
@@ -450,7 +517,7 @@ and (max-device-width : 480px) {
   height: 300px;
   margin: 0 auto;
   cursor: pointer;
-  margin-bottom: 250px;
+  margin-bottom: 150px;
 }
 .portfolio-entry-background {
   display: inline-block;
@@ -559,24 +626,27 @@ and (max-device-width : 480px) {
 
 /*Portfolio entries*/
 /*Portfolio 1*/
+#popupContent-portfolio-entry-1 {
+  background-color: RGBA(112,188,217,1.00);
+}
 #popupContent-portfolio-entry-1 #portfolio-main-container {
   color: rgb(255, 255, 255);
 }
 #popupContent-portfolio-entry-1 .portfolio-container {
-  vertical-align: top;
   min-height: 100%;
+  display: table-cell;
 }
-#popupContent-portfolio-entry-1 {
-  background-color: RGBA(112,188,217,1.00);
-}
-
 #portfolio-1-left {
-  display: inline-block;
+  vertical-align: middle;
   width: 30%;
 }
 #portfolio-1-right {
-  display: inline-block;
   width: 68%;
+}
+#portfolio-1-description {
+  display: block;
+  width: 98%;
+  padding: 10px;
 }
 #portfolio-1-title {
   text-transform: uppercase;
@@ -587,12 +657,6 @@ and (max-device-width : 480px) {
 }
 #portfolio-1-lower-subtitle {
   /*font-size: 10px;*/
-}
-#portfolio-1-description {
-  display: inline-block;
-  vertical-align: top;
-  width: 98%;
-  margin-top: 60%;
 }
 
 /*Title and subtitle of each section*/
@@ -610,31 +674,39 @@ and (max-device-width : 480px) {
 /*Section 1*/
 #portfolio-1-section-1 {
   display: inline-block;
-  margin: 20px;
-  width: 45%;
+  padding: 20px;
+  width: 50%;
+  text-align: right;
 }
-.portfolio-1-section-text-type-1 {
+.portfolio-1-section-text {
   display: inline-block;
   vertical-align: top;
   padding-top: 15%;
-  margin-left: 5%;
-  width: 50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 68%;
 }
 .portfolio-1-section-image {
   display: inline-block;
-  width: 40%;
-  margin: 10px 10px;
+  width: 30%;
+  padding: 10px;
 }
 .portfolio-1-mediumthumbnail {
   display: block;
+  position: relative;
   width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
 }
 
 /*Section 2*/
 #portfolio-1-section-2 {
   display: inline-block;
   margin-top: 15%;
-  width: 45%;
+  width: 48%;
   vertical-align: top;
 }
 
@@ -758,7 +830,7 @@ and (max-device-width : 480px) {
   top: 0px;
   left: 0px;
   background-color: rgba(0, 0, 0, 0.7);
-  z-index: 4;
+  z-index: 7;
 }
 
 /*-------------------------*/

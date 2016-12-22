@@ -1,16 +1,14 @@
 $(document).ready(function() {
 
-  height = (window.innerHeight > 0) ? window.innerHeight : screen.height;
-  width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
   if ($("html").hasClass("ios")){
     $("body").css({
-      "min-height": height
+      "min-height": fnWindowHeight
     });
   }
 
   $(".lazy").unveil();
   isGettingNewContent = true;
-  $( document ).ajaxStop(function() {
+  $(document).ajaxStop(function() {
     if (isGettingNewContent) {
       unveil()
     }
@@ -21,16 +19,27 @@ $(document).ready(function() {
 
   pagesArray = new Array();
   arrayOfPagesContent = new Array()
+  arrayOfAnimation = [
+    toggleDisplayMosaicDissolve,
+    toggleDisplayDissolve
+  ];
 
   // Selective menu for either desktop or mobile
-  if ($("html").hasClass("desktop")){
-    $("#mobile-menu").remove();
-  } else {
-    $("#desktop-menu").remove();
-    $("body").on("click", "#menu-expanding", function(){
-      collapsingMenu("menu");
-    });
-  }
+  $("body").on("click", "#menu-expanding", function(){
+    collapsingMenu("menu");
+  });
+  dm = $("#desktop-menu").detach();
+  mm = $("#mobile-menu").detach();
+  changeDevicePreferences();
+  timeout = false;
+  delta = 500;
+  $(window).resize(function() {
+      rtime = new Date();
+      if (timeout === false) {
+          timeout = true;
+          setTimeout(resizeend, delta);
+      }
+  });
 
   //Get the hashtag from url and perform the animation as if it was clicked on
   isMenuCollapsed = true;
@@ -41,7 +50,7 @@ $(document).ready(function() {
   }
 
   //Click on a menu item
-  $(".ch-item").click(function(){
+  $("body").on("click", ".ch-item", function(){
     // window.location.hash = this.id;
     if(history.pushState) {
       history.pushState(null, null, "#" + this.id);
@@ -53,28 +62,28 @@ $(document).ready(function() {
   });
 
   // Use delegate event for new added class (after Ajax)
-  $("body").on("click", ".thumbnail-image", function(){
+  $("body").on("click touchstart", ".thumbnail-image", function(){
     currentZoommingImage = this.id;
     // currentZoommingImageWidthCss = $("#" + this.id).css("width");
     zoomImageFullScreen(this.id);
   });
 
-  $("body").on("click", "#fullscreen-blur", function(){
+  $("body").on("click touchstart", "#fullscreen-blur", function(){
     dismissFullscreenImage();
   });
 
-  $("body").on("click", "#button-cv", function(){
+  $("body").on("click touchstart", "#button-cv", function(){
   });
 
-  $("body").on("click", ".portfolio-entry", function(){
+  $("body").on("click touchstart", ".portfolio-entry", function(){
     getPortfolio(this.id);
   });
 
-  $("body").on("click", "#button-close-portfolio-entry", function(){
+  $("body").on("click touchstart", ".button-close", function(){
     closePopup();
   });
 
-  $("body").on("mouseover", "#portfolio-1-lower-subtitle", function(){
+  $("body").on("mouseover touchstart", "#portfolio-1-lower-subtitle", function(){
     textNormalise("#portfolio-1-lower-subtitle");
     $("#portfolio-alert-message").hide();
   });
@@ -84,6 +93,37 @@ $(document).ready(function() {
   });
 
 });
+
+function changeDevicePreferences(){
+  if (fnWindowWidth() <= 1010) {
+    $("html").removeClass("desktop")
+    $("html").addClass("mobile");
+  } else {
+    $("html").removeClass("mobile")
+    $("html").addClass("desktop");
+  }
+  if ($("html").hasClass("desktop")){
+    if ($("#mobile-menu").length > 0){
+      mm = $("#mobile-menu").detach();
+    }
+    $(".navigator-top").html(dm);
+  } else {
+    if ($("#desktop-menu").length > 0){
+      dm = $("#desktop-menu").detach();
+    }
+    $(".navigator-top").html(mm);
+    collapsingMenu();
+  }
+}
+
+function resizeend() {
+    if (new Date() - rtime < delta) {
+        setTimeout(resizeend, delta);
+    } else {
+        timeout = false;
+        changeDevicePreferences();
+    }
+}
 
 function unveil(){
   $(".lazy").unveil(0,function(){
@@ -112,36 +152,18 @@ function doOnOrientationChange()
 
 window.addEventListener('orientationchange', doOnOrientationChange);
 
-function getImageSize(img, callback){
-    img = $(img);
+// Get image size before it fully load. Then use that result on a callback
+function getImageSize(img, callback) {
+    var $img = $(img);
 
-    var wait = setInterval(function(){
-        var w = img.width(),
-            h = img.height();
-
-        if(w && h){
-            done(w, h);
+    var wait = setInterval(function() {
+        var w = $img[0].naturalWidth,
+            h = $img[0].naturalHeight;
+        if (w && h) {
+            clearInterval(wait);
+            callback.apply(this, [w, h]);
         }
-    }, 0);
-
-    var onLoad;
-    img.on('load', onLoad = function(){
-        done(img.width(), img.height());
-    });
-
-
-    var isDone = false;
-    function done(){
-        if(isDone){
-            return;
-        }
-        isDone = true;
-
-        clearInterval(wait);
-        img.off('load', onLoad);
-
-        callback.apply(this, arguments);
-    }
+    }, 30);
 }
 
 function textNormalise(textId){
@@ -155,47 +177,59 @@ function textEffectResizingDown(textId){
   }
 }
 function closePopup(){
-  $("#content-container-portfolio").show();
+  $("#content-container-portfolio, .navigator-top, .banner-holder").show();
   $(".popupContent").remove();
 }
 function getPortfolio(portfolioId){
   addFullscreenPopup(portfolioId);
-  $.ajax({
-    method: "POST",
-    url: "/portfolio/entries",
-    data: {"entryId": portfolioId}
-  })
-  .done(function(msg) {
-    $(".popupContent").html(msg);
-    $("#portfolio-main-container").append("<div class=\"button-close-wrapper\"><div class=\"button-close\" id=\"button-close-portfolio-entry\"></div></div>")
-    if (portfolioId === "portfolio-entry-1") {
-      textEffectResizingDown("#portfolio-1-lower-subtitle");
-    }
+  $(".popupContent").animate({
+    "opacity": 1,
+    "top": 0,
+    "left": 0,
+    "min-height": "100vh",
+    "width": "100vw"
+  }, 500, function(){
+    $("#content-container-portfolio, .navigator-top, .banner-holder").hide();
+    $(".popupContent").css("position", "relative")
+    addCloseButton(".popupContent")
+    $.ajax({
+      method: "POST",
+      url: "/portfolio/entries",
+      data: {"entryId": portfolioId}
+    })
+    .done(function(msg) {
+      $(".popupContent").html(msg);
+      $("#portfolio-main-container").animate({
+        opacity: 1
+      }, 500, function(){
 
-    $(".popupContent").animate({
-      "opacity": 1,
-      "top": 0,
-      "left": 0,
-      "min-height": height,
-      "width": width
-    }, 500, function(){
-      $("#content-container-portfolio").hide();
+      });
+      addCloseButton(".popupContent");
+      if (portfolioId === "portfolio-entry-1") {
+        textEffectResizingDown("#portfolio-1-lower-subtitle");
+      }
+    })
+    .fail(function() {
+      // alert( "error" );
     });
-
-  })
-  .fail(function() {
-    // alert( "error" );
   });
 }
-
+function addCloseButton(divId){
+  $(divId).append("<div class=\"button-close-wrapper\"><div class=\"button-close\" id=\"button-close-portfolio-entry\"></div></div>")
+}
 function addFullscreenPopup(portfolioId){
-  $("#innerBody").append("<div id=\"popupContent-" + portfolioId + "\" class=\"popupContent\"></div>")
+  $("#innerBody").append("<div id=\"popupContent-" + portfolioId + "\" class=\"popupContent\"><div id=\"portfolio-main-container\"></div></div>")
   $(".popupContent").css({
     "position": "absolute",
-    "top": $("#" + portfolioId).offset().top,
-    "left": $("#" + portfolioId).offset().left,
-    "width": "0px",
+    "display": "block",
+    "top": fnWindowHeight(),
+    "left": 0,
+    "width": "100vw",
   });
+  loadingWarning($("#portfolio-main-container"))
+  $(".popupContent ~ .loadingCon").css({
+    "z-index": 5
+  })
 }
 
 function zoomImageFullScreen(selectedImage){
@@ -209,7 +243,7 @@ function zoomImageFullScreen(selectedImage){
       // "data-src": $("#" + selectedImage).attr("src"),
       // "src": ""
     });
-    // img.addClass("lazy")
+    img.removeClass()
     $("#fullscreen-blur").html(img);
     var selectedImageRatio = $("#" + selectedImage)[0].naturalWidth / $("#" + selectedImage)[0].naturalHeight;
     if (selectedImageRatio > (fnWindowWidth()/ fnWindowHeight())){
@@ -236,7 +270,7 @@ function zoomImageFullScreen(selectedImage){
       "width": selectedImageCurrentWidth,
       "top": selectedImageCurrentTop,
       "left": selectedImageCurrentLeft,
-      "z-index": "5"
+      "z-index": "6"
     });
 
     $("#enlargened-image").animate({
@@ -323,17 +357,21 @@ function pageTransform(currentPageId){
   //   // });
   // }
   // $("#content-container-" + currentPageId).html(pageContent);
-  settleUpIndexPage(currentPageId);
+  settleDownIndexPage(currentPageId);
 }
 
-function settleUpIndexPage(clkedBtn){
+function settleDownIndexPage(clkedBtn){
   // When a menu entry is clicked, the menu is un-collapsed
-  // This function also runs when the page with hashtag loaded, that means in that case, the menu should be un-collapsed, so we can run the collapsingMenu function, to collapse and hightlight the button
+  // This function also runs when the page with hashtag loaded, that means in that case, the menu should be un-collapsed, so we can run the collapsingMenu function, to collapse and highlight the button
   isMenuCollapsed = false;
-  $(".ch-item").css("background-color", "rgba(0,0,0,0)");
-  $("#" + clkedBtn).css("background-color", "rgba(112,188,217, 0.5)");
-  $(".ch-item-li").removeClass("clicked");
-  $("#ch-item-li-" + clkedBtn).addClass("clicked");
+  mm.find(".ch-item").css("background-color", "rgba(0,0,0,0)");
+  dm.find(".ch-item").css("background-color", "rgba(0,0,0,0)");
+
+  mm.find(".ch-" + clkedBtn).css("background-color", "rgba(112,188,217, 0.5)");
+  dm.find(".ch-" + clkedBtn).css("background-color", "rgba(112,188,217, 0.5)");
+
+  mm.find(".ch-item-li").removeClass("clicked");
+  mm.find("#ch-item-li-" + clkedBtn).addClass("clicked");
   collapsingMenu(clkedBtn);
 }
 
@@ -485,20 +523,17 @@ function box_height() {
   return fnWindowHeight() / vertical_pieces;
 }
 function fnWindowHeight(){
+  // console.log((window.innerHeight > 0) ? window.innerHeight : screen.height);
   return (window.innerHeight > 0) ? window.innerHeight : screen.height;
 }
 function fnWindowWidth(){
+  // console.log((window.innerWidth > 0) ? window.innerWidth : screen.width);
    return (window.innerWidth > 0) ? window.innerWidth : screen.width;
 }
 
 function switchBanners(){
   bannerHovers = new Array();
   currentHoverCount = 0;
-
-  arrayOfAnimation = [
-    toggleDisplayMosaicDissolve,
-    toggleDisplayDissolve
-  ];
 
   var el = $('#banner1');
   el.width(fnWindowWidth()).height(fnWindowHeight());
@@ -564,10 +599,13 @@ function getBanner(bannerId){
     if (msg.error === "0") {
       pic = new Image();
       pic.src = msg.url;
-      // console.log("BackNatural: " + pic.naturalHeight + " " + pic.naturalWidth);
-      setBannerHoversPosition(pic.naturalHeight, pic.naturalWidth, bannerId);
+      // Get image size before it's fully loaded. Then use that sizes to the callback
+      getImageSize(pic, function(iwidth, iheight){
+        setBannerHoversPosition(iheight, iwidth, bannerId);
+      });
       $(bannerId).css("background-image", "url(\"" + pic.src + "\")");
-      var randomNumber = Math.floor((Math.random() * arrayOfAnimation.length) + 1);
+      // var randomNumber = Math.floor((Math.random() * arrayOfAnimation.length) + 1);
+      var randomNumber = 0;
       arrayOfAnimation[randomNumber % arrayOfAnimation.length]();
       removeSpinning()
       spinning()
@@ -594,26 +632,24 @@ function loadingWarning(elID){
 function setBannerHoversPosition(picHeight, picWidth, bannerId){
   var imageRatio = picWidth / picHeight;
   var windowRatio = fnWindowWidth() / fnWindowHeight();
+  var beginningVertiPos = 0;
+  var beginningHoriPos = 0;
   if (imageRatio > windowRatio){
     // Go full height
-    // if (bannerId != "#banner1") {
-    //   var zoomProperty = picWidth / width* vertical_pieces * 100;
-    //   $(bannerId).css("background-size", zoomProperty + "% " + vertical_pieces * 100 + "%" );
-    // } else {
-      var zoomProperty = fnWindowHeight() / picHeight;
-      $(bannerId).css("background-size", zoomProperty * picWidth + "px " + fnWindowHeight() + "px");
-    // }
+    var zoomProperty = fnWindowHeight() / picHeight;
+    $(bannerId).css("background-size", zoomProperty * picWidth + "px " + fnWindowHeight() + "px");
 
-    var vertical_position = 0;
-    var beginningHoriPos = (picWidth * fnWindowHeight() / picHeight - box_width() * horizontal_pieces)/2;
+    beginningVertiPos = 0;
+    beginningHoriPos = (picWidth * fnWindowHeight() / picHeight - box_width() * horizontal_pieces)/2;
   } else {
     // Go full width
-      var zoomProperty = fnWindowWidth() / picWidth;
-      $(bannerId).css("background-size", fnWindowWidth() + "px " + zoomProperty * picHeight + "px");
+    var zoomProperty = fnWindowWidth() / picWidth;
+    $(bannerId).css("background-size", fnWindowWidth() + "px " + zoomProperty * picHeight + "px");
 
-    var beginningHoriPos = 0;
-    var vertical_position = (picHeight * fnWindowWidth() / picWidth - box_height() * vertical_pieces)/2;
+    beginningHoriPos = 0;
+    beginningVertiPos = (picHeight * fnWindowWidth() / picWidth - box_height() * vertical_pieces)/2;
   }
+
 
   if (bannerId != "#banner1") {
     for (i=0; i<total_pieces; i++)
@@ -622,13 +658,13 @@ function setBannerHoversPosition(picHeight, picWidth, bannerId){
 
       if(i > 0 && i % horizontal_pieces === 0)
       {
-        vertical_position += box_height();
+        beginningVertiPos += box_height();
       }
 
-      bannerHovers[i].css('background-position', '-' + horizontal_position + 'px -' + vertical_position + 'px');
+      bannerHovers[i].css('background-position', '-' + horizontal_position + 'px -' + beginningVertiPos + 'px');
     }
   } else {
-    $(bannerId).css('background-position', '-' + beginningHoriPos + 'px -' + vertical_position + 'px');
+    $(bannerId).css('background-position', '-' + beginningHoriPos + 'px -' + beginningVertiPos + 'px');
   }
 }
 
