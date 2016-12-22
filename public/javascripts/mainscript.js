@@ -13,8 +13,8 @@ $(document).ready(function() {
       unveil()
     }
   })
-  isBannerHoverTransparent = true;
 
+  isBannerHoverTransparent = true;
   switchBanners();
 
   pagesArray = new Array();
@@ -25,6 +25,7 @@ $(document).ready(function() {
   ];
 
   // Selective menu for either desktop or mobile
+  isMenuCollapsed = true;
   $("body").on("click", "#menu-expanding", function(){
     collapsingMenu("menu");
   });
@@ -40,9 +41,7 @@ $(document).ready(function() {
           setTimeout(resizeend, delta);
       }
   });
-
   //Get the hashtag from url and perform the animation as if it was clicked on
-  isMenuCollapsed = true;
   if (window.location.hash != ""){
     getPages(window.location.hash.split('#')[1]);
   } else {
@@ -112,8 +111,12 @@ function changeDevicePreferences(){
       dm = $("#desktop-menu").detach();
     }
     $(".navigator-top").html(mm);
-    collapsingMenu();
+    if (!isMenuCollapsed){
+      collapsingMenu("menu");
+    }
   }
+  getBanner("#banner1");
+  resetPagesComeBeforeTheSelected();
 }
 
 function resizeend() {
@@ -400,11 +403,14 @@ function collapsingMenu(currentSelectedPageId){
                 resetPagesPosition(currentSelectedPageId);
               }
             });
+            $("#" + $(".ch-item-li")[i+1].id).show("fast");
             i++;
           } else {
             // Check if the current A[i] is  the clicked
             if (!$("#" + $(".ch-item-li")[i].id).hasClass("clicked")) {
                 $("#" + $(".ch-item-li")[i].id).slideUp("fast");
+            } else {
+              $("#" + $(".ch-item-li")[i].id).show("fast");
             }
           }
         } else {
@@ -422,6 +428,8 @@ function collapsingMenu(currentSelectedPageId){
           // Check if the current A[i] is not the clicked
           if (!$("#" + $(".ch-item-li")[i].id).hasClass("clicked")) {
               $("#" + $(".ch-item-li")[i].id).slideUp("fast");
+          } else {
+            $("#" + $(".ch-item-li")[i].id).show("fast");
           }
 
         }
@@ -604,8 +612,7 @@ function getBanner(bannerId){
         setBannerHoversPosition(iheight, iwidth, bannerId);
       });
       $(bannerId).css("background-image", "url(\"" + pic.src + "\")");
-      // var randomNumber = Math.floor((Math.random() * arrayOfAnimation.length) + 1);
-      var randomNumber = 0;
+      var randomNumber = Math.floor((Math.random() * arrayOfAnimation.length) + 1);
       arrayOfAnimation[randomNumber % arrayOfAnimation.length]();
       removeSpinning()
       spinning()

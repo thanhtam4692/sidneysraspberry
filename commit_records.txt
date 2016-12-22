@@ -1,3 +1,4 @@
 Mon 18 Dec 2016 23:34:56 ICT tamthanhtran.me 0.6.6.3 Testing committing automation
 Mon 19 Dec 2016 00:00:56 ICT tamthanhtran.me 0.6.6.4 Testing committing automation - add read/write file
 Mon 19 Dec 2016 00:14:56 ICT tamthanhtran.me 0.6.6.5 Add current datetime to commit records
+Thu 22 Dec 2016 17:23:10 ICT tamthanhtran.me 0.6.6.6 Fix banner hover failed
