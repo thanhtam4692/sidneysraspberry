@@ -1,11 +1,12 @@
 $(document).ready(function() {
 
+console.log(fnWindowHeight() + " " + fnWindowWidth());
+
   if ($("html").hasClass("ios")){
     $("body").css({
-      "min-height": fnWindowHeight
+      "min-height": fnWindowHeight()
     });
   }
-
   $(".lazy").unveil();
   isGettingNewContent = true;
   $(document).ajaxStop(function() {
@@ -35,11 +36,16 @@ $(document).ready(function() {
   timeout = false;
   delta = 500;
   $(window).resize(function() {
-      rtime = new Date();
-      if (timeout === false) {
-          timeout = true;
-          setTimeout(resizeend, delta);
-      }
+    if ($("html").hasClass("ios")){
+      $("body").css({
+        "min-height": fnWindowHeight()
+      });
+    }
+    rtime = new Date();
+    if (timeout === false) {
+        timeout = true;
+        setTimeout(resizeend, delta);
+    }
   });
   //Get the hashtag from url and perform the animation as if it was clicked on
   if (window.location.hash != ""){
@@ -61,24 +67,24 @@ $(document).ready(function() {
   });
 
   // Use delegate event for new added class (after Ajax)
-  $("body").on("click touchstart", ".thumbnail-image", function(){
+  $("body").on("click", ".thumbnail-image", function(){
     currentZoommingImage = this.id;
     // currentZoommingImageWidthCss = $("#" + this.id).css("width");
     zoomImageFullScreen(this.id);
   });
 
-  $("body").on("click touchstart", "#fullscreen-blur", function(){
+  $("body").on("click", "#fullscreen-blur", function(){
     dismissFullscreenImage();
   });
 
-  $("body").on("click touchstart", "#button-cv", function(){
+  $("body").on("click", "#button-cv", function(){
   });
 
-  $("body").on("click touchstart", ".portfolio-entry", function(){
+  $("body").on("click", ".portfolio-entry", function(){
     getPortfolio(this.id);
   });
 
-  $("body").on("click touchstart", ".button-close", function(){
+  $("body").on("click", ".button-close", function(){
     closePopup();
   });
 
@@ -486,8 +492,8 @@ function resetPagesComeBeforeTheSelected(pagei, currentSelectedPageId){
     });
     $("#content-container-" + pagei).show();
     $("#content-container-" + pagei).animate({
-      "top": 0,
-      "min-height" : fnWindowHeight() - $(".navigator-top").height()
+      "top": 0
+      // "min-height" : fnWindowHeight() - $(".navigator-top").height()
     }, 500, function(){
     });
   }

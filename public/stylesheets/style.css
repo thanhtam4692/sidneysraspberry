@@ -11,7 +11,7 @@
 html {
   /*height: 100%;*/
   box-sizing: border-box;
-  /*Prevent contetn from resizinf when the scrollbar appears*/
+  /*Prevent content from resizing when the scrollbar appears*/
   width: 100vw;
   overflow-x:hidden;
 }
@@ -37,50 +37,109 @@ a {
   text-decoration: none;
 }
 
-h1 {
+.main-title {
   padding: 20px 50px 20px 100px;
   text-align: left;
+  font-weight: bolder;
+  display: block;
 }
 
-.txt60{
+.desktop .txtGi{
   font-size: 60px;
 }
-.txt50 {
-  font-size: 50px;
-}
-.txt40 {
-  font-size: 40px;
-}
-.txt30 {
+.mobile .mtxtGi{
   font-size: 30px;
 }
-.txt25 {
-  font-size: 25px;
+
+.desktop .txtBig {
+  font-size: 50px;
 }
-.txt20 {
+.mobile .mtxtBig {
+  font-size: 30px;
+}
+
+.desktop .txtMed {
+  font-size: 40px;
+}
+.mobile .mtxtMed {
   font-size: 20px;
 }
-.txt15 {
+
+.desktop .txtReg {
+  font-size: 30px;
+}
+.mobile .mtxtReg {
   font-size: 15px;
 }
-.txt10 {
+
+.desktop .txtSmall {
+  font-size: 25px;
+}
+.mobile .mtxtSmall {
   font-size: 10px;
 }
-@media only screen and (max-width: 1250px) {
-  .txt50 {
-    font-size: 40px;
+
+.desktop .txtSmaller {
+  font-size: 20px;
+}
+.mobile .mtxtSmaller {
+  font-size: 5px;
+}
+
+.desktop .txtMinor {
+  font-size: 15px;
+}
+.mobile .mtxtMinor {
+  font-size: 2px;
+}
+
+.desktop .txtTiny {
+  font-size: 10px;
+}
+.mobile .mtxtTiny {
+  font-size: 10px;
+}
+
+@media only screen and (max-width: 414px) {
+  #button-cv-pdf  {
+    display: block;
+    width: 90%;
+    margin: 5px auto;
   }
-  .txt30 {
-    font-size: 25px;
+}
+
+@media only screen and (min-width: 415px) {
+  #button-cv-pdf  {
+    display: block;
+    width: 30%;
+    margin: 5px auto;
   }
 }
 
 @media only screen and (max-width: 1010px) {
-  #desktop .txt50 {
+  .desktop .txtBig {
     font-size: 35px;
   }
-  #desktop .txt20 {
+  .desktop .txtSmaller {
     font-size: 15px;
+  }
+}
+
+@media only screen and (max-width: 1250px) and (min-width: 1011px) {
+  .desktop .txtBig {
+    font-size: 40px;
+  }
+  .desktop .txtReg {
+    font-size: 25px;
+  }
+}
+
+@media only screen and (min-width: 1750px) {
+  .desktop #cv-container {
+    width: 15%;
+  }
+  .desktop #button-cv {
+    width: 50%;
   }
 }
 
@@ -92,17 +151,19 @@ h1 {
 .content-container {
   display: block;
   position: relative;
-  /*position: absolute;*/
   background-color: rgba(215,218,219, 1);
   border-top: 1px solid RGBA(255, 255, 255, 0.6);
-  /*border-radius: 2px;*/
   padding-bottom: 52px;
+  min-height: 100vh;
+  min-height: calc(100vh - 150px);
+  min-height: -webkit-calc(100vh - 150px);
+  min-height: -moz-calc(100vh - 150px);
 }
 
 .main-container {
-  display: table;
-  padding-left: 50px;
-  width: 100%;
+  display: block;
+  padding: 20px;
+  width: 100vw;
 }
 
 .content-text {
@@ -124,7 +185,7 @@ h1 {
 .button {
   border: 1px solid RGBA(45,62,79, 0.6);
   border-radius: 3px;
-  padding: 5px 0px;
+  padding: 5px 10px;
   text-align: center;
   cursor: pointer;
 }
@@ -136,7 +197,7 @@ h1 {
   width: 100%;
   height: 150px;
   background-color: rgba(0, 0, 0, 0.5);
-  box-shadow: 5px 5px 2px RGBA(0,0,0,.5);
+  /*box-shadow: 5px 5px 2px RGBA(0,0,0,.5);*/
 }
 .top-menu-for-devices {
   display: table;
@@ -172,12 +233,13 @@ h1 {
 
 /*Mobile Nav*/
 #mobile-menu .title-navigator-top {
-  width: 55%;
+  width: 45%;
   /*padding: 4% 0%;*/
 }
 
 #mobile-menu .menu-holder-top {
-  width: 50%;
+  width: 100%;
+  text-align: center;
   /*height: 100%;*/
 }
 
@@ -198,7 +260,7 @@ h1 {
 
 /*----Header and Hovering effect------------------------------------------------------------*/
 /*Initiate*/
-.ch-grid {
+#desktop-menu .ch-grid {
 	/*margin: 0 0 0 0;*/
 	/*padding: 0;*/
 	list-style: none;
@@ -206,6 +268,15 @@ h1 {
 	text-align: center;
 	width: 100%;
   /*height: 100%;*/
+}
+
+#mobile-menu .ch-grid {
+	padding: 0;
+	list-style: none;
+	display: inline-block;
+	text-align: center;
+	width: 80%;
+  margin: 50px auto;
 }
 
 /*.ch-grid:after,
@@ -226,8 +297,8 @@ h1 {
 .ch-grid li {
   position: relative;
 	display: inline-block;
-	margin: 0px 5px;
-  padding: 0px 2px;
+  margin: 0 auto;
+  padding: 0;
 }
 
 #desktop-menu .ch-grid li {
@@ -238,17 +309,10 @@ h1 {
 }
 
 #mobile-menu .ch-grid li {
-	width: 80%;
-  min-width: 200px;
+	width: 100%;
+  min-width: 50px;
   /*min-height: 40px;*/
-	height: 150px;
-}
-@media only screen
-and (min-device-width : 320px)
-and (max-device-width : 480px) {
- body {
- /*background: red;*/
- }
+	height: 50px;
 }
 
 /*the box shadow that has one more value line*/
@@ -388,12 +452,26 @@ and (max-device-width : 480px) {
 /*About page*/
 .content-text-about {
   padding: 0px 100px;
-  width: 70%;
+  width: 75%;
+  vertical-align: top;
+  text-align: justify;
 }
+
+.mobile .content-text-about {
+  padding: 5px 50px;
+  width: 100%;
+}
+
 #cv-container {
   display: inline-block;
   text-align: center;
-  width: 25%;
+  width: 20%;
+}
+.mobile #cv-container {
+  display: block;
+  text-align: center;
+  width: 100%;
+  margin: 10px auto;
 }
 #cv-image-container {
   width: 100%;
@@ -402,16 +480,15 @@ and (max-device-width : 480px) {
   width: 80%;
 }
 #cv-container .image-description {
-  display: inline-block;
+  display: block;
   width: 45%;
+  margin: 0 auto;
 }
 #button-cv  {
   display: inline-block;
-  width: 30%;
-}
-#button-cv-pdf  {
-  display: inline-block;
-  width: 30%;
+  vertical-align: top;
+  width: 80%;
+  margin: 5px auto;
 }
 
 /*Portfolio page*/
