@@ -340,6 +340,7 @@ function getPages(pageId){
     });
   }
   clearInterval(bannerSwitchingInterval);
+  $("#content-container-" + pageId).html("");
   pageTransform(pageId);
   $.ajax({
     method: "POST",
@@ -355,7 +356,7 @@ function getPages(pageId){
     }
   })
   .fail(function() {
-    // alert( "error" );
+    $("#content-container-" + pageId).html("<span class=\"txtSmall mtxtSmall main-title\">Sooooo sorry, something went wrong. Please try again! (You may need to check your connection)</span>")
   });
 }
 
