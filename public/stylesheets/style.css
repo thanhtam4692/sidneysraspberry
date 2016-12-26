@@ -777,15 +777,19 @@ a {
 }
 .contact-holder-sections {
   display: block;
-  width: 70%;
-  margin: 0 auto;
+  width: 80%;
+  margin: 20px auto;
+  text-align: center;
 }
 .contact-section {
   display: inline-block;
   width: 19%;
-  margin: 10px 0px;
-  min-width: 150px;
-  max-height: 152px;
+  margin: 10px 5px;
+  padding: 5px 0;
+  min-width: 200px;
+  box-shadow:
+		-4px 4px 30px RGBA(0,0,0,.4),
+		4px -4px 30px RGBA(0,0,0,.4);
 }
 .contact-miniicon {
   display: block;

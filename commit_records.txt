@@ -4,3 +4,4 @@ Mon 19 Dec 2016 00:14:56 ICT tamthanhtran.me 0.6.6.5 Add current datetime to com
 Thu 22 Dec 2016 17:23:10 ICT tamthanhtran.me 0.6.6.6 Fix banner hover failed
 Thu 22 Dec 2016 22:54:56 ICT tamthanhtran.me 0.6.6.7 Banner resizes when window resizes, finish changing menu on different devices, resize page when resize window
 Sun 25 Dec 2016 18:41:17 ICT tamthanhtran.me 0.6.7 About page mobile enhancement
+Mon 26 Dec 2016 18:34:13 ICT tamthanhtran.me 0.6.8 Portfolio page mobile UI
