@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
 console.log(fnWindowHeight() + " " + fnWindowWidth());
-
+  currentWidth = fnWindowWidth();
   if ($("html").hasClass("ios")){
     $("body").css({
       "min-height": fnWindowHeight()
@@ -42,10 +42,12 @@ console.log(fnWindowHeight() + " " + fnWindowWidth());
         "min-height": fnWindowHeight()
       });
     }
-    rtime = new Date();
-    if (timeout === false) {
-        timeout = true;
-        setTimeout(resizeend, delta);
+    if (currentWidth !== fnWindowWidth()) {
+      rtime = new Date();
+      if (timeout === false) {
+          timeout = true;
+          setTimeout(resizeend, delta);
+      }
     }
   });
   //Get the hashtag from url and perform the animation as if it was clicked on
@@ -133,6 +135,7 @@ function resizeend() {
     } else {
         timeout = false;
         changeDevicePreferences();
+        currentWidth = fnWindowWidth();
     }
 }
 
