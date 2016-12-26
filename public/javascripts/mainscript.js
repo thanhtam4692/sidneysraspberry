@@ -340,7 +340,7 @@ function getPages(pageId){
     });
   }
   clearInterval(bannerSwitchingInterval);
-  $("#content-container-" + pageId).html("");
+  $("#content-container-" + pageId + " .errMes").remove();
   pageTransform(pageId);
   $.ajax({
     method: "POST",
@@ -356,7 +356,9 @@ function getPages(pageId){
     }
   })
   .fail(function() {
-    $("#content-container-" + pageId).html("<span class=\"txtSmall mtxtSmall main-title\">Sooooo sorry, something went wrong. Please try again! (You may need to check your connection)</span>")
+    var errorContent = "<span class=\"txtSmall mtxtSmall main-title errMes\">Sooooo sorry, something went wrong. Please try again! (You may need to check your connection)</span>";
+    arrayOfPagesContent[pageId] = errorContent;
+    $("#content-container-" + pageId).html(errorContent);
   });
 }
 

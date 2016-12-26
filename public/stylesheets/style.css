@@ -788,8 +788,8 @@ a {
   padding: 5px 0;
   min-width: 200px;
   box-shadow:
-		-4px 4px 30px RGBA(0,0,0,.4),
-		4px -4px 30px RGBA(0,0,0,.4);
+		-2px 2px 10px RGBA(0,0,0,.2),
+		2px -2px 10px RGBA(0,0,0,.2);
 }
 .contact-miniicon {
   display: block;
@@ -1420,6 +1420,14 @@ a {
   }
   .portfolio-entry-background {
     left: 150px;
+  }
+}
+@media only screen and (min-width: 1500px) {
+  .desktop .txtBig {
+    font-size: 40px;
+  }
+  .desktop .txtReg {
+    font-size: 25px;
   }
 }
 
