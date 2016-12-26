@@ -13,6 +13,7 @@ console.log(fnWindowHeight() + " " + fnWindowWidth());
     if (isGettingNewContent) {
       unveil()
     }
+    textTruncating();
   })
 
   isBannerHoverTransparent = true;
@@ -97,10 +98,11 @@ console.log(fnWindowHeight() + " " + fnWindowWidth());
     $("#portfolio-alert-message").show();
   });
 
+  textTruncating()
 });
 
 function changeDevicePreferences(){
-  if (fnWindowWidth() <= 1010) {
+  if (fnWindowWidth() <= 1024) {
     $("html").removeClass("desktop")
     $("html").addClass("mobile");
   } else {
@@ -174,7 +176,16 @@ function getImageSize(img, callback) {
         }
     }, 30);
 }
-
+function textTruncating(){
+  for (var i = 0; i < $(".truncated").length; i++) {
+    var theTxt = $($(".truncated")[i]).html();
+    var length = 330;
+    var ending = '...';
+    if (theTxt.length > length) {
+      $($(".truncated")[i]).html(theTxt.substring(0, length - ending.length) + ending);
+    }
+  }
+}
 function textNormalise(textId){
   $(textId + " span").css("font-size", "20px");
 }
@@ -409,14 +420,14 @@ function collapsingMenu(currentSelectedPageId){
                 resetPagesPosition(currentSelectedPageId);
               }
             });
-            $("#" + $(".ch-item-li")[i+1].id).show("fast");
+            $("#" + $(".ch-item-li")[i+1].id).slideDown("fast");
             i++;
           } else {
             // Check if the current A[i] is  the clicked
             if (!$("#" + $(".ch-item-li")[i].id).hasClass("clicked")) {
                 $("#" + $(".ch-item-li")[i].id).slideUp("fast");
             } else {
-              $("#" + $(".ch-item-li")[i].id).show("fast");
+              $("#" + $(".ch-item-li")[i].id).slideDown("fast");
             }
           }
         } else {
@@ -435,7 +446,7 @@ function collapsingMenu(currentSelectedPageId){
           if (!$("#" + $(".ch-item-li")[i].id).hasClass("clicked")) {
               $("#" + $(".ch-item-li")[i].id).slideUp("fast");
           } else {
-            $("#" + $(".ch-item-li")[i].id).show("fast");
+            $("#" + $(".ch-item-li")[i].id).slideDown("fast");
           }
 
         }

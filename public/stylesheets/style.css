@@ -44,105 +44,6 @@ a {
   display: block;
 }
 
-.desktop .txtGi{
-  font-size: 60px;
-}
-.mobile .mtxtGi{
-  font-size: 30px;
-}
-
-.desktop .txtBig {
-  font-size: 50px;
-}
-.mobile .mtxtBig {
-  font-size: 30px;
-}
-
-.desktop .txtMed {
-  font-size: 40px;
-}
-.mobile .mtxtMed {
-  font-size: 20px;
-}
-
-.desktop .txtReg {
-  font-size: 30px;
-}
-.mobile .mtxtReg {
-  font-size: 15px;
-}
-
-.desktop .txtSmall {
-  font-size: 25px;
-}
-.mobile .mtxtSmall {
-  font-size: 10px;
-}
-
-.desktop .txtSmaller {
-  font-size: 20px;
-}
-.mobile .mtxtSmaller {
-  font-size: 5px;
-}
-
-.desktop .txtMinor {
-  font-size: 15px;
-}
-.mobile .mtxtMinor {
-  font-size: 2px;
-}
-
-.desktop .txtTiny {
-  font-size: 10px;
-}
-.mobile .mtxtTiny {
-  font-size: 10px;
-}
-
-@media only screen and (max-width: 414px) {
-  #button-cv-pdf  {
-    display: block;
-    width: 90%;
-    margin: 5px auto;
-  }
-}
-
-@media only screen and (min-width: 415px) {
-  #button-cv-pdf  {
-    display: block;
-    width: 30%;
-    margin: 5px auto;
-  }
-}
-
-@media only screen and (max-width: 1010px) {
-  .desktop .txtBig {
-    font-size: 35px;
-  }
-  .desktop .txtSmaller {
-    font-size: 15px;
-  }
-}
-
-@media only screen and (max-width: 1250px) and (min-width: 1011px) {
-  .desktop .txtBig {
-    font-size: 40px;
-  }
-  .desktop .txtReg {
-    font-size: 25px;
-  }
-}
-
-@media only screen and (min-width: 1750px) {
-  .desktop #cv-container {
-    width: 15%;
-  }
-  .desktop #button-cv {
-    width: 50%;
-  }
-}
-
 .lazy {
   opacity: 0;
   transition: opacity 0.5s ease-in;
@@ -534,13 +435,12 @@ a {
 
 .arrow {
   position: relative;
-  top: 0;
-  left: 0;
+  /*top: 0;*/
+  /*left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 0;*/
   margin: auto;
   text-align: center;
-  /*padding: 12px;*/
   /*margin-bottom: 6px;*/
   height: 60px;
   width: 100px;
@@ -548,7 +448,7 @@ a {
 .arrow:before {
   content: '';
   position: absolute;
-  top: 0;
+  bottom: 50%;
   left: 0;
   height: 25%;
   width: 50%;
@@ -562,7 +462,7 @@ a {
 .arrow:after {
   content: '';
   position: absolute;
-  top: 0;
+  bottom: 50%;
   right: 0;
   height: 25%;
   width: 51%;
@@ -590,18 +490,16 @@ a {
 .portfolio-entry-wrapper {
   position: relative;
   display: block;
-  width: 100%;
+  width: 80%;
   height: 300px;
-  margin: 0 auto;
+  margin: 50px auto;
   cursor: pointer;
-  margin-bottom: 150px;
 }
 .portfolio-entry-background {
-  display: inline-block;
+  display: block;
   position: absolute;
   background-color: RGBA(112,188,217,1.00);
-  width: 70%;
-  min-width: 500px;
+  width: 80%;
   height: 60%;
   top: 50px;
   left: 50px;
@@ -628,9 +526,9 @@ a {
   position: absolute;
   background-color: RGBA(255,255,255,1.00);
   width: 65%;
-  min-width: 500px;
-  height: 80%;
-  top: 100px;
+  /*min-width: 500px;*/
+  /*height: 80%;*/
+  top: 0px;
   left: 280px;
   box-shadow: 20px 20px 40px RGBA(0,0,0,.5);
   padding: 20px 20px;
@@ -1449,5 +1347,143 @@ a {
   } 50% {
     transform: scale(1.0);
     -webkit-transform: scale(1.0);
+  }
+}
+
+/*Responsive area*/
+.desktop .txtGi{
+  font-size: 60px;
+}
+.mobile .mtxtGi{
+  font-size: 30px;
+}
+
+.desktop .txtBig {
+  font-size: 50px;
+}
+.mobile .mtxtBig {
+  font-size: 30px;
+}
+
+.desktop .txtMed {
+  font-size: 40px;
+}
+.mobile .mtxtMed {
+  font-size: 20px;
+}
+
+.desktop .txtReg {
+  font-size: 30px;
+}
+.mobile .mtxtReg {
+  font-size: 15px;
+}
+
+.desktop .txtSmall {
+  font-size: 25px;
+}
+.mobile .mtxtSmall {
+  font-size: 10px;
+}
+
+.desktop .txtSmaller {
+  font-size: 20px;
+}
+.mobile .mtxtSmaller {
+  font-size: 5px;
+}
+
+.desktop .txtMinor {
+  font-size: 15px;
+}
+.mobile .mtxtMinor {
+  font-size: 2px;
+}
+
+.desktop .txtTiny {
+  font-size: 10px;
+}
+.mobile .mtxtTiny {
+  font-size: 10px;
+}
+
+@media only screen and (min-width: 1750px) {
+  .desktop #cv-container {
+    width: 15%;
+  }
+  .desktop #button-cv {
+    width: 50%;
+  }
+  .portfolio-entry-background {
+    left: 150px;
+  }
+}
+
+@media only screen and (max-width: 1250px) and (min-width: 1025px) {
+  .desktop .txtBig {
+    font-size: 40px;
+  }
+  .desktop .txtReg {
+    font-size: 25px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .desktop .txtBig {
+    font-size: 35px;
+  }
+  .desktop .txtReg {
+    font-size: 25px;
+  }
+  .desktop .txtSmaller {
+    font-size: 20px;
+  }
+  .portfolio-entries, .portfolio-entry-wrapper {
+    width: 100%;
+  }
+  .portfolio-entry-description-holder {
+    width: 60%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .portfolio-entry-wrapper {
+    height: auto;
+    /*margin: 50px auto;*/
+  }
+  .portfolio-entry-background {
+    width: 90%;
+    height: 60%;
+    margin: auto;
+    left: 10px;
+    top: 10px;
+  }
+  .portfolio-entry-image-holder, .portfolio-entry-image-holder .image-wrapper {
+    display: block;
+    margin: auto;
+    width: 100%;
+  }
+  .portfolio-entry-description-holder {
+    display: block;
+    position: relative;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    padding: 20px 20px;
+  }
+}
+
+@media only screen and (min-width: 415px) {
+  #button-cv-pdf  {
+    display: block;
+    width: 30%;
+    margin: 5px auto;
+  }
+}
+@media only screen and (max-width: 414px) {
+  #button-cv-pdf  {
+    display: block;
+    width: 90%;
+    margin: 5px auto;
   }
 }
