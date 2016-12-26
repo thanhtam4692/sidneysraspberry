@@ -6,3 +6,4 @@ Thu 22 Dec 2016 22:54:56 ICT tamthanhtran.me 0.6.6.7 Banner resizes when window 
 Sun 25 Dec 2016 18:41:17 ICT tamthanhtran.me 0.6.7 About page mobile enhancement
 Mon 26 Dec 2016 18:34:13 ICT tamthanhtran.me 0.6.8 Portfolio page mobile UI
 Mon 26 Dec 2016 20:00:10 ICT tamthanhtran.me 0.6.9 Contact page mobile UI
+Mon 26 Dec 2016 20:21:30 ICT tamthanhtran.me 0.6.9.1 Fix portfolio 2 event description

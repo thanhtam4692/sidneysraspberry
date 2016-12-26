@@ -149,7 +149,7 @@ function unveil(){
 
 function doOnOrientationChange()
 {
-  location.reload();
+  // location.reload();
   switch(window.orientation)
   {
     case -90:
