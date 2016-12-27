@@ -10,3 +10,4 @@ Mon 26 Dec 2016 20:21:30 ICT tamthanhtran.me 0.6.9.1 Fix portfolio 2 event descr
 Mon 26 Dec 2016 20:32:46 ICT tamthanhtran.me 0.6.9.2 Remove reloading page when the screen reorientates
 Mon 26 Dec 2016 21:31:00 ICT tamthanhtran.me 0.6.9.3 Fix error message displaying
 Mon 26 Dec 2016 21:51:43 ICT tamthanhtran.me 0.6.9.4 Fix resize problem on mobile browsers where the resize event is triggered by scrolling
+Tue 27 Dec 2016 22:03:31 ICT tamthanhtran.me 0.6.9.4 Temporary fix for close button

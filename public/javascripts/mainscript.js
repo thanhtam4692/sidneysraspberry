@@ -90,7 +90,9 @@ console.log(fnWindowHeight() + " " + fnWindowWidth());
   if ('ontouchstart' in document.documentElement) {
     $("body").on("tap", ".button-close", function(){
       // $(this).trigger('click');
-      closePopup();
+      setTimeout(function(){
+        closePopup();
+      }, 10)
       // alert("tou");
     });
   } else {
