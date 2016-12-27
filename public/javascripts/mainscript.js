@@ -87,9 +87,18 @@ console.log(fnWindowHeight() + " " + fnWindowWidth());
     getPortfolio(this.id);
   });
 
-  $("body").on("click", ".button-close", function(){
-    closePopup();
-  });
+  if ('ontouchstart' in document.documentElement) {
+    $("body").on("tap", ".button-close", function(){
+      // $(this).trigger('click');
+      closePopup();
+      // alert("tou");
+    });
+  } else {
+    $("body").on("click", ".button-close", function(){
+      closePopup();
+      // alert("cli");
+    });
+  }
 
   $("body").on("mouseover touchstart", "#portfolio-1-lower-subtitle", function(){
     textNormalise("#portfolio-1-lower-subtitle");
@@ -200,8 +209,10 @@ function textEffectResizingDown(textId){
   }
 }
 function closePopup(){
-  $("#content-container-portfolio, .navigator-top, .banner-holder").show();
-  $(".popupContent").remove();
+  $(".popupContent").hide();
+  $("#content-container-portfolio, .navigator-top, .banner-holder").show(0, function(){
+    $(".popupContent").remove();
+  });
 }
 function getPortfolio(portfolioId){
   addFullscreenPopup(portfolioId);

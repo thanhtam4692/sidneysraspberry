@@ -410,7 +410,10 @@ a {
   vertical-align: middle;
   z-index: 5;
 }
-.button-close-wrapper:hover {
+.desktop .button-close-wrapper:hover {
+  background-color: #FFF;
+}
+.mobile .button-close-wrapper {
   background-color: #FFF;
 }
 .button-close {
