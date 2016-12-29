@@ -110,9 +110,28 @@ console.log(fnWindowHeight() + " " + fnWindowWidth());
     textEffectResizingDown("#portfolio-1-lower-subtitle");
     $("#portfolio-alert-message").show();
   });
-
-  textTruncating()
+  var insertListener = function(event){
+  	if (event.animationName == "nodeInserted") {
+      if ($(event.target).hasClass("gettingResized")) {
+        textEffectResizingDown("#portfolio-1-lower-subtitle");
+      }
+      if ($(event.target).hasClass("gettingTruncating")) {
+        textTruncating()
+      }
+  	}
+  }
+  document.addEventListener("animationstart", insertListener, false); // standard + firefox
+  document.addEventListener("MSAnimationStart", insertListener, false); // IE
+  document.addEventListener("webkitAnimationStart", insertListener, false); // Chrome + Safari
 });
+
+function resetFn(){
+  // Restart animation so text manipulating could restart
+  $(".gettingResized").css("animation-name", "none");
+  setTimeout(function(){
+    $(".gettingResized").css("animation-name", "nodeInserted");
+  },0);
+}
 
 function changeDevicePreferences(){
   if (fnWindowWidth() <= 1024) {
@@ -122,6 +141,7 @@ function changeDevicePreferences(){
     $("html").removeClass("mobile")
     $("html").addClass("desktop");
   }
+
   if ($("html").hasClass("desktop")){
     if ($("#mobile-menu").length > 0){
       mm = $("#mobile-menu").detach();
@@ -146,6 +166,7 @@ function resizeend() {
     } else {
         timeout = false;
         changeDevicePreferences();
+        resetFn();
         currentWidth = fnWindowWidth();
     }
 }
@@ -191,23 +212,26 @@ function getImageSize(img, callback) {
     }, 30);
 }
 function textTruncating(){
-  for (var i = 0; i < $(".truncated").length; i++) {
-    var theTxt = $($(".truncated")[i]).html();
+  for (var i = 0; i < $(".gettingTruncating").length; i++) {
+    var theTxt = $($(".gettingTruncating")[i]).html();
     var length = 330;
     var ending = '...';
     if (theTxt.length > length) {
-      $($(".truncated")[i]).html(theTxt.substring(0, length - ending.length) + ending);
+      $($(".gettingTruncating")[i]).html(theTxt.substring(0, length - ending.length) + ending);
     }
   }
 }
 function textNormalise(textId){
-  $(textId + " span").css("font-size", "20px");
+  var currentFontSize = $(textId).children("span").css("font-size");
+  $(textId + " span").css("font-size", currentFontSize);
 }
 function textEffectResizingDown(textId){
+  var currentFontSize = $(textId).css("font-size");
+  currentFontSize = currentFontSize.slice(0, currentFontSize.length - 2);
   var theText = $(textId).text();
   $(textId).html("");
   for (var i = 0; i < theText.length; i++) {
-    $(textId).append("<span style=\"font-size: " + (20 - (20-2)/theText.length * i) + "px;\">" + theText.charAt(i) + "</span>");
+    $(textId).append("<span style=\"font-size: " + (currentFontSize - (currentFontSize-0.1)/theText.length * i) + "px;\">" + theText.charAt(i) + "</span>");
   }
 }
 function closePopup(){
@@ -241,9 +265,6 @@ function getPortfolio(portfolioId){
 
       });
       addCloseButton(".popupContent");
-      if (portfolioId === "portfolio-entry-1") {
-        textEffectResizingDown("#portfolio-1-lower-subtitle");
-      }
     })
     .fail(function() {
       // alert( "error" );

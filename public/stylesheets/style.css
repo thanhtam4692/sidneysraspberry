@@ -66,9 +66,9 @@ a {
   padding: 20px;
   width: 100vw;
   min-height: 100vh;
-  min-height: calc(100vh - 52px);
-  min-height: -webkit-calc(100vh - 52px);
-  min-height: -moz-calc(100vh - 52px);
+  min-height: calc(100vh - 202px);
+  min-height: -webkit-calc(100vh - 202px);
+  min-height: -moz-calc(100vh - 202px);
 }
 
 .content-text {
@@ -488,7 +488,12 @@ a {
   opacity: 0;
   padding-bottom: 52px;
 }
-
+.popupContent .main-container {
+  min-height: 100vh;
+  min-height: calc(100vh - 52px);
+  min-height: -webkit-calc(100vh - 52px);
+  min-height: -moz-calc(100vh - 52px);
+}
 .portfolio-entries {
   display: block;
   width: 80%;
@@ -613,32 +618,34 @@ a {
 }
 #popupContent-portfolio-entry-1 #portfolio-main-container {
   color: rgb(255, 255, 255);
+  display: table;
 }
-#popupContent-portfolio-entry-1 .portfolio-container {
-  min-height: 100%;
+.desktop #popupContent-portfolio-entry-1 .portfolio-container {
+  vertical-align: middle;
   display: table-cell;
 }
-#portfolio-1-left {
+
+.mobile #popupContent-portfolio-entry-1 .portfolio-container {
+  display: block;
+  width: 98%;
+  margin: 0 auto;
+}
+.desktop #portfolio-1-left {
   vertical-align: middle;
   width: 30%;
 }
-#portfolio-1-right {
+.desktop #portfolio-1-right {
   width: 68%;
 }
 #portfolio-1-description {
   display: block;
-  width: 98%;
-  padding: 10px;
+  width: 100%;
+  text-align: justify;
+  padding: 60px 5px;
 }
 #portfolio-1-title {
   text-transform: uppercase;
-  font-size: 50px;
-}
-#portfolio-1-upper-subtitle {
-  font-size: 15px;
-}
-#portfolio-1-lower-subtitle {
-  /*font-size: 10px;*/
+  text-align: left;
 }
 
 /*Title and subtitle of each section*/
@@ -656,9 +663,14 @@ a {
 /*Section 1*/
 #portfolio-1-section-1 {
   display: inline-block;
-  padding: 20px;
+  padding: 15px;
   width: 50%;
   text-align: right;
+}
+.mobile #portfolio-1-section-1 {
+  padding: 5px;
+  width: 100%;
+  margin: 0 auto;
 }
 .portfolio-1-section-text {
   display: inline-block;
@@ -666,11 +678,19 @@ a {
   padding-top: 15%;
   padding-left: 10px;
   padding-right: 10px;
-  width: 68%;
+  width: 50%;
+}
+#portfolio-1-lower-subtitle {
+  line-height: 1;
+}
+.mobile .portfolio-1-section-text {
+  padding: 5px;
+  width: 50%;
 }
 .portfolio-1-section-image {
   display: inline-block;
-  width: 30%;
+  width: 35%;
+  min-width: 150px;
   padding: 10px;
 }
 .portfolio-1-mediumthumbnail {
@@ -690,15 +710,26 @@ a {
   margin-top: 15%;
   width: 48%;
   vertical-align: top;
+  text-align: left;
+}
+.mobile #portfolio-1-section-2 {
+  width: 100%;
+  padding: 5px;
+  margin: 0 auto;
 }
 
 /*Section 3*/
+#portfolio-1-section-3 {
+  margin-top: 40px;
+}
 #portfolio-1-section-3 .portfolio-1-section-image {
-  width: 30%;
+  width: 49%;
   text-align: right;
 }
 .portfolio-1-minithumbnail {
-  width: 30%;
+  width: 20%;
+  max-width: 150px;
+  min-width: 100px;
 }
 .portfolio-1-section-text-type-2 {
   display: inline-block;
@@ -709,7 +740,7 @@ a {
 
 /*Section 4*/
 #portfolio-1-section-4 .portfolio-1-section-image {
-  width: 30%;
+  width: 50%;
   text-align: left;
 }
 
@@ -717,7 +748,7 @@ a {
   display: inline-block;
   vertical-align: top;
   text-align: right;
-  width: 50%;
+  width: 49%;
 }
 
 /*Portfolio entry 2*/
@@ -1351,14 +1382,50 @@ a {
   50% { -webkit-transform: scale(1.0) }
 }
 
+@-o-keyframes sk-bounce {
+  0%, 100% { -o-transform: scale(0.0) }
+  50% { -o-transform: scale(1.0) }
+}
+@-ms-keyframes sk-bounce {
+  0%, 100% { -ms-transform: scale(0.0) }
+  50% { -ms-transform: scale(1.0) }
+}
+@-moz-keyframes sk-bounce {
+  0%, 100% { -moz-transform: scale(0.0) }
+  50% { -moz-transform: scale(1.0) }
+}
 @keyframes sk-bounce {
   0%, 100% {
     transform: scale(0.0);
-    -webkit-transform: scale(0.0);
   } 50% {
     transform: scale(1.0);
-    -webkit-transform: scale(1.0);
   }
+}
+
+.gettingResized, .gettingTruncating {
+  animation-duration: 0.001s;
+  animation-name: nodeInserted;
+}
+/* set up the keyframes; remember to create prefixed keyframes too! */
+@keyframes nodeInserted {
+	from { opacity: 0.99; }
+	to { opacity: 1; }
+}
+@-o-keyframes nodeInserted {
+	from { opacity: 0.99; }
+	to { opacity: 1; }
+}
+@-webkit-keyframes nodeInserted {
+	from { opacity: 0.99; }
+	to { opacity: 1; }
+}
+@-moz-keyframes nodeInserted {
+	from { opacity: 0.99; }
+	to { opacity: 1; }
+}
+@-ms-keyframes nodeInserted {
+	from { opacity: 0.99; }
+	to { opacity: 1; }
 }
 
 /*Responsive area*/
@@ -1418,9 +1485,9 @@ a {
   font-size: 10px;
 }
 
-@media only screen and (min-width: 1750px) {
+@media only screen and (min-width: 1920px) {
   .desktop #cv-container {
-    width: 15%;
+    width: 22%;
   }
   .desktop #button-cv {
     width: 50%;
@@ -1428,17 +1495,20 @@ a {
   .portfolio-entry-background {
     left: 150px;
   }
+  .desktop .txtSmaller {
+    font-size: 30px;
+  }
 }
-@media only screen and (min-width: 1500px) {
+@media only screen and (min-width: 1680px) {
   .desktop .txtBig {
-    font-size: 40px;
+    font-size: 60px;
   }
   .desktop .txtReg {
-    font-size: 25px;
+    font-size: 35px;
   }
 }
 
-@media only screen and (max-width: 1250px) and (min-width: 1025px) {
+@media only screen and (max-width: 1440px) and (min-width: 1025px) {
   .desktop .txtBig {
     font-size: 40px;
   }
@@ -1497,6 +1567,9 @@ a {
     display: block;
     width: 30%;
     margin: 5px auto;
+  }
+  .mobile .mtxtReg {
+    font-size: 25px;
   }
 }
 @media only screen and (max-width: 414px) {
