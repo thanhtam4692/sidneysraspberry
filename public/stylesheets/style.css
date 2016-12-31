@@ -205,6 +205,9 @@ a {
   margin: 0 auto;
   padding: 0;
 }
+.mobile .ch-grid li {
+	display: block;
+}
 
 #desktop-menu .ch-grid li {
 	width: 23%;
@@ -623,6 +626,7 @@ a {
 .desktop #popupContent-portfolio-entry-1 .portfolio-container {
   vertical-align: middle;
   display: table-cell;
+  text-align: center;
 }
 
 .mobile #popupContent-portfolio-entry-1 .portfolio-container {
@@ -651,20 +655,18 @@ a {
 /*Title and subtitle of each section*/
 .text-title {
   padding: 20px 0 0 0;
-  font-size: 30px;
   font-weight: bold;
 }
 .text-subtitle {
   padding: 0 0 0 0;
-  font-size: 20px;
   font-weight: normal;
 }
 
 /*Section 1*/
 #portfolio-1-section-1 {
   display: inline-block;
-  padding: 15px;
-  width: 50%;
+  padding: 5px;
+  width: 49%;
   text-align: right;
 }
 .mobile #portfolio-1-section-1 {
@@ -690,7 +692,7 @@ a {
 .portfolio-1-section-image {
   display: inline-block;
   width: 35%;
-  min-width: 150px;
+  min-width: 120px;
   padding: 10px;
 }
 .portfolio-1-mediumthumbnail {
@@ -708,7 +710,8 @@ a {
 #portfolio-1-section-2 {
   display: inline-block;
   margin-top: 15%;
-  width: 48%;
+  padding: 5px;
+  width: 49%;
   vertical-align: top;
   text-align: left;
 }
@@ -719,8 +722,9 @@ a {
 }
 
 /*Section 3*/
-#portfolio-1-section-3 {
-  margin-top: 40px;
+#portfolio-1-section-3, #portfolio-1-section-4 {
+  margin: 40px auto auto 0px;
+  text-align: center;
 }
 #portfolio-1-section-3 .portfolio-1-section-image {
   width: 49%;
@@ -735,12 +739,12 @@ a {
   display: inline-block;
   vertical-align: top;
   text-align: left;
-  width: 50%;
+  width: 49%;
 }
 
 /*Section 4*/
 #portfolio-1-section-4 .portfolio-1-section-image {
-  width: 50%;
+  width: 49%;
   text-align: left;
 }
 
@@ -1468,14 +1472,14 @@ a {
   font-size: 20px;
 }
 .mobile .mtxtSmaller {
-  font-size: 5px;
+  font-size: 15px;
 }
 
 .desktop .txtMinor {
   font-size: 15px;
 }
 .mobile .mtxtMinor {
-  font-size: 2px;
+  font-size: 10px;
 }
 
 .desktop .txtTiny {

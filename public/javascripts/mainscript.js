@@ -13,7 +13,6 @@ console.log(fnWindowHeight() + " " + fnWindowWidth());
     if (isGettingNewContent) {
       unveil()
     }
-    textTruncating();
   })
 
   isBannerHoverTransparent = true;
@@ -435,13 +434,23 @@ function settleDownIndexPage(clkedBtn){
   collapsingMenu(clkedBtn);
 }
 
+// For a smooth collapsing menu transition effect
+function collapingTimeout(){
+  if (elIndex < $("#mobile-menu .ch-item-li").length) {
+    $($("#mobile-menu .ch-item-li")[elIndex]).slideDown(100, function(){
+    });
+    elIndex++;
+    setTimeout(collapingTimeout, 50)
+  }
+}
 function collapsingMenu(currentSelectedPageId){
   // Check is mobile menu exists. If not, re-positioning the pages
   if ($("#mobile-menu").length > 0) {
     // Check if the menu is collapsed.
     if (isMenuCollapsed) {
       // The menu is collapsed, now un-collapse it
-      $("#mobile-menu .ch-grid .ch-item-li").slideDown();
+      elIndex = 0;
+      collapingTimeout();
       isMenuCollapsed = false; // Now the menu is un-collapsed, set isMenuCollapsed to false
     } else {
       // Go through all of the .ch-item-li array A - the menu entries
