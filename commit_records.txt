@@ -13,3 +13,4 @@ Mon 26 Dec 2016 21:51:43 ICT tamthanhtran.me 0.6.9.4 Fix resize problem on mobil
 Tue 27 Dec 2016 22:03:31 ICT tamthanhtran.me 0.6.9.4 Temporary fix for close button
 Tue 27 Dec 2016 22:41:29 ICT tamthanhtran.me 0.6.9.5 Fix for close button on tap and/or click
 Fri 30 Dec 2016 03:37:20 ICT tamthanhtran.me 0.6.10 Update mobile UI for portfolio entry 1
+Sat 31 Dec 2016 17:09:18 ICT tamthanhtran.me 0.6.11 Update mobile UI for portfolio entry 1
