@@ -69,7 +69,7 @@ console.log(fnWindowHeight() + " " + fnWindowWidth());
   });
 
   // Use delegate event for new added class (after Ajax)
-  $("body").on("click", ".thumbnail-image", function(){
+  $("body").on("click", ".thumbnail", function(){
     currentZoommingImage = this.id;
     // currentZoommingImageWidthCss = $("#" + this.id).css("width");
     zoomImageFullScreen(this.id);
@@ -103,11 +103,9 @@ console.log(fnWindowHeight() + " " + fnWindowWidth());
 
   $("body").on("mouseover touchstart", "#portfolio-1-lower-subtitle", function(){
     textNormalise("#portfolio-1-lower-subtitle");
-    $("#portfolio-alert-message").hide();
   });
   $("body").on("mouseleave", "#portfolio-1-lower-subtitle", function(){
     textEffectResizingDown("#portfolio-1-lower-subtitle");
-    $("#portfolio-alert-message").show();
   });
   var insertListener = function(event){
   	if (event.animationName == "nodeInserted") {
@@ -133,7 +131,7 @@ function resetFn(){
 }
 
 function changeDevicePreferences(){
-  if (fnWindowWidth() <= 1024) {
+  if (fnWindowWidth() <= 800) {
     $("html").removeClass("desktop")
     $("html").addClass("mobile");
   } else {
@@ -223,6 +221,7 @@ function textTruncating(){
 function textNormalise(textId){
   var currentFontSize = $(textId).children("span").css("font-size");
   $(textId + " span").css("font-size", currentFontSize);
+  $("#portfolio-alert-message").hide();
 }
 function textEffectResizingDown(textId){
   var currentFontSize = $(textId).css("font-size");
@@ -232,10 +231,12 @@ function textEffectResizingDown(textId){
   for (var i = 0; i < theText.length; i++) {
     $(textId).append("<span style=\"font-size: " + (currentFontSize - (currentFontSize-0.1)/theText.length * i) + "px;\">" + theText.charAt(i) + "</span>");
   }
+  $("#portfolio-alert-message").show();
 }
 function closePopup(){
   $(".popupContent").hide();
   $("#content-container-portfolio, .navigator-top, .banner-holder").show(0, function(){
+    $(document).scrollTop(currentScrollTop);
     $(".popupContent").remove();
   });
 }
@@ -248,8 +249,11 @@ function getPortfolio(portfolioId){
     "min-height": "100vh",
     "width": "100vw"
   }, 500, function(){
-    $("#content-container-portfolio, .navigator-top, .banner-holder").hide();
-    $(".popupContent").css("position", "relative")
+    currentScrollTop = $(document).scrollTop();
+    $(".navigator-top").slideUp(function(){
+      $(".popupContent").css("position", "relative")
+    });
+    $("#content-container-portfolio").hide();
     addCloseButton(".popupContent")
     $.ajax({
       method: "POST",
@@ -276,7 +280,7 @@ function addCloseButton(divId){
 function addFullscreenPopup(portfolioId){
   $("#innerBody").append("<div id=\"popupContent-" + portfolioId + "\" class=\"popupContent\"><div id=\"portfolio-main-container\"></div></div>")
   $(".popupContent").css({
-    "position": "absolute",
+    "position": "fixed",
     "display": "block",
     "top": fnWindowHeight(),
     "left": 0,
@@ -315,8 +319,8 @@ function zoomImageFullScreen(selectedImage){
       var selectedImageStartingPositionVertical = 0;
       var selectedImageStartingPositionHorizontal = (fnWindowWidth() - selectedImageWidth) / 2;
     }
-    var selectedImageCurrentTop = $("#" + selectedImage).offset().top;
-    var selectedImageCurrentLeft = $("#" + selectedImage).offset().left;
+    var selectedImageCurrentTop = $("#" + selectedImage).offset().top - $(document).scrollTop();
+    var selectedImageCurrentLeft = $("#" + selectedImage).offset().left - $(document).scrollLeft();
     var selectedImageCurrentHeight = $("#" + selectedImage).height();
     var selectedImageCurrentWidth = $("#" + selectedImage).width();
 
@@ -437,10 +441,12 @@ function settleDownIndexPage(clkedBtn){
 // For a smooth collapsing menu transition effect
 function collapingTimeout(){
   if (elIndex < $("#mobile-menu .ch-item-li").length) {
-    $($("#mobile-menu .ch-item-li")[elIndex]).slideDown(100, function(){
-    });
+    $($("#mobile-menu .ch-item-li")[elIndex]).slideDown(200, function(){
+    }).animate({
+      opacity: 1
+    }, 200);
     elIndex++;
-    setTimeout(collapingTimeout, 50)
+    setTimeout(collapingTimeout, 100)
   }
 }
 function collapsingMenu(currentSelectedPageId){
@@ -468,13 +474,17 @@ function collapsingMenu(currentSelectedPageId){
               if (currentSelectedPageId != "menu"){
                 resetPagesPosition(currentSelectedPageId);
               }
-            });
+            }).animate({
+              opacity: 0
+            }, 100);
             $("#" + $(".ch-item-li")[i+1].id).slideDown("fast");
             i++;
           } else {
             // Check if the current A[i] is  the clicked
             if (!$("#" + $(".ch-item-li")[i].id).hasClass("clicked")) {
-                $("#" + $(".ch-item-li")[i].id).slideUp("fast");
+                $("#" + $(".ch-item-li")[i].id).slideUp("fast").animate({
+                  opacity: 0
+                }, 100);
             } else {
               $("#" + $(".ch-item-li")[i].id).slideDown("fast");
             }
@@ -488,12 +498,16 @@ function collapsingMenu(currentSelectedPageId){
               if (currentSelectedPageId != "menu"){
                 resetPagesPosition(currentSelectedPageId);
               }
-            });
+            }).animate({
+              opacity: 0
+            }, 100);
           }
 
           // Check if the current A[i] is not the clicked
           if (!$("#" + $(".ch-item-li")[i].id).hasClass("clicked")) {
-              $("#" + $(".ch-item-li")[i].id).slideUp("fast");
+              $("#" + $(".ch-item-li")[i].id).slideUp("fast").animate({
+                opacity: 0
+              }, 100);
           } else {
             $("#" + $(".ch-item-li")[i].id).slideDown("fast");
           }
