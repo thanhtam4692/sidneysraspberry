@@ -44,11 +44,6 @@ a {
   display: block;
 }
 
-.lazy {
-  opacity: 0;
-  transition: opacity 0.5s ease-in;
-}
-
 .content-container {
   display: block;
   position: relative;
@@ -1443,7 +1438,7 @@ a {
   }
 }
 
-.gettingResized, .gettingTruncating {
+.gettingResized, .gettingTruncating, img.lazy {
   animation-duration: 0.001s;
   animation-name: nodeInserted;
 }
@@ -1540,7 +1535,7 @@ a {
     font-size: 30px;
   }
 }
-@media only screen and (min-width: 1680px) {
+@media only screen and (min-width: 1681px) {
   .desktop .txtBig {
     font-size: 60px;
   }
@@ -1557,7 +1552,7 @@ a {
   }
 }
 
-@media only screen and (max-width: 1440px) and (min-width: 1025px) {
+@media only screen and (min-width: 1025px) and (max-width: 1440px)  {
   .desktop .txtBig {
     font-size: 40px;
   }

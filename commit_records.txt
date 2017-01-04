@@ -15,3 +15,4 @@ Tue 27 Dec 2016 22:41:29 ICT tamthanhtran.me 0.6.9.5 Fix for close button on tap
 Fri 30 Dec 2016 03:37:20 ICT tamthanhtran.me 0.6.10 Update mobile UI for portfolio entry 1
 Sat 31 Dec 2016 17:09:18 ICT tamthanhtran.me 0.6.11 Update mobile UI for portfolio entry 1
 Sun  1 Jan 2017 19:29:16 ICT tamthanhtran.me 0.7 Update mobile UI for portfolio entry 2
+Tue  3 Jan 2017 20:50:28 ICT tamthanhtran.me 0.8 Mobile UI first completed

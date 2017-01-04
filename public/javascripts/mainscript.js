@@ -7,13 +7,13 @@ console.log(fnWindowHeight() + " " + fnWindowWidth());
       "min-height": fnWindowHeight()
     });
   }
-  $(".lazy").unveil();
+  $("img.lazy").lazyload();
   isGettingNewContent = true;
-  $(document).ajaxStop(function() {
-    if (isGettingNewContent) {
-      unveil()
-    }
-  })
+  // $(document).ajaxStop(function() {
+  //   if (isGettingNewContent) {
+  //     unveil()
+  //   }
+  // })
 
   isBannerHoverTransparent = true;
   switchBanners();
@@ -115,6 +115,11 @@ console.log(fnWindowHeight() + " " + fnWindowWidth());
       if ($(event.target).hasClass("gettingTruncating")) {
         textTruncating()
       }
+      if ($(event.target).hasClass("lazy")) {
+        if (isGettingNewContent) {
+          unveil($(event.target))
+        }
+      }
   	}
   }
   document.addEventListener("animationstart", insertListener, false); // standard + firefox
@@ -168,15 +173,20 @@ function resizeend() {
     }
 }
 
-function unveil(){
-  $(".lazy").unveil(0,function(){
-    loadingWarning($(this))
-    $(this).load(function(){
-      this.style.opacity = 1;
-      loadingWarning($(this))
-      $(this).removeClass("lazy")
-    })
-  })
+function unveil(target){
+  loadingWarning(target)
+  target.lazyload({
+    load: function(){
+      $(this).load(function(){
+        this.style.opacity = 0;
+        $(this).animate({
+          opacity: 1
+        })
+        loadingWarning($(this))
+        $(this).removeClass("lazy")
+      })
+    }
+  });
 }
 
 function doOnOrientationChange()
