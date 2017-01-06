@@ -451,12 +451,12 @@ function settleDownIndexPage(clkedBtn){
 // For a smooth collapsing menu transition effect
 function collapingTimeout(){
   if (elIndex < $("#mobile-menu .ch-item-li").length) {
-    $($("#mobile-menu .ch-item-li")[elIndex]).slideDown(200, function(){
+    $($("#mobile-menu .ch-item-li")[elIndex]).slideDown(100, function(){
     }).animate({
       opacity: 1
-    }, 200);
+    }, 50);
     elIndex++;
-    setTimeout(collapingTimeout, 100)
+    setTimeout(collapingTimeout, 50)
   }
 }
 function collapsingMenu(currentSelectedPageId){
@@ -631,6 +631,7 @@ function fnWindowWidth(){
 
 function switchBanners(){
   bannerHovers = new Array();
+  bannerHoversOrder = new Array();
   currentHoverCount = 0;
 
   var el = $('#banner1');
@@ -647,6 +648,7 @@ function switchBanners(){
 
     el.append(tempEl);
     bannerHovers.push(tempEl);
+    bannerHoversOrder.push(i);
   }
   $('#banner1 .hover').width(box_width()).height(box_height());
 
@@ -687,7 +689,7 @@ function getBanner(bannerId){
   $("#banner1").width(fnWindowWidth()).height(fnWindowHeight());
   $("#banner1 .hover").width(box_width()).height(box_height());
 
-  // loadingWarning(bannerId);
+  bannerHoversOrder = shuffleArray(bannerHoversOrder);
   $.ajax({
     method: "POST",
     url: "/banners",
@@ -747,7 +749,6 @@ function setBannerHoversPosition(picHeight, picWidth, bannerId){
     beginningVertiPos = (picHeight * fnWindowWidth() / picWidth - box_height() * vertical_pieces)/2;
   }
 
-
   if (bannerId != "#banner1") {
     for (i=0; i<total_pieces; i++)
     {
@@ -767,7 +768,7 @@ function setBannerHoversPosition(picHeight, picWidth, bannerId){
 
 function toggleDisplayMosaicDissolve()
 {
-  var tempEl = bannerHovers[currentHoverCount];
+  var tempEl = bannerHovers[bannerHoversOrder[currentHoverCount]];
 
   if (currentHoverCount === 0) {
     var opacity = tempEl.css("opacity");
@@ -803,6 +804,17 @@ function toggleDisplayMosaicDissolve()
     currentHoverCount = 0;
   }
 
+}
+
+/*	shuffleArray source: http://stackoverflow.com/questions/2450954/how-to-randomize-a-javascript-array#12646864 */
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    return array;
 }
 
 function toggleDisplayMosaicFlip()
