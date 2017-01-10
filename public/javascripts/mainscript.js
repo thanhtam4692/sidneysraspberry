@@ -101,16 +101,16 @@ console.log(fnWindowHeight() + " " + fnWindowWidth());
     });
   }
 
-  $("body").on("mouseover touchstart", "#portfolio-1-lower-subtitle", function(){
-    textNormalise("#portfolio-1-lower-subtitle");
+  $("body").on("mouseover touchstart", ".gettingResized", function(){
+    textNormalise();
   });
-  $("body").on("mouseleave", "#portfolio-1-lower-subtitle", function(){
-    textEffectResizingDown("#portfolio-1-lower-subtitle");
+  $("body").on("mouseleave", ".gettingResized", function(){
+    textEffectResizingDown();
   });
   var insertListener = function(event){
   	if (event.animationName == "nodeInserted") {
       if ($(event.target).hasClass("gettingResized")) {
-        textEffectResizingDown("#portfolio-1-lower-subtitle");
+        textEffectResizingDown();
       }
       if ($(event.target).hasClass("gettingTruncating")) {
         textTruncating()
@@ -228,12 +228,14 @@ function textTruncating(){
     }
   }
 }
-function textNormalise(textId){
+function textNormalise(){
+  var textId = ".gettingResized";
   var currentFontSize = $(textId).children("span").css("font-size");
   $(textId + " span").css("font-size", currentFontSize);
   $("#portfolio-alert-message").hide();
 }
-function textEffectResizingDown(textId){
+function textEffectResizingDown(){
+  var textId = ".gettingResized";
   var currentFontSize = $(textId).css("font-size");
   currentFontSize = currentFontSize.slice(0, currentFontSize.length - 2);
   var theText = $(textId).text();
@@ -241,7 +243,7 @@ function textEffectResizingDown(textId){
   for (var i = 0; i < theText.length; i++) {
     $(textId).append("<span style=\"font-size: " + (currentFontSize - (currentFontSize-0.1)/theText.length * i) + "px;\">" + theText.charAt(i) + "</span>");
   }
-  $("#portfolio-alert-message").show();
+  $("#portfolio-resized-message").show();
 }
 function closePopup(){
   $(".popupContent").hide();
@@ -272,11 +274,11 @@ function getPortfolio(portfolioId){
     })
     .done(function(msg) {
       $(".popupContent").html(msg);
-      $("#portfolio-main-container").animate({
-        opacity: 1
-      }, 500, function(){
-
-      });
+      // $(".portfolio-main-container").animate({
+      //   opacity: 1
+      // }, 500, function(){
+      //   // loadingWarning($("#main-container-" + portfolioId))
+      // });
       addCloseButton(".popupContent");
     })
     .fail(function() {
@@ -288,7 +290,7 @@ function addCloseButton(divId){
   $(divId).append("<div class=\"button-close-wrapper\"><div class=\"button-close\" id=\"button-close-portfolio-entry\"></div></div>")
 }
 function addFullscreenPopup(portfolioId){
-  $("#innerBody").append("<div id=\"popupContent-" + portfolioId + "\" class=\"popupContent\"><div id=\"portfolio-main-container\"></div></div>")
+  $("#innerBody").append("<div id=\"popupContent-" + portfolioId + "\" class=\"popupContent\"><div class=\"main-container portfolio-main-container\" id=\"main-container-" + portfolioId + "\"></div></div>")
   $(".popupContent").css({
     "position": "fixed",
     "display": "block",
@@ -296,7 +298,7 @@ function addFullscreenPopup(portfolioId){
     "left": 0,
     "width": "100vw",
   });
-  loadingWarning($("#portfolio-main-container"))
+  loadingWarning($("#main-container-" + portfolioId))
   $(".popupContent ~ .loadingCon").css({
     "z-index": 5
   })

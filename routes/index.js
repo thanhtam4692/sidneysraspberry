@@ -16,7 +16,7 @@ router.post('/banners', function(req, res, next) {
   if (!sess.lastBanner) {
     sess.lastBanner = -1
   }
-  var photosetid = "72157664159506139";
+  var photosetid = "72157675216072834";
   var userId = "62042974@N04";
   flickr.get("photosets.getPhotos", {"photoset_id": photosetid, "user_id": userId}, function(errGetPhotos, result){
       if (errGetPhotos || result == "undefined") {

@@ -480,20 +480,17 @@ a {
   -o-transform: skew(0deg, -20deg);
   transform: skew(0deg, -20deg);
 }​
-#portfolio-main-container {
-  width: 100%;
-  min-height: 100%;
-}
+
 .popupContent {
   opacity: 0;
+}
+
+.portfolio-main-container {
+  width: 100%;
+  min-height: 100vh;
   padding-bottom: 52px;
 }
-.popupContent .main-container {
-  min-height: 100vh;
-  min-height: calc(100vh - 52px);
-  min-height: -webkit-calc(100vh - 52px);
-  min-height: -moz-calc(100vh - 52px);
-}
+
 .portfolio-entries {
   display: block;
   width: 98%;
@@ -614,22 +611,16 @@ a {
 }
 
 
-/*Portfolio entries*/
-/*Portfolio 1*/
-#popupContent-portfolio-entry-1 {
-  background-color: RGBA(112,188,217,1.00);
-}
-#popupContent-portfolio-entry-1 #portfolio-main-container {
-  color: rgb(255, 255, 255);
+/*Portfolio entries style 1*/
+.portfolio-style-1 {
   display: table;
 }
-.desktop #popupContent-portfolio-entry-1 .portfolio-container {
+.desktop .portfolio-style-1 .portfolio-container {
   vertical-align: middle;
   display: table-cell;
   text-align: center;
 }
-
-.mobile #popupContent-portfolio-entry-1 .portfolio-container {
+.mobile .portfolio-style-1 .portfolio-container {
   display: block;
   width: 98%;
   margin: 0 auto;
@@ -765,27 +756,19 @@ a {
   width: 49%;
 }
 
-/*Portfolio entry 2*/
-#popupContent-portfolio-entry-2 {
-  /*background-color: RGB(0,0,0);*/
-  background-color: RGBA(45,62,79,1.00);
-}
 
+/*portfolio style 2*/
 #portfolio-2-title {
   text-transform: uppercase;
 }
 
-#popupContent-portfolio-entry-2 .portfolio-container {
+.portfolio-style-2 .portfolio-container {
   /*height: 100%;*/
   vertical-align: top;
 }
-.mobile #popupContent-portfolio-entry-2 .portfolio-container {
+.mobile .portfolio-style-2 .portfolio-container {
   width: 100%;
   margin: auto;
-}
-
-#popupContent-portfolio-entry-2 #portfolio-main-container {
-  color: white;
 }
 
 #portfolio-2-upper {
@@ -817,7 +800,7 @@ a {
   width: 100%;
 }
 
-#portfolio-2-lower-left, #portfolio-2-lower-right {
+.desktop #portfolio-2-lower-left, .desktop #portfolio-2-lower-right {
   display: inline-block;
   width: 49%;
   text-align: center;
@@ -829,17 +812,33 @@ a {
   box-shadow:
     20px 20px 20px RGBA(0,0,0,0.50);
 }
+
 .desktop .portfolio-2-lower-section {
   width: 90%;
 }
-.moble .portfolio-2-lower-section {
-  width: 100%;
-}
+
 
 #portfolio-2-lower .text-subtitle {
   text-align: justify;
   color: black;
   padding: 20px;
+}
+
+/*Entries configuration*/
+/*Portfolio entry 1*/
+#popupContent-portfolio-entry-1 {
+  color: rgb(255, 255, 255);
+  background-color: RGBA(112,188,217,1.00);
+}
+/*Portfolio entry 2*/
+#popupContent-portfolio-entry-2 {
+  color: white;
+  background-color: RGBA(45,62,79,1.00);
+}
+/*Portfolio entry 2*/
+#popupContent-portfolio-entry-3 {
+  color: white;
+  background-color: RGBA(238,91,78,1.00);
 }
 
 /*Contact page*/
