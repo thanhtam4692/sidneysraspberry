@@ -43,6 +43,16 @@ a {
   font-weight: bolder;
   display: block;
 }
+.mobile .main-title {
+  padding: 20px 50px;
+}
+
+.sub-title {
+  padding-left: 100px;
+}
+.mobile .sub-title {
+  padding: 20px 50px;
+}
 
 .content-container {
   display: block;
@@ -660,7 +670,7 @@ a {
 
 /*Title and subtitle of each section*/
 .text-title {
-  padding: 20px 0 0 0;
+  /*padding: 20px 0 0 0;*/
   font-weight: bold;
 }
 .text-subtitle {
@@ -701,8 +711,9 @@ a {
 .portfolio-1-section-image {
   display: inline-block;
   width: 35%;
-  min-width: 120px;
+  min-width: 100px;
   padding: 10px;
+  vertical-align: middle;
 }
 .thumbnail {
   display: block;
@@ -738,6 +749,7 @@ a {
   padding: 5px;
   max-width: 150px;
   min-width: 100px;
+  vertical-align: middle;
 }
 #portfolio-1-section-3, #portfolio-1-section-4 {
   margin: 30px auto auto 0px;
@@ -751,7 +763,7 @@ a {
 }
 .portfolio-1-section-text-type-2 {
   display: inline-block;
-  vertical-align: top;
+  vertical-align: middle;
   text-align: left;
   width: 49%;
 }
@@ -762,11 +774,13 @@ a {
   text-align: left;
 }
 #portfolio-1-section-4 .portfolio-1-section-3-image {
-  float: left;
+  /*float: left;*/
+  display: inline-block;
+  text-align: left;
 }
 .portfolio-1-section-text-type-3 {
   display: inline-block;
-  vertical-align: top;
+  vertical-align: middle;
   text-align: right;
   width: 49%;
 }
@@ -860,9 +874,7 @@ a {
 #main-container-contact {
   display: block;
 }
-.content-text-contact {
-  padding-left: 100px;
-}
+
 .contact-holder-sections {
   display: block;
   width: 80%;
