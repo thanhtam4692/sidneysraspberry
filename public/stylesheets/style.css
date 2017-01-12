@@ -90,36 +90,46 @@ a {
   text-align: center;
   cursor: pointer;
 }
+
 /*End general classes declaration*/
 
-/*Menu classes*/
+/*Menu*/
 .navigator-top {
-  display: table;
+  display: block;
   width: 100%;
-  height: 150px;
-  background-color: rgba(0, 0, 0, 0.5);
+  /*height: 100px;*/
+  background-color: rgba(0, 0, 0, 0.0);
   /*box-shadow: 5px 5px 2px RGBA(0,0,0,.5);*/
 }
 .top-menu-for-devices {
   display: table;
   width: 100%;
   height: 100%;
+  table-layout: fixed;
 }
 
 .title-navigator-top {
   display: table-cell;
   text-transform: uppercase;
-  padding: 0 20px;
+  width: 30%;
+  padding-left: 10px;
   text-align: center;
   font-family: 'Julius Sans One', sans-serif;
   color: RGBA(255, 255, 255, 1);
+  /*background-color: RGBA(45,62,79,0.4);*/
   vertical-align: middle;
   /*margin-left: 10px;*/
 }
 
+.logo {
+  display: block;
+  margin: auto;
+  width: 100%;
+}
+
 .menu-holder-top {
   display: table-cell;
-  vertical-align: middle;
+  vertical-align: top;
   /*height: 100%;*/
 }
 
@@ -134,14 +144,15 @@ a {
 
 /*Mobile Nav*/
 #mobile-menu .title-navigator-top {
-  width: 45%;
+  width: 58%;
   /*padding: 4% 0%;*/
 }
 
 #mobile-menu .menu-holder-top {
   width: 100%;
   text-align: center;
-  /*height: 100%;*/
+  height: 100%;
+  margin: auto;
 }
 
 #menu-expanding {
@@ -151,6 +162,9 @@ a {
 	height: 100%;
   cursor: pointer;
   text-align: center;
+  text-shadow:
+    2px 2px 10px #000,
+    -2px -2px 10px #000;
 }
 #menu-text {
   display: table-cell;
@@ -177,7 +191,7 @@ a {
 	display: inline-block;
 	text-align: center;
 	width: 80%;
-  margin: 50px auto;
+  margin: auto;
 }
 
 /*.ch-grid:after,
@@ -209,7 +223,7 @@ a {
 	width: 23%;
   min-width: 100px;
   /*min-height: 40px;*/
-	height: 100px;
+	height: 60px;
 }
 
 #mobile-menu .ch-grid li {
@@ -259,9 +273,9 @@ a {
   letter-spacing: 2px;
   padding: 0 5px;
   text-align: center;
-  /*text-shadow:
-    0 0 1px #fff,
-    0 1px 2px rgba(0,0,0,0.3);*/
+  text-shadow:
+    2px 2px 10px #000,
+    -2px -2px 10px #000;
 }
 
 /*The description will be scaled down again*/

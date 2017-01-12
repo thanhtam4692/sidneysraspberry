@@ -4,7 +4,7 @@ var session = require('express-session');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index.ejs', { title: 'Homepage' });
+  res.render('index/index.ejs', { title: '' });
 });
 
 router.get('/CV-pdf', function(req, res, next) {
@@ -77,20 +77,38 @@ router.post('/banners', function(req, res, next) {
     });
 });
 
+// Get page About
+router.get('/about', function(req, res, next) {
+  res.render('index/index.ejs', { title: 'about' });
+});
 router.post('/about', function(req, res, next) {
-  res.render('about.ejs', { title: 'About' });
+  res.render('about/about.ejs', { title: 'about' });
 });
 
+// Get page Activities
+router.get('/activities', function(req, res, next) {
+  res.render('index/index.ejs', { title: 'activities' });
+});
 router.post('/activities', function(req, res, next) {
-  res.render('activities.ejs', { title: 'About' });
+  res.render('activities/activities.ejs', { title: 'activities' });
 });
 
+// Get page Contact
+router.get('/', function(req, res, next) {
+  res.render('index/index.ejs', { title: 'contact' });
+});
 router.post('/contact', function(req, res, next) {
-  res.render('contact.ejs', { title: 'About' });
+  res.render('contact/contact.ejs', { title: 'contact' });
 });
 
+// Get page wakeitup
 router.get('/wakeitup', function(req, res, next) {
-  res.render('wake.ejs', { title: 'It is on' });
+  res.render('general/wake.ejs', { title: 'It is on' });
+});
+
+// Get page flickrdownloader
+router.get('/flickrdownloader', function(req, res, next) {
+  res.render('index/index.ejs', { title: 'about' });
 });
 
 module.exports = router;

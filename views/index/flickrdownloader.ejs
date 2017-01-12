@@ -1,0 +1,19 @@
+<!-- © Tam Thanh Tran 2015 -->
+<!DOCTYPE html>
+<html>
+<% include ../partials/head %>
+<body>
+  <% include ../partials/header %>
+  <div class="banner-holder" id="banner1">
+    <div id="spinning-container"></div>
+  </div>
+  <div id="innerBody">
+  </div>
+  <% include ../partials/footer %>
+  <script>
+    $(document).ready(function() {
+      showUpPages("<%=title %>")
+    });
+  </script>
+</body>
+</html>

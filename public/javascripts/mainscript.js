@@ -1,7 +1,6 @@
 $(document).ready(function() {
-
-console.log(fnWindowHeight() + " " + fnWindowWidth());
-  currentWidth = fnWindowWidth();
+  // This run before initiating()
+  currentWidthResizingIndicator = fnWindowWidth();
   if ($("html").hasClass("ios")){
     $("body").css({
       "min-height": fnWindowHeight()
@@ -41,7 +40,7 @@ console.log(fnWindowHeight() + " " + fnWindowWidth());
         "min-height": fnWindowHeight()
       });
     }
-    if (currentWidth !== fnWindowWidth()) {
+    if (currentWidthResizingIndicator !== fnWindowWidth()) {
       rtime = new Date();
       if (timeout === false) {
           timeout = true;
@@ -49,18 +48,13 @@ console.log(fnWindowHeight() + " " + fnWindowWidth());
       }
     }
   });
-  //Get the hashtag from url and perform the animation as if it was clicked on
-  if (window.location.hash != ""){
-    getPages(window.location.hash.split('#')[1]);
-  } else {
-    $("#mobile-menu .ch-grid .ch-item-li").slideUp("fast");
-  }
 
   //Click on a menu item
   $("body").on("click", ".ch-item", function(){
     // window.location.hash = this.id;
     if(history.pushState) {
-      history.pushState(null, null, "#" + this.id);
+      // history.pushState(null, null, "#" + this.id);
+      window.history.pushState("", "", '/' + this.id);
     }
     else {
       window.location.hash = this.id;
@@ -127,6 +121,17 @@ console.log(fnWindowHeight() + " " + fnWindowWidth());
   document.addEventListener("webkitAnimationStart", insertListener, false); // Chrome + Safari
 });
 
+function initiating(title){
+    if (window.location.hash != ""){
+      getPages(window.location.hash.split('#')[1]);
+    } else {
+      $("#mobile-menu .ch-grid .ch-item-li").slideUp("fast");
+      if (title != "" && title != undefined){
+        //Get the hashtag from url and perform the animation as if it was clicked on
+        getPages(title);
+      }
+    }
+}
 function resetFn(){
   // Restart animation so text manipulating could restart
   $(".gettingResized").css("animation-name", "none");
@@ -169,7 +174,7 @@ function resizeend() {
         timeout = false;
         changeDevicePreferences();
         resetFn();
-        currentWidth = fnWindowWidth();
+        currentWidthResizingIndicator = fnWindowWidth();
     }
 }
 
