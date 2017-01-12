@@ -513,12 +513,13 @@ a {
 .portfolio-main-container {
   width: 100%;
   min-height: 100vh;
+  padding-top: 40px;
   padding-bottom: 52px;
 }
 
 .portfolio-entries {
   display: block;
-  width: 98%;
+  width: 100%;
   margin: 0 auto;
   text-align: center;
 }
@@ -647,7 +648,7 @@ a {
 }
 .mobile .portfolio-style-1 .portfolio-container {
   display: block;
-  width: 98%;
+  width: 100%;
   margin: 0 auto;
 }
 .desktop #portfolio-1-left {
@@ -661,7 +662,7 @@ a {
   display: block;
   width: 100%;
   text-align: justify;
-  padding: 60px 5px;
+  padding: 40px 0px;
 }
 #portfolio-1-title {
   text-transform: uppercase;
@@ -864,8 +865,13 @@ a {
   color: white;
   background-color: RGBA(45,62,79,1.00);
 }
-/*Portfolio entry 2*/
+/*Portfolio entry 3*/
 #popupContent-portfolio-entry-3 {
+  color: white;
+  background-color: RGBA(92,75,81,1.00);
+}
+/*Portfolio entry 4*/
+#popupContent-portfolio-entry-4 {
   color: white;
   background-color: RGBA(238,91,78,1.00);
 }
@@ -1609,8 +1615,8 @@ a {
   .desktop .txtSmaller {
     font-size: 15px;
   }
-  .portfolio-entries, .portfolio-entry-wrapper {
-    width: 98%;
+  .portfolio-entry-wrapper {
+    width: 100%;
     min-width: 0;
     margin: 50px 0;
   }
