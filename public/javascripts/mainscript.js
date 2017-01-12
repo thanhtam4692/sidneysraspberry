@@ -929,14 +929,19 @@ function toggleDisplayDissolve()
 
   if(isBannerHoverTransparent)
   {
-    $('#banner1 .hover').animate({ opacity: 1 })
+    $($('#banner1 .hover')[currentHoverCount]).animate({ opacity: 1 })
   }
   else
   {
-    $('#banner1 .hover').animate({ opacity: 0 })
+    $($('#banner1 .hover')[currentHoverCount]).animate({ opacity: 0 })
   }
 
-  currentHoverCount = 0;
+  if ((currentHoverCount + 1) < total_pieces) {
+    currentHoverCount = (currentHoverCount + 1) % total_pieces;
+    setTimeout(toggleDisplayDissolve, 50);
+  } else {
+    currentHoverCount = 0;
+  }
 
 }
 

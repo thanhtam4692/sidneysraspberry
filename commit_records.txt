@@ -24,3 +24,4 @@ Thu 12 Jan 2017 10:09:19 ICT tamthanhtran.me 0.9.1 Update about content
 Thu 12 Jan 2017 11:33:27 ICT tamthanhtran.me 0.9.2 Fix css
 Thu 12 Jan 2017 13:16:06 ICT tamthanhtran.me 0.9.3 Update footer
 Thu 12 Jan 2017 13:24:09 ICT tamthanhtran.me 0.9.3.1 Fix contact css for lazyload
+Thu 12 Jan 2017 13:31:49 ICT tamthanhtran.me 0.9.3.2 Fix lazyload stretch images
