@@ -188,6 +188,10 @@ function unveil(target){
           opacity: 1
         })
         loadingWarning($(this))
+        $(this).css({
+          "height": "",
+          "width": ""
+        });
         $(this).removeClass("lazy")
       })
     }
