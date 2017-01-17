@@ -29,3 +29,4 @@ Thu 12 Jan 2017 19:44:36 ICT tamthanhtran.me 0.9.3.3 Update toggleDisplayDissolv
 Thu 12 Jan 2017 22:39:01 ICT tamthanhtran.me 0.9.4 Update entry 3
 Fri 13 Jan 2017 01:26:45 ICT tamthanhtran.me 0.9.4.1 Update entry 4
 Fri 13 Jan 2017 02:00:49 ICT tamthanhtran.me 0.9.4.2 Change footer
+Fri 13 Jan 2017 02:03:02 ICT tamthanhtran.me 0.9.4.3 Fix footer

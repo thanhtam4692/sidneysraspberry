@@ -188,11 +188,11 @@ function unveil(target){
           opacity: 1
         })
         loadingWarning($(this))
+        $(this).removeClass("lazy")
         $(this).css({
           "height": "",
           "width": ""
         });
-        $(this).removeClass("lazy")
       })
     }
   });
@@ -393,6 +393,7 @@ function dismissFullscreenImage(){
 }
 
 function getPages(pageId){
+  $(".navigator-top").addClass("minified")
   isGettingNewContent = true;
   for (var i = 0; i < $("img").length; i++) {
     getImageSize($("img")[i], function(iwidth, iheight){
@@ -641,6 +642,7 @@ function fnWindowWidth(){
 }
 
 function switchBanners(){
+  // This function runs once when the page is loaded.
   bannerHovers = new Array();
   bannerHoversOrder = new Array();
   currentHoverCount = 0;
@@ -648,11 +650,12 @@ function switchBanners(){
   var el = $('#banner1');
   el.width(fnWindowWidth()).height(fnWindowHeight());
 
+  // Number of tiles (pieces)
   horizontal_pieces = 5;
   vertical_pieces = 5;
   total_pieces = horizontal_pieces * vertical_pieces;
 
-
+  // Create banner hovers and add it to an array
   for (i = 0; i < total_pieces; i++)
   {
     var tempEl = $('<span class="hover" id="hover-' + i + '"></span>');
@@ -672,7 +675,6 @@ function switchBanners(){
     } else {
       getBanner("#banner1");
     }
-
   }, 5000);
 }
 
