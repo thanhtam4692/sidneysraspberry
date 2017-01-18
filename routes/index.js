@@ -94,7 +94,7 @@ router.post('/activities', function(req, res, next) {
 });
 
 // Get page Contact
-router.get('/', function(req, res, next) {
+router.get('/contact', function(req, res, next) {
   res.render('index/index.ejs', { title: 'contact' });
 });
 router.post('/contact', function(req, res, next) {
