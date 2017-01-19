@@ -31,3 +31,4 @@ Fri 13 Jan 2017 01:26:45 ICT tamthanhtran.me 0.9.4.1 Update entry 4
 Fri 13 Jan 2017 02:00:49 ICT tamthanhtran.me 0.9.4.2 Change footer
 Fri 13 Jan 2017 02:03:02 ICT tamthanhtran.me 0.9.4.3 Fix footer
 Tue 17 Jan 2017 11:54:34 ICT tamthanhtran.me 0.9.5 Updated activities page
+Wed 18 Jan 2017 11:44:02 ICT tamthanhtran.me 0.9.6 Fix url /contact

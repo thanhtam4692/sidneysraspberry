@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var session = require('express-session');
+var request = require('request');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -110,5 +111,15 @@ router.get('/wakeitup', function(req, res, next) {
 router.get('/flickrdownloader', function(req, res, next) {
   res.render('index/index.ejs', { title: 'about' });
 });
+
+// Receive and send notification
+router.get('/noti', function(req, res, next) {
+  var event_trigger = "nearby_noti";
+  request.post({url:'https://maker.ifttt.com/trigger/' + event_trigger + '/with/key/iHiUv8vsK3ebDMmZaTUSH', form: {"value1" : "testing", "value2" : "home", "value3" : "nearby_noti"}}, function(err,httpResponse,body){
+   console.log("nearby_noti's sent");
+   res.send(body);
+ })
+});
+
 
 module.exports = router;
