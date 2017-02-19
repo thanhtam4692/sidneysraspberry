@@ -8,8 +8,8 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
 var mongojs = require('mongojs')
-// var db = mongojs('cloudcontrolDB', ['users', 'devices', 'handshake'])
-var db = mongojs('tamtt4692:Xitrum4692@ds013848.mlab.com:13848/sidneysservices', ['bannersdata'])
+var sidneyspi = mongojs('sidneyspi', ['homeon','users'])
+// var db = mongojs('tamtt4692:Xitrum4692@ds013848.mlab.com:13848/sidneysservices', ['bannersdata', 'users']);
 
 var Flickr = require("node-flickr");
 var keys = {"api_key": "6a3312c8a63160eb8762ec0275079f5f"}
@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: 'tamtt4692',
     store: new MongoStore({
-        url: 'mongodb://tamtt4692:Xitrum4692@ds013848.mlab.com:13848/sidneysservices',
+        url: 'mongodb://localhost/sidneyspi',
         ttl: 10 * 24 * 60 * 60
       }),
     resave: false,
@@ -61,6 +61,7 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
+    console.log(err);
     res.status(err.status || 500);
     res.render('general/error.ejs', {
       title: "Error page",
@@ -73,6 +74,7 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+  console.log(err);
   res.status(err.status || 500);
   res.render('general/error.ejs', {
     title: "Error page",

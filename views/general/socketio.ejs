@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!-- Created by Tam Thanh Tran. All rights reserved  -->
+<html>
+<head>
+  <link href="stylesheets/style.css" rel="stylesheet">
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="javascripts/jquery-2.2.0.min.js"></script>
+  <script type="text/javascript">
+  </script>
+</head>
+<body>
+  <div id="welcomeContainer" style="padding-left: 50px;">
+    <h1>Welcome to Cloud Controller</h1>
+    <h3>Client to Cloud connecting status: <span class="status"></span></h3>
+    <h3>This device is: <span class="deviceName"></span></h3>
+
+  </div>
+
+  <div id="contentContainer">
+  </div>
+
+  <div style="display: none;" id="player"></div>
+
+  <script>
+    var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // 3. This function creates an <iframe> (and YouTube player)
+    //    after the API code downloads.
+    var player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: document.documentElement.clientHeight,
+        width: document.documentElement.clientWidth,
+        videoId: "",
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+
+    // 4. The API will call this function when the video player is ready.
+    function onPlayerReady(event) {
+      // player.loadVideoById("bHQqvYy5KYo", 0, "large")
+      // event.target.playVideo();
+    }
+
+    // 5. The API calls this function when the player's state changes.
+    //    The function indicates that when playing a video (state=1),
+    //    the player should play for six seconds and then stop.
+    var done = false;
+    function onPlayerStateChange(event) {
+      // if (event.data == YT.PlayerState.PLAYING && !done) {
+      //   setTimeout(stopVideo, 6000);
+      //   done = true;
+      // }
+    }
+    function stopVideo() {
+      player.stopVideo();
+    }
+
+    function pauseVideo() {
+      player.pauseVideo();
+    }
+
+    function loadVid(vid){
+      player.loadVideoById(vid, 0, "large")
+      event.target.playVideo();
+    }
+
+    function playVideo(){
+      player.playVideo();
+    }
+
+    function forward(){
+      player.seekTo(player.getCurrentTime() + 10, true);
+    }
+
+    function backward(){
+      player.seekTo(player.getCurrentTime() - 10, true);
+    }
+
+    $( document ).ready(function() {
+      $("#loadingCon").css("display", "none");
+
+      var socket = io.connect('http://localhost:4000');
+
+      function youtubeDismiss(){
+        player.stopVideo();
+        player.loadVideoById("", 0, "large")
+        $("#player").css("display", "none");
+      }
+
+      socket.on('connect', function(msg){
+        $(".status").html("Connected");
+        $(".status").css("color", "green");
+        // $("#status").css("height", "50px");
+        $(".status").css("width", "200px");
+      });
+
+      socket.on('reconnect', function(msg){
+        $("#welcomeContainer").css("display", "inline");
+        $("#contentContainer").css("display", "none");
+        $(".status").html("Reconnecting");
+        $(".status").css("color", "red");
+        youtubeDismiss()
+      });
+      socket.on('disconnect', function(msg){
+        $("#welcomeContainer").css("display", "inline");
+        $("#contentContainer").css("display", "none");
+        $(".status").html("Disconnected");
+        $(".status").css("color", "red");
+        youtubeDismiss()
+      });
+
+    });
+  </script>
+
+
+</body>
+</html>

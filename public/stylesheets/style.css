@@ -64,9 +64,9 @@ ul {
   border-top: 1px solid RGBA(255, 255, 255, 0.6);
   padding-bottom: 52px;
   min-height: 100vh;
-  min-height: calc(100vh - 100px);
-  min-height: -webkit-calc(100vh - 100px);
-  min-height: -moz-calc(100vh - 100px);
+  min-height: calc(100vh - 50px);
+  min-height: -webkit-calc(100vh - 50px);
+  min-height: -moz-calc(100vh - 50px);
 }
 
 .main-container {
@@ -278,7 +278,7 @@ ul {
 	height: 100%;
   /*height: 50px;*/
   margin: auto;
-	border-radius: 2px;
+	/*border-radius: 2px;*/
 	overflow: hidden;
 	opacity: 1;
 	transition: all 0.4s ease-in-out;
@@ -306,7 +306,7 @@ ul {
   left: 0;
 	width: 100%;
 	height: 100%;
-	border-radius: 2px;
+	/*border-radius: 2px;*/
 	overflow: hidden;
 	opacity: 0;
 	transition: all 0.4s ease-in-out;
@@ -360,10 +360,10 @@ ul {
 /*animate the inset box shadow (the reddish one) */
 /*to 110px spread radius. This will cover all the circle*/
 .ch-item:hover {
-	box-shadow:
+	/*box-shadow:
 		inset 0 0 0 0px rgba(200,95,66, 0.4),
 		inset 0 0 0 1px rgba(255,255,255,0.8),
-		0 1px 2px rgba(0,0,0,0.1);
+		0 1px 2px rgba(0,0,0,0.1);*/
 }
 
 /*we’ll scale up the description and fade it in:*/
@@ -394,7 +394,7 @@ ul {
 	height: 40px;
 }
 .minified .ch-ori-img {
-  display: block;
+  display: table-cell;
 }
 .minified .ch-ori-txt {
   display: none;
