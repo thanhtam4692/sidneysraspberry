@@ -77,9 +77,11 @@ auto_mode = True
 unusual_motion = True #motion detected after a silent period
 surveillance = True
 
+looping = True
+
 
 # main loop
-while True:
+while looping:
     try:
         if pir.motion_detected:
             light = grovepi.analogRead(light_sensor)
@@ -133,7 +135,8 @@ while True:
             if (surveillance != surveillance_new and surveillance_new == True):
                 unusual_motion = True
             surveillance = surveillance_new
-
+            
+            # print unusual_motion
             if unusual_motion and surveillance:
                 #Get time and take a picture
                 now = datetime.datetime.now()
@@ -151,6 +154,8 @@ while True:
                     "last_update": datetime_string,
                     "last_photo" : "image" + datetime_string + ".jpg"
                 })
+                
+                unusual_motion = False
 
                 #sleep for 2 seconds
                 time.sleep(2)
@@ -180,8 +185,6 @@ while True:
                 r = requests.post(url, data = {"value1" : "testing", "value2" : "home", "value3" : "unusual_motion_noti"})
                 r = requests.post(local_url, data = {"photo" : "image" + datetime_string + ".jpg"})
                 print datetime_string + ": Notification sent"
-
-            unusual_motion = False
 
         #When motionless detected for a timeCycle seconds, check auto_mode and isLightUp to turn off the light if needed
         if timeTick == timeCycle:
@@ -227,12 +230,16 @@ while True:
         timeTick = timeTick + 1
     except (IOError,TypeError, requests.ConnectionError) as e:
         print(e)
-    except Exception as err:
-        print err
+    except Exception as e:
+        print(e)
     except KeyboardInterrupt:
         print "Keyboard interupted"
-    finally:
+        looping = False
         if auto_mode:
+            # loop through pins and set them up
+            for i in pinList:
+                GPIO.setup(i, GPIO.OUT)
+                GPIO.output(24, GPIO.HIGH)
             now = datetime.datetime.now()
             datetime_string = str(now.year) + "" + str(now.strftime('%m')) + "" + str(now.strftime('%d')) + "-" + str(now.strftime('%H')) + "" + str(now.strftime('%M')) + "" + str(now.strftime('%S'))
             homeonDB.update_one(
@@ -243,4 +250,4 @@ while True:
                         }
                 }
             )
-            GPIO.cleanup()
+            #GPIO.cleanup()

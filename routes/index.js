@@ -535,6 +535,7 @@ router.post('/fb_notify', function(req, res, next) {
     var msg = "Motion alert!";
   }
   fb_api.sendMessage(msg, tamthanhtran_id);
+  res.send("FB alerting succeeded")
 });
 
 
