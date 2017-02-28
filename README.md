@@ -2,7 +2,7 @@
 
 A small repository for home automation with motion detector and facebook bot for manual interaction. The license parts in the begining of python files are incorrect, please don't mind it.
 
-There are 4 main features which you should be noticed:
+There are 4 main features which you should be aware of:
 
 - NodeJS server with UI: this runs a webserver which serves at port 4000. The web interface is for the personal exhibit of my CV, porfolios and contact, is not completed, and had been moved to another repository. The remain here is just for a sake of visual interaction.
 
