@@ -1,13 +1,6 @@
 {
   "posts": [
     {
-      "part_mark_no": "No anwser",
-      "item_name": "Item3343232",
-      "batch_no": "4343432424",
-      "spec": "12242323123",
-      "quantity": "2000"
-    },
-    {
       "part_mark_no": "No anwser 2",
       "item_name": "Item3343232",
       "batch_no": "4343432424",
@@ -15,7 +8,11 @@
       "quantity": "2000"
     }
   ],
-  "profile": {
-    "name": "tamtran"
-  }
+  "profile":     {
+      "part_mark_no": "No anwser",
+      "item_name": "Item3343232",
+      "batch_no": "4343432424",
+      "spec": "12242323123",
+      "quantity": "2000"
+    }
 }
